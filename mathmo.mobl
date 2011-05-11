@@ -1,0 +1,13 @@
+application mathmo
+
+import mobl::ui::generic
+
+import mathLoader
+
+screen root() { 
+	header("\\(y<x^2\\)") {
+		button("math", onclick = {
+			loadMath();
+		})
+	}
+}
