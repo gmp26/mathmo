@@ -1,0 +1,9 @@
+module videoPlayer
+
+control video(source:String, width:Num=360, height:Num=240) {
+	var id:String ="vid"+random(999)
+	
+	html(
+		"<video id=" + id + " src=" + source + " height=" + height + " width=" + width + " autoBuffer></video>"
+		)
+}

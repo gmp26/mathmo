@@ -3,6 +3,8 @@ application mathmo
 import mobl::ui::generic
 
 import mathLoader
+import audioPlayer
+import videoPlayer
 
 screen root() { 
 	header("Mathmo")
@@ -13,11 +15,22 @@ screen root() {
 				loadMath();
 			})
 		}
+		item{
+			label("Play audio", onclick={
+				playSound();
+			})
+		}
+
+		item{
+			label("Show video", onclick={
+				showVideo();
+			})
+		}
 	}
 }
 
 screen showMaths() {
-	header("Show Maths") {
+	header("Show maths") {
 		backButton()
 		button("render", onclick = {
 			loadMath();
@@ -35,6 +48,22 @@ screen showMaths() {
 			item {
 				label(s)
 			}
+		}
+	}
+}
+
+screen playSound() {
+	sound()
+}
+
+screen showVideo() {
+	
+	header("Video player") {
+		backButton()		
+	}
+	group {
+		item{
+			video("http://broken-links.com/tests/media/BigBuck.m4v")
 		}
 	}
 }
