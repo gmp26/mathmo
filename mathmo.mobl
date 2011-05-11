@@ -5,9 +5,36 @@ import mobl::ui::generic
 import mathLoader
 
 screen root() { 
-	header("\\(y<x^2\\)") {
-		button("math", onclick = {
+	header("Mathmo")
+	group {
+		item{
+			label("Show Maths", onclick={
+				showMaths();
+				loadMath();
+			})
+		}
+	}
+}
+
+screen showMaths() {
+	header("Show Maths") {
+		backButton()
+		button("render", onclick = {
 			loadMath();
 		})
+	}
+	group {
+		var tex:Array<String> = [
+			"$$y<x^2$$",
+			"$$\\frac{1}{\\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {1+\\frac{e^{-6\\pi}}{1+\\frac{e^{-8\\pi}} {1+\\ldots} } } }$$",
+			"$$\\left( \\sum_{k=1}^n a_k b_k \\right)^2 \\leq \\left( \\sum_{k=1}^n a_k^2 \\right) \\left( \\sum_{k=1}^n b_k^2 \\right)$$",
+			"$$\\begin{aligned}\\nabla \\times \\vec{\\mathbf{B}} -\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{E}}}{\\partial t} & = \\frac{4\\pi}{c}\\vec{\\mathbf{j}} \\\\   \\nabla \\cdot \\vec{\\mathbf{E}} & = 4 \\pi \\rho \\\\\\nabla \\times \\vec{\\mathbf{E}}\\, +\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{B}}}{\\partial t} & = \\vec{\\mathbf{0}} \\\\\\nabla \\cdot \\vec{\\mathbf{B}} & = 0 \\end{aligned}$$"
+			]
+		
+		list(s in tex) {
+			item {
+				label(s)
+			}
+		}
 	}
 }
