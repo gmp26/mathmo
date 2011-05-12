@@ -2,17 +2,45 @@ module mathLoader
 
 import mobl
 
-external sync function loadMath() : void
+external sync function loadMaths() : void
+external sync function renderMaths() : void
+external sync function renderMathsIn(event:Object) : void
 
 <javascript>
     //
     //  Load MathJax and have it process the page
-    //    
-	mathLoader.loadMath = function() { 
+    //
+    __ns.loaded = false;
+    
+	__ns.loadMaths = function() {
 	    var script = document.createElement("script");
 	    script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full";
 	    var config = 'MathJax.Hub.Startup.onload()';
 	    script.text = config;
 	    document.getElementsByTagName("head")[0].appendChild(script);
+	    this.loaded = true;
+    };
+    
+    __ns.renderMaths = function() {
+    	if(this.loaded)
+    		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    	else 
+    		this.loadMaths();
+    };
+    
+    __ns.renderMathsIn = function(event) {
+     	if(this.loaded) {
+     		
+     		var math = MathJax.Hub.getAllJax(event.currentTarget)[0];
+     		if(math) {
+     			math.Remove();
+     			
+      		}
+     		else {
+    			MathJax.Hub.Queue(["Typeset",MathJax.Hub, event.currentTarget]);
+    		}
+    	}
+    	else 
+    		this.loadMaths();   	
     };
 </javascript>

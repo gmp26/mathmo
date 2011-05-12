@@ -9,7 +9,7 @@ import videoPlayer
 screen root() { 
 	header("Mathmo")
 	group {
-		item(onclick={showMaths();loadMath();}) {
+		item(onclick={showMaths();}) {
 			label("Show Maths")
 		}
 		item(onclick={playSound();}){
@@ -25,7 +25,7 @@ screen showMaths() {
 	header("Show maths") {
 		backButton()
 		button("render", onclick = {
-			loadMath();
+			renderMaths(); 
 		})
 	}
 	group {
@@ -37,7 +37,7 @@ screen showMaths() {
 			]
 		
 		list(s in tex) {
-			item {
+			item(onclick = {renderMathsIn(event);}) {
 				label(s)
 			}
 		}
