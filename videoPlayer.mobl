@@ -1,9 +1,20 @@
 module videoPlayer
 
-control video(source:String, width:Num=360, height:Num=240) {
-	var id:String ="vid"+random(999)
+import mobl
+
+control video(vidid:String, source:String, width:Num=null, height:Num=null) {
 	
-	html(
-		"<video id=" + id + " src=" + source + " height=" + height + " width=" + width + " autoBuffer></video>"
-		)
-}
+	<video id=vidid src=source height=height width=width></video>
+
+}	
+
+external sync function play(vidid:String) : void
+
+<javascript>
+
+	__ns.play = function(vidid) {
+		var v = $('#'+vidid);
+		v[0].play();
+	};
+
+</javascript>

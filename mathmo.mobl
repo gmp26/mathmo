@@ -9,22 +9,14 @@ import videoPlayer
 screen root() { 
 	header("Mathmo")
 	group {
-		item{
-			label("Show Maths", onclick={
-				showMaths();
-				loadMath();
-			})
+		item(onclick={showMaths();loadMath();}) {
+			label("Show Maths")
 		}
-		item{
-			label("Play audio", onclick={
-				playSound();
-			})
+		item(onclick={playSound();}){
+			label("Play audio")
 		}
-
-		item{
-			label("Show video", onclick={
-				showVideo();
-			})
+		item(onclick={showVideo();}){
+			label("Show video")
 		}
 	}
 }
@@ -57,13 +49,17 @@ screen playSound() {
 }
 
 screen showVideo() {
-	
-	header("Video player") {
-		backButton()		
+		
+	var myvid = $("#myvid")
+
+	header("Big Bunny") {
+		backButton()
 	}
 	group {
 		item{
-			video("http://broken-links.com/tests/media/BigBuck.m4v")
+			video("myvid", "http://broken-links.com/tests/media/BigBuck.m4v")
 		}
 	}
+	button("Play", onclick={ play("myvid"); })
+
 }
