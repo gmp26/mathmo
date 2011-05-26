@@ -8,7 +8,7 @@ control video(vidid:String, source:String, width:Num=null, height:Num=null) {
 
 }	
 
-external sync function play(vidid:String) : void
+external sync function play(vidid:String) : void 
 
 <javascript>
 

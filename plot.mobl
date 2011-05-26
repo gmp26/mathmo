@@ -1,0 +1,26 @@
+module plot
+
+import mobl
+
+load jquery.flot.js
+
+control plot(id:String, s:Style) {
+	<div id=id class=s></div>
+}
+
+external sync function lineChart(id:String, data:[[[Num]]]) : void 
+
+<javascript>
+	
+	/* 	
+		lineChart() plots a chart in the conatiner at #id
+		data is an array of series.
+		   Series are arrays of points.
+		   Points are x,y tuples */
+		   
+	__ns.lineChart = function(id, data) 
+	{
+		var d = data;
+		$.plot($("#"+id), data);
+	}; 
+</javascript>

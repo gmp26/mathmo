@@ -4,13 +4,22 @@ import mobl
 
 external sync function loadMaths() : void
 external sync function renderMaths() : void
-external sync function renderMathsIn(event:Object) : void
+external sync function renderMathsIn(event:Object) : void 
+external sync function isLoaded():Bool
 
 <javascript>
     //
     //  Load MathJax and have it process the page
     //
     __ns.loaded = false;
+    
+    __ns.isLoaded = function()
+    {
+    	if(this.loaded)
+    		return true;
+    	else
+    		return null;
+    };
     
 	__ns.loadMaths = function() {
 	    var script = document.createElement("script");
@@ -30,17 +39,15 @@ external sync function renderMathsIn(event:Object) : void
     
     __ns.renderMathsIn = function(event) {
      	if(this.loaded) {
-     		
      		var math = MathJax.Hub.getAllJax(event.currentTarget)[0];
      		if(math) {
      			math.Remove();
-     			
       		}
      		else {
     			MathJax.Hub.Queue(["Typeset",MathJax.Hub, event.currentTarget]);
     		}
     	}
     	else 
-    		this.loadMaths();   	
+    		this.loadMaths(); 	
     };
 </javascript>
