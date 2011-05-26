@@ -10,9 +10,7 @@ import plot
 screen root() { 
 	header("Mathmo" )
 	group {
-		item(onclick={
-			showMaths();
-			}) {
+		item(onclick={showMaths();}) {
 			label("Show Maths")
 		}
 		item(onclick={playSound();}){
@@ -31,12 +29,10 @@ screen showMaths() {
 	
 	header("Show maths") {
 		script {
+			sleep(0);
 			renderMaths();
 		}
 		backButton()
-		button("render", onclick = {
-			renderMaths();
-		})
 	}
 	group {
 		var tex:Array<String> = [
@@ -63,9 +59,11 @@ screen playSound() {
 
 screen showVideo() {
 		
-	var myvid = $("#myvid")
-
 	header("Big Bunny") {
+		script {
+			sleep(3000);
+			play("myvid");
+		}
 		backButton()
 	}
 	group {
@@ -83,34 +81,34 @@ style plotAreaStyle {
 }
 
 screen plotGraph() {
-	header("Flot example") {
-		backButton()
+	header("Plot example") {
+		script {
+			sleep(0);
+			lineChart(
+				"plotArea", 
+//				[range(-30,31).map(square)]
+				spiral() 
+			);
+		}
+		backButton() 
 	}
 	group {
 		item{
 			plot("plotArea", plotAreaStyle)
 		}
 	}
-	button("Line Chart", onclick={ r=30; lineChart("plotArea", curves()); })
-	button("Grow Range", onclick={ r = r+1; lineChart("plotArea", curves());})
+	button("Quadratic", onclick={
+		lineChart("plotArea", [range(-30,31).map(square)]);
+	})
+	button("Cubic", onclick={
+		lineChart("plotArea", [range(-30,31).map(cube)]);
+	})
+	button("Sine", onclick={
+		lineChart("plotArea", [range(-180,181).map(sine)]); 
+	})
+	button("Spiral", onclick={
+		lineChart("plotArea", spiral());
+	})
 }
 
-var r:Num = 30;
 
-function curves():[[[Num]]] 
-{
-	var domain = range(0-r,r+1);
-	return [domain.map(square), domain.map(cube)];
-}
-
-function square(n:Num):[Num]
-{
-	n = n/10;
-	return [n, n*n];
-}
-
-function cube(n:Num):[Num]
-{
-	n = n/10;
-	return [n, n*n*n];
-}

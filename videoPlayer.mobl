@@ -3,9 +3,7 @@ module videoPlayer
 import mobl
 
 control video(vidid:String, source:String, width:Num=null, height:Num=null) {
-	
 	<video id=vidid src=source height=height width=width></video>
-
 }	
 
 external sync function play(vidid:String) : void 

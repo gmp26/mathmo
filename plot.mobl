@@ -8,12 +8,56 @@ control plot(id:String, s:Style) {
 	<div id=id class=s></div>
 }
 
+var r:Num = 30;
+
+function curves():[[[Num]]] 
+{
+	var domain = range(0-r,r+1);
+	return [domain.map(square), domain.map(cube)];
+}
+
+
+function spiral():[[[Num]]]
+{
+	var domain = range(0, 720);
+	return [domain.map(xy30)];
+}
+
+function xy30(theta:Num):[Num]
+{
+	theta = theta * Math.pi() / 180;
+	return xy(theta/100, theta);
+}
+
+function xy(r:Num, theta:Num):[Num]
+{
+	return [r*Math.cos(theta), r*Math.sin(theta)];
+} 
+
+
+function square(n:Num):[Num]
+{
+	n = n/10;
+	return [n, n*n];
+}
+
+function cube(n:Num):[Num]
+{
+	n = n/10;
+	return [n, n*n*n];
+}
+
+function sine(n:Num):[Num]
+{
+	return [n, Math.sin(n * Math.pi()/180)];
+}
+
 external sync function lineChart(id:String, data:[[[Num]]]) : void 
 
 <javascript>
 	
 	/* 	
-		lineChart() plots a chart in the conatiner at #id
+		lineChart() plots a chart in the container at #id
 		data is an array of series.
 		   Series are arrays of points.
 		   Points are x,y tuples */
@@ -21,6 +65,7 @@ external sync function lineChart(id:String, data:[[[Num]]]) : void
 	__ns.lineChart = function(id, data) 
 	{
 		var d = data;
-		$.plot($("#"+id), data);
+		var el = $("#"+id);
+		$.plot(el, data);
 	}; 
 </javascript>
