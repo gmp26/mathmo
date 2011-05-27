@@ -13,6 +13,9 @@ screen root() {
 		item(onclick={showMaths();}) {
 			label("Show Maths")
 		}
+		item(onclick={coreWorkout();}){
+			label("Core Workout")
+		}
 		item(onclick={playSound();}){
 			label("Play audio")
 		}
@@ -22,6 +25,7 @@ screen root() {
 		item(onclick={plotGraph();}){
 			label("Plot Graph")
 		}
+
 	}
 }
 
@@ -85,8 +89,7 @@ screen plotGraph() {
 		script {
 			sleep(0);
 			lineChart(
-				"plotArea", 
-//				[range(-30,31).map(square)]
+				"plotArea",
 				spiral() 
 			);
 		}
@@ -111,4 +114,42 @@ screen plotGraph() {
 	})
 }
 
+var coreTopics:Array<Tuple2<String, Function0<String>>> = [
+	("Partial Fractions", partialFractions),
+	("Powers", partialFractions)
+];
 
+screen coreWorkout(){ 
+	header("Core workout") {
+		backButton()
+	}
+	group {
+		list(s in coreTopics) {
+			item(onclick = {showProblem(s._1, s._2);}) {
+				label(s._1) 
+			}
+		}	
+	}
+}
+
+screen showProblem(s:String, qa:Function0<String>) {
+	var question:String = qa()
+	var answer:String = qa() 
+	
+	header(s) {
+		backButton()
+	}
+	group {
+		item(){
+			label(question)
+		}
+		item(){
+			label(answer)
+		}
+	}
+}
+
+function partialFractions():String
+{
+	return "Question";
+}
