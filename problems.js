@@ -6,44 +6,49 @@ egparms=0;
 // Partial Fractions
 function makePartial()
 {
-	function makePartial1()
+	function makePartial1() 
 	{
-		var a=randnz(8);
-		var b=new poly(1);b.setrand(8)
-		if(b[1]<0)
-		{
-			b.xthru(-1);
-			a=-a;
+		var ran = randnz(8);
+		var b = new poly(1);
+		b.setrand(8);
+		if(b[1] < 0) {
+			b.xthru( 0 - 1);
+			ran = 0 - ran;
 		}
-		var e=gcd(a, b.gcd());
-		if(e>1)
+		var e=gcd(ran, b.gcd());
+		if(e > 1)
 		{
 			b.xthru(1/e);
-			a/=e;
+			ran = ran / e;
 		}
 		var c=randnz(8);
-		var d=new poly(1);d.setrand(8)
+		var d=new poly(1);
+		d.setrand(8);
 		if(d[1]<0)
 		{
 			d.xthru(-1);
-			c=-c;
+			c = 0 - c;
 		}
 		var f=gcd(c, d.gcd());
-		if(f>1)
+		if(f > 1)
 		{
 			d.xthru(1/f);
-			c/=f;
+			c = c / f;
 		}
-		if(b[1]==d[1]&&b[0]==d[0]) d[0]=-d[0];
+		if(b[1] === d[1] && b[0] === d[0]) 
+			d[0] = 0 - d[0];
 		
-		var aString=(a>0?"":"-")+"\\frac{"+Math.abs(a)+"}{"+b.write()+"}"+(c>0?"+":"-")+"\\frac{"+Math.abs(c)+"}{"+d.write()+"}";
+		var aString = (ran > 0 ? "" : "-") +
+			"\\frac{" + Math.abs(ran) + "}{" + b.write() + "}" 
+			+ (c > 0 ? "+" : "-") + "\\frac{" + 
+			Math.abs(c) + "}{" + d.write() + "}";
 		
 		var bot=polyexpand(b, d);
 		b.xthru(c);
-		d.xthru(a);
+		d.xthru(ran);
 		b.addp(d);
 		
-		var qString="\\mbox{Express }\\frac{"+b.write()+"}{"+bot.write()+"}\\mbox{ in partial fractions.}";
+		var qString = "Express $$\\frac{" + b.write() + "}{" + bot.write() + "}$$in partial fractions.";
 		
 		var qa=[qString,aString];
 		return qa;
@@ -51,17 +56,29 @@ function makePartial()
 	function makePartial2()
 	{
 		var m=distrandnz(3, 3);
-		var d=randnz(4),e=randnz(3),f=randnz(3);
+		var d=randnz(4);
+		var e=randnz(3);
+		var f=randnz(3);
 		var l=ranking(m);
 		var n=[d, e, f];
-		var a=m[l[0]], b=m[l[1]], c=m[l[2]];
-		d=n[l[0]];e=n[l[1]];f=n[l[2]];
-		var u=new poly(1),v=new poly(1),w=new poly(1);
-		u[1]=v[1]=w[1]=1;
-		u[0]=a;v[0]=b;w[0]=c;
+		var a=m[l[0]];
+		var b=m[l[1]];
+		var c=m[l[2]];
+		d=n[l[0]];
+		e=n[l[1]];
+		f=n[l[2]];
+		var u=new poly(1);
+		var v=new poly(1);
+		var w=new poly(1);
+		w[1]=1;
+		v[1]=w[1];
+		u[1]=v[1];
+		u[0]=a;
+		v[0]=b;
+		w[0]=c;
 		var p=polyexpand(polyexpand(u, v), w);
-		var qString="\\mbox{Express }\\frac{"+p.write()+"}{"+express([a, b, c])+"}\\mbox{ in partial fractions.}";
-		var aString=(d>0?"":"-")+"\\frac{"+Math.abs(d)+"}{"+u.write()+"}"+(e>0?"+":"-")+"\\frac{"+Math.abs(e)+"}{"+v.write()+"}"+(f>0?"+":"-")+"\\frac{"+Math.abs(f)+"}{"+w.write()+"}";
+		var qString = "Express$$\\frac{" + p.write() + "}{" + express([a, b, c]) + "}$$in partial fractions.";
+		var aString = ( d>0 ? "" : "-" ) + "$$\\frac{"+Math.abs(d)+"}{"+u.write()+"}"+(e>0?"+":"-")+"\\frac{"+Math.abs(e)+"}{"+v.write()+"}"+(f>0?"+":"-")+"\\frac{"+Math.abs(f)+"}{"+w.write()+"}$$";
 		var qa=[qString,aString];
 		return qa;
 	}
