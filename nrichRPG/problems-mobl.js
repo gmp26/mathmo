@@ -1,286 +1,292 @@
-// nRich RPG (Randomised Problems Generator)
+// NRICH RPG (Randomised Problem Generator)
 
 egfn=function(){};
 egparms=0;
 
-// Partial Fractions
-function makePartial()
-{
-	function makePartial1() 
+var NRICH_RPG = {
+
+	// Partial Fractions
+	makePartial : function () {
+	
+		function makePartial1() 
+		{
+			var ran = randnz(8);
+			var b = new poly(1);
+			b.setrand(8);
+			if(b[1] < 0) {
+				b.xthru( 0 - 1);
+				ran = 0 - ran;
+			}
+			var e=gcd(ran, b.gcd());
+			if(e > 1)
+			{
+				b.xthru(1/e);
+				ran = ran / e;
+			}
+			var c=randnz(8);
+			var d=new poly(1);
+			d.setrand(8);
+			if(d[1]<0)
+			{
+				d.xthru(-1);
+				c = 0 - c;
+			}
+			var f=gcd(c, d.gcd());
+			if(f > 1)
+			{
+				d.xthru(1/f);
+				c = c / f;
+			}
+			if(b[1] === d[1] && b[0] === d[0]) 
+				d[0] = 0 - d[0];
+			
+			var aString = (ran > 0 ? "$$" : "$$-") +
+				"\\frac{" + Math.abs(ran) + "}{" + b.write() + "}" 
+				+ (c > 0 ? "+" : "-") + "\\frac{" + 
+				Math.abs(c) + "}{" + d.write() + "}$$";
+			
+			var bot=polyexpand(b, d);
+			b.xthru(c);
+			d.xthru(ran);
+			b.addp(d);
+			
+			var qString = "Express $$\\frac{" + b.write() + "}{" + bot.write() + "}$$in partial fractions.";
+			
+			var qa=[qString,aString];
+			return qa;
+		}
+		function makePartial2()
+		{
+			var m=distrandnz(3, 3);
+			var d=randnz(4);
+			var e=randnz(3);
+			var f=randnz(3);
+			var l=ranking(m);
+			var n=[d, e, f];
+			var a=m[l[0]];
+			var b=m[l[1]];
+			var c=m[l[2]];
+			d=n[l[0]];
+			e=n[l[1]];
+			f=n[l[2]];
+			var u=new poly(1);
+			var v=new poly(1);
+			var w=new poly(1);
+			w[1]=1;
+			v[1]=w[1];
+			u[1]=v[1];
+			u[0]=a;
+			v[0]=b;
+			w[0]=c;
+			var p=polyexpand(polyexpand(u, v), w);
+			var qString = "Express$$\\frac{" + p.write() + "}{" + express([a, b, c]) + "}$$in partial fractions.";
+			var aString = ( d>0 ? "$$" : "$$-" ) + "\\frac{" + Math.abs(d) + "}{" + u.write() + "}" + (e>0 ? "+" : "-") + "\\frac{"+Math.abs(e)+"}{"+v.write()+"}"+(f>0?"+":"-")+"\\frac{"+Math.abs(f)+"}{"+w.write()+"}$$";
+			var qa=[qString,aString];
+			return qa;
+		}
+		var qa;
+		if(rand()) qa=makePartial1();
+		else qa=makePartial2();
+		return qa;
+	},
+	
+	// Binomial Theorem
+	makeBinomial2 : function ()
 	{
-		var ran = randnz(8);
-		var b = new poly(1);
-		b.setrand(8);
-		if(b[1] < 0) {
-			b.xthru( 0 - 1);
-			ran = 0 - ran;
-		}
-		var e=gcd(ran, b.gcd());
-		if(e > 1)
+		var p=new poly(1);
+		p[0]=rand(1,5);
+		p[1]=randnz(6-p[0]);
+		var n=Math.round(3+Math.random()*(3-Math.max(0,Math.max(p[0]-3,p[1]-3))));
+		
+		var q=new poly(3);
+		q[0]=Math.pow(p[0],n);
+		q[1]=n*Math.pow(p[0],n-1)*p[1];
+		q[2]=n*(n-1)*Math.pow(p[0],n-2)/2*Math.pow(p[1], 2);
+		q[3]=n*(n-1)*(n-2)*Math.pow(p[0],n-3)/6*Math.pow(p[1], 3);
+	
+		qString="\\mbox{Evaluate }("+p.rwrite()+")^"+n+"\\mbox{ to the fourth term.}";
+		aString=q.rwrite()+".";
+	
+		var qa=[qString, aString];
+		return qa;
+	},
+	
+	// Polynomial Integration
+	makePolyInt : function ()
+	{
+		var A=rand(-3,2);
+		var B=rand(A+1,3);
+		
+		a=new poly(3);
+		a.setrand(6);
+		b=new fpoly(3);
+		b.setpoly(a);
+		c=new fpoly(4);
+		b.integ(c);
+		
+		qString="\\mbox\{Evaluate\}\\int_\{"+A+"\}^\{"+B+"\}"+a.write()+"\\,dx";
+		var hi=c.compute(B);
+		var lo=c.compute(A);
+		lo.prod(-1);
+		ans=new frac(hi.top, hi.bot);
+		ans.add(lo.top, lo.bot);
+		aString=ans.write();
+		
+		var qa = [qString, aString];
+		return qa;
+	},
+	
+	// Simple Trig Integration
+	makeTrigInt : function()
+	{
+		var a=rand(0,7);
+		var b=rand(1-Math.min(a,1),8);
+		var A=a?randnz(4):0;
+		var B=b?randnz(4):0;
+		var U=pickrand(2,3,4,6);
+	
+		term1=a?ascoeff(A)+"\\sin\{"+ascoeff(a)+"x\}":"";
+		term2=b?abscoeff(B)+"\\cos\{"+ascoeff(b)+"x\}":"";
+	
+		qString="\\mbox\{Evaluate\}\\int_\{0\}^\{\\pi/"+U+"\}"+(a?b?term1+(B>0?" + ":" - ")+term2:term1:(B<0?"-":"")+term2)+"\\,dx";
+	
+		soln1=new Array(6);
+		soln2=new Array(6);
+		soln=new Array(6);
+	
+		if(a)
 		{
-			b.xthru(1/e);
-			ran = ran / e;
+			soln1=cospi(a,U);
+			for(i=0;i<6;i+=2) soln1[i]*=-A;
+			for(i=1;i<6;i+=2) soln1[i]*=a;
+			if(soln1[0])
+			{
+				soln1[0]=soln1[1]*A+a*soln1[0];
+				soln1[1]*=a;
+			}
+			else
+			{
+				soln1[0]=A;
+				soln1[1]=a;
+			}
 		}
-		var c=randnz(8);
-		var d=new poly(1);
-		d.setrand(8);
-		if(d[1]<0)
+		else soln1=[0,1,0,1,0,1];
+	
+		if(b)
 		{
-			d.xthru(-1);
-			c = 0 - c;
+			soln2=sinpi(b,U);
+			for(i=0;i<6;i+=2) soln2[i]*=B;
+			for(i=1;i<6;i+=2) soln2[i]*=b;
 		}
-		var f=gcd(c, d.gcd());
-		if(f > 1)
+		else soln2=[0,1,0,1,0,1];
+	
+		for(i=0;i<6;i+=2)
 		{
-			d.xthru(1/f);
-			c = c / f;
-		}
-		if(b[1] === d[1] && b[0] === d[0]) 
-			d[0] = 0 - d[0];
-		
-		var aString = (ran > 0 ? "" : "-") +
-			"\\frac{" + Math.abs(ran) + "}{" + b.write() + "}" 
-			+ (c > 0 ? "+" : "-") + "\\frac{" + 
-			Math.abs(c) + "}{" + d.write() + "}";
-		
-		var bot=polyexpand(b, d);
-		b.xthru(c);
-		d.xthru(ran);
-		b.addp(d);
-		
-		var qString = "Express $$\\frac{" + b.write() + "}{" + bot.write() + "}$$in partial fractions.";
-		
+			soln[i]=soln1[i]*soln2[i+1]+soln1[i+1]*soln2[i];
+			soln[i+1]=soln1[i+1]*soln2[i+1];
+			if(soln[i+1]<0)
+			{
+				soln[i]*=-1;
+				soln[i+1]*=-1;
+			}
+			if(soln[i])
+			{
+				c=gcd(Math.abs(soln[i]),soln[i+1]);
+				soln[i]/=c;
+				soln[i+1]/=c;
+			}
+		} 
+		aString="";
+		if(soln[0]&&soln[1]==1) aString+=soln[0];
+		else if(soln[0]>0) aString+="\\frac\{"+soln[0]+"\}\{"+soln[1]+"\}";
+		else if(soln[0]<0) aString+="-\\frac\{"+(-soln[0])+"\}\{"+soln[1]+"\}";
+		if(soln[2]&&soln[3]==1) aString+=(aString.length?soln[2]>0?"+":"":"")+soln[2]+"\\sqrt\{2\}";
+		else if(soln[2]>0) aString+=(aString.length?"+":"")+"\\frac\{"+soln[2]+"\}\{"+soln[3]+"\}\\sqrt\{2\}";
+		else if(soln[2]<0) aString+="-\\frac\{"+(-soln[2])+"\}\{"+soln[3]+"\}\\sqrt\{2\}";
+		if(soln[4]&&soln[5]==1) aString+=(aString.length?soln[4]>0?"+":"":"")+soln[4]+"\\sqrt\{3\}";
+		else if(soln[4]>0) aString+=(aString.length?"+":"")+"\\frac\{"+soln[4]+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
+		else if(soln[4]<0) aString+="-\\frac\{"+(-soln[4])+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
+	
+		if(aString=="") aString="0";
 		var qa=[qString,aString];
 		return qa;
-	}
-	function makePartial2()
+	},
+	
+	// Vectors
+	makeVector: function ()
 	{
-		var m=distrandnz(3, 3);
-		var d=randnz(4);
-		var e=randnz(3);
-		var f=randnz(3);
-		var l=ranking(m);
-		var n=[d, e, f];
-		var a=m[l[0]];
-		var b=m[l[1]];
-		var c=m[l[2]];
-		d=n[l[0]];
-		e=n[l[1]];
-		f=n[l[2]];
-		var u=new poly(1);
-		var v=new poly(1);
-		var w=new poly(1);
-		w[1]=1;
-		v[1]=w[1];
-		u[1]=v[1];
-		u[0]=a;
-		v[0]=b;
-		w[0]=c;
-		var p=polyexpand(polyexpand(u, v), w);
-		var qString = "Express$$\\frac{" + p.write() + "}{" + express([a, b, c]) + "}$$in partial fractions.";
-		var aString = ( d>0 ? "" : "-" ) + "$$\\frac{"+Math.abs(d)+"}{"+u.write()+"}"+(e>0?"+":"-")+"\\frac{"+Math.abs(e)+"}{"+v.write()+"}"+(f>0?"+":"-")+"\\frac{"+Math.abs(f)+"}{"+w.write()+"}$$";
-		var qa=[qString,aString];
-		return qa;
-	}
-	var qa;
-	if(rand()) qa=makePartial1();
-	else qa=makePartial2();
-	return qa;
-}
-
-// Binomial Theorem
-function makeBinomial2()
-{
-	var p=new poly(1);
-	p[0]=rand(1,5);
-	p[1]=randnz(6-p[0]);
-	var n=Math.round(3+Math.random()*(3-Math.max(0,Math.max(p[0]-3,p[1]-3))));
-	
-	var q=new poly(3);
-	q[0]=Math.pow(p[0],n);
-	q[1]=n*Math.pow(p[0],n-1)*p[1];
-	q[2]=n*(n-1)*Math.pow(p[0],n-2)/2*Math.pow(p[1], 2);
-	q[3]=n*(n-1)*(n-2)*Math.pow(p[0],n-3)/6*Math.pow(p[1], 3);
-
-	qString="\\mbox{Evaluate }("+p.rwrite()+")^"+n+"\\mbox{ to the fourth term.}";
-	aString=q.rwrite()+".";
-
-	var qa=[qString, aString];
-	return qa;
-}
-
-// Polynomial Integration
-function makePolyInt()
-{
-	var A=rand(-3,2);
-	var B=rand(A+1,3);
-	
-	a=new poly(3);
-	a.setrand(6);
-	b=new fpoly(3);
-	b.setpoly(a);
-	c=new fpoly(4);
-	b.integ(c);
-	
-	qString="\\mbox\{Evaluate\}\\int_\{"+A+"\}^\{"+B+"\}"+a.write()+"\\,dx";
-	var hi=c.compute(B);
-	var lo=c.compute(A);
-	lo.prod(-1);
-	ans=new frac(hi.top, hi.bot);
-	ans.add(lo.top, lo.bot);
-	aString=ans.write();
-	
-	var qa = [qString, aString];
-	return qa;
-}
-
-// Simple Trig Integration
-function makeTrigInt()
-{
-	var a=rand(0,7);
-	var b=rand(1-Math.min(a,1),8);
-	var A=a?randnz(4):0;
-	var B=b?randnz(4):0;
-	var U=pickrand(2,3,4,6);
-
-	term1=a?ascoeff(A)+"\\sin\{"+ascoeff(a)+"x\}":"";
-	term2=b?abscoeff(B)+"\\cos\{"+ascoeff(b)+"x\}":"";
-
-	qString="\\mbox\{Evaluate\}\\int_\{0\}^\{\\pi/"+U+"\}"+(a?b?term1+(B>0?" + ":" - ")+term2:term1:(B<0?"-":"")+term2)+"\\,dx";
-
-	soln1=new Array(6);
-	soln2=new Array(6);
-	soln=new Array(6);
-
-	if(a)
-	{
-		soln1=cospi(a,U);
-		for(i=0;i<6;i+=2) soln1[i]*=-A;
-		for(i=1;i<6;i+=2) soln1[i]*=a;
-		if(soln1[0])
+		function ntol(n)
 		{
-			soln1[0]=soln1[1]*A+a*soln1[0];
-			soln1[1]*=a;
+			return String.fromCharCode(n+"A".charCodeAt(0));
 		}
+		A=new Array(4);
+		for(var i=0;i<4;i++)
+		{
+			A[i]=new vector(3);
+			A[i].setrand(10);
+		}	
+		B=new Array(0,1,2,3);
+		for(var i=0;i<3;i++)
+		{
+			if(A[B[i]].mag()<A[B[i+1]].mag())
+			{
+				var c=B[i];
+				B[i]=B[i+1];
+				B[i+1]=c;
+				i=-1;
+			}
+		}
+		var v=distrand(3, 0, 3);
+		
+		qString="\\begin\{array\}\{l\}\\mbox\{Consider the four vectors \} \\mathbf\{A\}="+A[0].write()+", \\mathbf\{B\}="+A[1].write()+", \\mathbf\{C\}="+A[2].write()+", \\mathbf\{D\}="+A[3].write()+".\\\\ \\\\ \\mbox\{	(i) Order the vectors by magnitude.\}\\\\ \\\\ \\mbox\{	(ii) Use the scalar product to find the angles between (a) \}\\mathbf\{"+ntol(v[0])+"\} \\mbox\{ and \}\\mathbf\{"+ntol(v[1])+"\}, \\mbox\{(b) \}\\mathbf\{"+ntol(v[1])+"\} \\mbox\{ and \} \\mathbf\{"+ntol(v[2])+"\}.\\end\{array\}";
+	
+		aString="\\begin\{array\}\{l\}\\mbox\{(i) \}|\\mathbf\{"+ntol(B[0])+"\}|=\\sqrt\{"+A[B[0]].mag()+"\},|\\mathbf\{"+ntol(B[1])+"\}|=\\sqrt\{"+A[B[1]].mag()+"\},|\\mathbf\{"+ntol(B[2])+"\}|=\\sqrt\{"+A[B[2]].mag()+"\},|\\mathbf\{"+ntol(B[3])+"\}|=\\sqrt\{"+A[B[3]].mag()+"\}.\\\\";
+	
+		top1=A[v[0]].dot(A[v[1]]);
+		bot1=new sqroot(A[v[0]].mag()*A[v[1]].mag());
+		var c=gcd(Math.abs(top1),bot1.a);
+		top1/=c;
+		bot1.a/=c;
+		top2=A[v[1]].dot(A[v[2]]);
+		bot2=new sqroot(A[v[1]].mag()*A[v[2]].mag());
+		c=gcd(Math.abs(top2),bot2.a);
+		top2/=c;
+		bot2.a/=c;
+	
+		aString+="\\mbox\{(ii) (a) \}";
+		if(top1==0) aString+="\\pi/2";
+		else if(top1==1&&bot1.n==1&&bot1.a==1) aString+="0";
+		else if(top1==-1&&bot1.n==1&&bot1.a==1) aString+="\\pi";
 		else
 		{
-			soln1[0]=A;
-			soln1[1]=a;
+			aString+="\\arccos\\left(";
+			if(bot1.a==1&&bot1.n==1) aString+=top1;
+			else aString+="\\frac\{"+top1+"\}\{"+bot1.write()+"\}";
+			aString+="\\right)";
 		}
-	}
-	else soln1=[0,1,0,1,0,1];
-
-	if(b)
-	{
-		soln2=sinpi(b,U);
-		for(i=0;i<6;i+=2) soln2[i]*=B;
-		for(i=1;i<6;i+=2) soln2[i]*=b;
-	}
-	else soln2=[0,1,0,1,0,1];
-
-	for(i=0;i<6;i+=2)
-	{
-		soln[i]=soln1[i]*soln2[i+1]+soln1[i+1]*soln2[i];
-		soln[i+1]=soln1[i+1]*soln2[i+1];
-		if(soln[i+1]<0)
-		{
-			soln[i]*=-1;
-			soln[i+1]*=-1;
+		aString+="\\mbox\{,	(b) \}";
+		if(top2==0) aString+="\\pi/2";
+		else if(top2==1&&bot2.n==1&&bot2.a==1) aString+="0";
+		else if(top2==-1&&bot2.n==1&&bot2.a==1) aString+="\\pi";
+		else
+		{ 
+			aString+="\\arccos\\left(";
+			if(bot2.a==1&&bot2.n==1) aString+=top2;
+			else aString+="\\frac\{"+top2+"\}\{"+bot2.write()+"\}";
+			aString+="\\right)";
 		}
-		if(soln[i])
-		{
-			c=gcd(Math.abs(soln[i]),soln[i+1]);
-			soln[i]/=c;
-			soln[i+1]/=c;
-		}
-	} 
-	aString="";
-	if(soln[0]&&soln[1]==1) aString+=soln[0];
-	else if(soln[0]>0) aString+="\\frac\{"+soln[0]+"\}\{"+soln[1]+"\}";
-	else if(soln[0]<0) aString+="-\\frac\{"+(-soln[0])+"\}\{"+soln[1]+"\}";
-	if(soln[2]&&soln[3]==1) aString+=(aString.length?soln[2]>0?"+":"":"")+soln[2]+"\\sqrt\{2\}";
-	else if(soln[2]>0) aString+=(aString.length?"+":"")+"\\frac\{"+soln[2]+"\}\{"+soln[3]+"\}\\sqrt\{2\}";
-	else if(soln[2]<0) aString+="-\\frac\{"+(-soln[2])+"\}\{"+soln[3]+"\}\\sqrt\{2\}";
-	if(soln[4]&&soln[5]==1) aString+=(aString.length?soln[4]>0?"+":"":"")+soln[4]+"\\sqrt\{3\}";
-	else if(soln[4]>0) aString+=(aString.length?"+":"")+"\\frac\{"+soln[4]+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
-	else if(soln[4]<0) aString+="-\\frac\{"+(-soln[4])+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
+		aString+=".\\end\{array\}";
+	 
+		var qa=[qString,aString];
+		return qa;
+	},
 
-	if(aString=="") aString="0";
-	var qa=[qString,aString];
-	return qa;
-}
 
-// Vectors
-function makeVector()
-{
-	function ntol(n)
-	{
-		return String.fromCharCode(n+"A".charCodeAt(0));
-	}
-	A=new Array(4);
-	for(var i=0;i<4;i++)
-	{
-		A[i]=new vector(3);
-		A[i].setrand(10);
-	}	
-	B=new Array(0,1,2,3);
-	for(var i=0;i<3;i++)
-	{
-		if(A[B[i]].mag()<A[B[i+1]].mag())
-		{
-			var c=B[i];
-			B[i]=B[i+1];
-			B[i+1]=c;
-			i=-1;
-		}
-	}
-	var v=distrand(3, 0, 3);
-	
-	qString="\\begin\{array\}\{l\}\\mbox\{Consider the four vectors \} \\mathbf\{A\}="+A[0].write()+", \\mathbf\{B\}="+A[1].write()+", \\mathbf\{C\}="+A[2].write()+", \\mathbf\{D\}="+A[3].write()+".\\\\ \\\\ \\mbox\{	(i) Order the vectors by magnitude.\}\\\\ \\\\ \\mbox\{	(ii) Use the scalar product to find the angles between (a) \}\\mathbf\{"+ntol(v[0])+"\} \\mbox\{ and \}\\mathbf\{"+ntol(v[1])+"\}, \\mbox\{(b) \}\\mathbf\{"+ntol(v[1])+"\} \\mbox\{ and \} \\mathbf\{"+ntol(v[2])+"\}.\\end\{array\}";
 
-	aString="\\begin\{array\}\{l\}\\mbox\{(i) \}|\\mathbf\{"+ntol(B[0])+"\}|=\\sqrt\{"+A[B[0]].mag()+"\},|\\mathbf\{"+ntol(B[1])+"\}|=\\sqrt\{"+A[B[1]].mag()+"\},|\\mathbf\{"+ntol(B[2])+"\}|=\\sqrt\{"+A[B[2]].mag()+"\},|\\mathbf\{"+ntol(B[3])+"\}|=\\sqrt\{"+A[B[3]].mag()+"\}.\\\\";
 
-	top1=A[v[0]].dot(A[v[1]]);
-	bot1=new sqroot(A[v[0]].mag()*A[v[1]].mag());
-	var c=gcd(Math.abs(top1),bot1.a);
-	top1/=c;
-	bot1.a/=c;
-	top2=A[v[1]].dot(A[v[2]]);
-	bot2=new sqroot(A[v[1]].mag()*A[v[2]].mag());
-	c=gcd(Math.abs(top2),bot2.a);
-	top2/=c;
-	bot2.a/=c;
-
-	aString+="\\mbox\{(ii) (a) \}";
-	if(top1==0) aString+="\\pi/2";
-	else if(top1==1&&bot1.n==1&&bot1.a==1) aString+="0";
-	else if(top1==-1&&bot1.n==1&&bot1.a==1) aString+="\\pi";
-	else
-	{
-		aString+="\\arccos\\left(";
-		if(bot1.a==1&&bot1.n==1) aString+=top1;
-		else aString+="\\frac\{"+top1+"\}\{"+bot1.write()+"\}";
-		aString+="\\right)";
-	}
-	aString+="\\mbox\{,	(b) \}";
-	if(top2==0) aString+="\\pi/2";
-	else if(top2==1&&bot2.n==1&&bot2.a==1) aString+="0";
-	else if(top2==-1&&bot2.n==1&&bot2.a==1) aString+="\\pi";
-	else
-	{ 
-		aString+="\\arccos\\left(";
-		if(bot2.a==1&&bot2.n==1) aString+=top2;
-		else aString+="\\frac\{"+top2+"\}\{"+bot2.write()+"\}";
-		aString+="\\right)";
-	}
-	aString+=".\\end\{array\}";
- 
-	var qa=[qString,aString];
-	return qa;
-}
 
 // Lines in 3D
-function makeLines()
+makeLines : function ()
 {
 	var a1=randnz(3);
 	var b1=randnz(3);
@@ -410,9 +416,9 @@ function makeLines()
 	}
 	var qa=[qString,aString];
 	return qa;
-}
+},
 
-function makeIneq()
+makeIneq : function ()
 {
 	function makeIneq2()
 	{
@@ -475,9 +481,9 @@ function makeIneq()
 	}
 	var qa=rand() ? makeIneq2() : makeIneq3();
 	return qa;
-}
+},
 
-function makeAP()
+makeAP : function ()
 {
 	var m=rand(2,6);
 	var n=rand(m+2,11);
@@ -501,9 +507,9 @@ function makeAP()
 	var aString=fcoeff(a1, "\\alpha")+(a2.top>0?" + ":" - ")+fbcoeff(a2, "\\beta");
 	var qa=[qString,aString];
 	return qa;
-}
+},
 
-function makeFactor()
+makeFactor : function ()
 {
 	function makeFactor1()
 	{
@@ -551,7 +557,7 @@ function makeFactor()
 	return qa;
 }
 
-function makeQuadratic()
+makeQuadratic : function ()
 {
 	var qString="\\mbox{Find the real roots, if any, of }";
 	var aString;
@@ -1379,4 +1385,6 @@ function makeSepFirstODE()
 	aString=aString.replace(/--/g, ""); // -(-x+c) = (x-c) = (x+k) and call k c
 	var qa=[qString,aString];
 	return qa;
+}
+
 }

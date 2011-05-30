@@ -1,10 +1,22 @@
-module mathLoader
+module mathJAX
 
 import mobl
 
+function renderMaths() : void
+{
+	sleep(500);
+	render();
+}
+
+function renderMathsIn(event:Object) : void
+{
+	sleep(500);
+	renderIn(event);
+}
+
 external sync function loadMaths() : void
-external sync function renderMaths() : void
-external sync function renderMathsIn(event:Object) : void 
+external sync function render() : void
+external sync function renderIn(event:Object) : void 
 external sync function isLoaded():Bool
 
 <javascript>
@@ -30,14 +42,14 @@ external sync function isLoaded():Bool
 	    this.loaded = true;
     };
     
-    __ns.renderMaths = function() {
+    __ns.render = function() {
     	if(this.loaded)
     		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     	else 
     		this.loadMaths();
     };
     
-    __ns.renderMathsIn = function(event) {
+    __ns.renderIn = function(event) {
      	if(this.loaded) {
      		var math = MathJax.Hub.getAllJax(event.currentTarget)[0];
      		if(math) {

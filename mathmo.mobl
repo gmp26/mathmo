@@ -1,34 +1,32 @@
 application mathmo
-
+ 
 import mobl::ui::generic
 
-import mathLoader
-import partialFractions
+import mathJAX
+import nrichRPG::coreWorkout
 import audioPlayer
 import videoPlayer
-import plot
+import plot 
 
-load "helpers.js"
-load "problems.js"
 
-screen root() { 
-	header("Mathmo" )
-	group {
+screen root() {
+	header("Mathmo") 
+	group { 
 		item(onclick={showMaths();}) {
 			label("Show Maths")
 		}
-		item(onclick={coreWorkout();}){
+		item(onclick={coreWorkoutHome();}){
 			label("Core Workout")
 		}
 		item(onclick={playSound();}){
 			label("Play audio")
 		}
-		item(onclick={showVideo();}){
+		item(onclick={showVideo();}){ 
 			label("Show video")
 		}
 		item(onclick={plotGraph();}){
 			label("Plot Graph")
-		}
+		} 
 	}
 }
 
@@ -39,7 +37,7 @@ screen showMaths() {
 			sleep(2000);
 			renderMaths();
 		}
-		backButton()
+		backButton() 
 	}
 	group {
 		var tex:Array<String> = [
@@ -52,7 +50,7 @@ screen showMaths() {
 		list(s in tex) {
 			item(onclick = {renderMathsIn(event);}) {
 				label(s) 
-			}
+			} 
 		}
 	}
 }
@@ -62,28 +60,6 @@ screen playSound() {
 		backButton()
 	}
 	sound()
-}
-
-screen showVideo2() {
-	
-	var width:String = async( $("#myvid").css("width") )
-	
-	whenLoaded(width) {
-		header("Big Bunny") {
-			script {
-				//sleep(3000);
-				play("myvid");
-				alert(width);
-			}
-			backButton()
-		}
-		group {
-			item{
-				video("myvid", "http://broken-links.com/tests/media/BigBuck.m4v")
-			}
-		}
-		button("Play", onclick={ play("myvid"); })
-	}
 }
 
 screen showVideo() {
@@ -103,10 +79,10 @@ screen showVideo() {
 	button("Play", onclick={ play("myvid"); })
 
 }
-
+ 
 style plotAreaStyle {
 	width:250 px;
-	height:250 px;
+	height:250 px; 
 }
 
 screen plotGraph() {
@@ -118,7 +94,7 @@ screen plotGraph() {
 				spiral() 
 			);
 		}
-		backButton() 
+		backButton()
 	}
 	group {
 		item{
@@ -140,51 +116,3 @@ screen plotGraph() {
 }
 
 
-
-screen coreWorkout(){ 
-	var coreTopics:Array<Tuple2<String, Function0<Tuple2<String,String>>>> = [
-		("Partial Fractions", partialFractions),
-		("Powers", partialFractions)
-	]
-	header("Core workout") {
-		backButton()
-	}
-	group {
-		list(s in coreTopics) {
-			var q:Function0<Tuple2<String,String>> = s._2
-			item(onclick = {showProblem(s._1, s._2);}) {
-				label(s._1) 
-			}
-		}
-	}
-}
-
-
-screen showProblem(s:String, q:Function0<Tuple2<String,String>>) {
-	
-	var qa:Tuple2<String, String> = q()
-	
-	header(s) {
-		script {
-			sleep(100);
-			renderMaths();
-		}
-		backButton()
-	}
-	group {
-		item(){
-			label(qa._1)
-		}
-		item(){
-			label(qa._2)
-		}
-	}
-	
-}
-
-function partialFractions():Tuple2<String,String>
-{
-	var qa:Array<String> = callMakePartial();
-	
-	return (qa[0],qa[1]);
-}

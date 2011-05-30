@@ -1,0 +1,9 @@
+module nrichRPG::questionAnswer
+
+entity QA {
+	number	: Num  // position in list
+	topic : String // "partialFraction" ...
+	question : String
+	answer : String
+	done : Bool
+}
