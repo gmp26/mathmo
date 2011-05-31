@@ -10,7 +10,7 @@ import plot
 
 
 screen root() {
-	header("Mathmo") 
+	header("Mathmo")
 	group { 
 		item(onclick={showMaths();}) {
 			label("Show Maths")

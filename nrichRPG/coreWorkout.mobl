@@ -29,20 +29,84 @@ control qaItem(qa:QA) {
 	}
 }
 
+style helpStyle {
+	background-color:#FFFFFF;
+	border: 1px solid #CCCCCC;
+	border-left-width:0px;
+	border-right-width:0px;
+	font-size: 14px;
+	color: #333388;
+	padding:10px;
+	word-break: normal;
+}
+
+style deleteStyle {
+	//background-color:#8888FF;
+	padding:10px;
+	padding-right: 2px;
+	float: right;
+}
+
 screen coreWorkoutHome() {
-	header("Current") {
-		button("Add", onclick={ addQA(); })
+	
+	var qCount:Num = QA.all().count()
+
+ 	header("Mathmo Core") {
+		button("Add", onclick={ addQA(); qCount = qCount + 1;})
 	}
 	
 	group {
+		when(qCount == 0) {
+			item(helpStyle) {
+				html("Your personal workout. Touch [Add] to create a question (and its answer) on one of your chosen topics, or use one of the shortcuts below. Your questions will be preserved until you delete them.")
+			}
+			item(onclick={randomQ(5, 1000);qCount = qCount + 5;}) { // 1000 means any topic
+				label("5 random questions")
+			}
+			item(onclick={randomQ(5, 100);qCount = qCount + 5;}) { 
+				label("5 on algebra")
+			}
+			item(onclick={randomQ(5, 200);qCount = qCount + 5;}) { 
+				label("5 curve sketches")
+			}
+			item(onclick={randomQ(5, 300);qCount = qCount + 5;}) { 
+				label("5 geometry")
+			}
+			item(onclick={randomQ(5, 400);qCount = qCount + 5;}) { 
+				label("5 sequences & series")
+			}
+			item(onclick={randomQ(5, 500);qCount = qCount + 5;}) { 
+				label("5 on vectors")
+			}
+			item(onclick={randomQ(5, 600);qCount = qCount + 5;}) { 
+				label("5 differentiation")
+			}
+			item(onclick={randomQ(5, 700);qCount = qCount + 5;}) { 
+				label("5 integration")
+			}
+			item(onclick={randomQ(5, 29);qCount = qCount + 5;}) { 
+				label("5 diff equations")
+			}
+		}
 		list(qa in QA.all() order by number asc) {
 			item(/* onclick={showQA(qa);}, hideArrow=true */) { 
 				qaItem(qa) 
 			}
 		}
+		when(qCount > 3) {       
+			item(style=deleteStyle, hideArrow=true) {
+				button("Delete All", onclick = {QA.all().destroyAll(); qCount = 0;})
+			}
+		}		
 	}
-	
-	//button("Search", onclick = { search();})
+}
+
+function randomQ(n:Num, topicId:Num):void
+{
+	foreach(i in range(0,n)) {
+		var qa = QA();
+		makeQA(qa, topicId);
+	}
 }
 
 screen addQA() {
@@ -254,9 +318,11 @@ screen addDifferentialEquations(qa:QA) {
 		backButton()
 	}
 	group {
+		/* not yet
 		item(onclick = {makeQA(qa, 800); screen return;}) {
 			label("Random")
 		}
+		*/
 		item(onclick = {makeQA(qa, 29); screen return;}) {
          	label("Differential Equations")
         }

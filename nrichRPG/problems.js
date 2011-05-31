@@ -532,7 +532,7 @@ function makeFactor()
 		u[1]=v[1]=w[1]=1;
 		u[0]=a;v[0]=b;w[0]=c;
 		var x=polyexpand(polyexpand(u, v), w);
-		var qString="Use the factor theorem to factorise $$"+x.write()+"$$.";
+		var qString="Use the factor theorem to factorise $$"+x.write()+".$$";
 		var aString=express([a, b, c]);
 		var qa=[qString,aString];
 		return qa;
@@ -546,7 +546,7 @@ function makeFactor()
 		u[0]=a;v[0]=b;w[0]=c;y[0]=d;
 		var x=polyexpand(polyexpand(u, v), w);
 		var z=polyexpand(polyexpand(u, v), y);
-		var qString="Simplify$$\\frac{"+x.write()+"}{"+z.write()+"}$$.";
+		var qString="Simplify$$\\frac{"+x.write()+"}{"+z.write()+"}.$$";
 		var aString="$$\\frac{"+w.write()+"}{"+y.write()+"}$$";
 		var qa=[qString,aString];
 		return qa;
@@ -897,9 +897,9 @@ function makeVectorEq()
 		v[i]=new vector(3);
 		v[i].set(a[0]+l[i]*b[0],a[1]+l[i]*b[1],a[2]+l[i]*b[2]);
 	}
-	var qString="\\begin{array}{c}\\mbox{Show that the points with position vectors }\\\\"+v[0].write()+","+v[1].write()+","+v[2].write()+"\\\\";
-	qString+="\\mbox{lie on a straight line and give the equation of the line in the form }\\mathbf{r}=\\mathbf{a}+\\lambda\\mathbf{b}.\\end{array}";
-	var aString=a.write()+"+\\lambda"+b.write();
+	var qString="Show that the points with position vectors$$"+v[0].write()+","+v[1].write()+","+v[2].write()+"$$";
+	qString+="lie on a straight line, and give the equation of the line in the form \\(\\mathbf{r}=\\mathbf{a}+\\lambda\\mathbf{b}\\).";
+	var aString='$$'+a.write()+"+\\lambda"+b.write()+'$$';
 	var qa=[qString,aString];
 	return qa;
 }
@@ -924,9 +924,9 @@ function makeImplicit()
 		if(d2*a2-b2*c2==0) (d2>0?d2++:d2--);
 		var t=randnz(3);
 		while((c1*t+d1)==0||(c2*t+d2)==0) (t>0?t++:t--);
-		var qString="\\mbox{If }y=\\frac{"+p_linear(a1, b1).write('t')+"}{"+p_linear(c1, d1).write('t')+"}\\mbox{ and }x=\\frac{"+p_linear(a2, b2).write('t')+"}{"+p_linear(c2, d2).write('t')+"},\\mbox{ find }\\frac{dy}{dx} \\mbox{ when }t="+t;
+		var qString="If $$y=\\frac{"+p_linear(a1, b1).write('t')+"}{"+p_linear(c1, d1).write('t')+"}$$ and $$x=\\frac{"+p_linear(a2, b2).write('t')+"}{"+p_linear(c2, d2).write('t')+"},$$find \\(\\frac{dy}{dx}\\) when \\(t="+t+"\\)";
 		a=new frac((a1*d1-b1*c1)*(c2*t+d2)*(c2*t+d2), (a2*d2-b2*c2)*(c1*t+d1)*(c1*t+d1));
-		var aString=a.write();
+		var aString="$$"+a.write()+"$$";
 		var qa=[qString,aString];
 		return qa;
 	}
@@ -938,8 +938,8 @@ function makeImplicit()
 		var p=new poly(rand(1, 3));
 		p.setrand(3);
 		var q=new poly(1);p.diff(q);
-		var qString="\\mbox{If }y+"+fns[which[0]].replace(/z/g, 'y')+"="+fns[which[1]].replace(/z/g, 'x')+(p[p.rank]>0?"+":"")+p.write('x')+"\\mbox{, find }\\frac{dy}{dx}\\mbox{ in terms of }y\\mbox{ and }x\\mbox{.}";
-		var aString="\\frac{dy}{dx} = \\frac{"+difs[which[1]].replace(/z/g, 'x')+(q[q.rank]>0?"+":"")+q.write('x')+"}{"+difs[which[0]].replace(/z/g, 'y')+"+1}";
+		var qString="If $$y+"+fns[which[0]].replace(/z/g, 'y')+"="+fns[which[1]].replace(/z/g, 'x')+(p[p.rank]>0?"+":"")+p.write('x')+",$$ find \\(\\frac{dy}{dx}\\) in terms of \\(y\\) and \\(x\\).";
+		var aString="$$\\frac{dy}{dx} = \\frac{"+difs[which[1]].replace(/z/g, 'x')+(q[q.rank]>0?"+":"")+q.write('x')+"}{"+difs[which[0]].replace(/z/g, 'y')+"+1}$$";
 		var qa=[qString,aString];
 		return qa;
 	}
@@ -955,7 +955,7 @@ function makeChainRule()
 	a.setrand(8);
 	b=new poly(0);
 	a.diff(b);
-	var qString="\\mbox{Differentiate }"+fns[which].replace(/z/g, a.write());
+	var qString="Differentiate \\("+fns[which].replace(/z/g, a.write())+"\\)";
 	if(difs[which].charAt(0)=='-')
 	{
 		difs[which]=difs[which].slice(1);
@@ -979,7 +979,7 @@ function makeChainRule()
 		aString=ascoeff(b[0]);
 	else
 		aString=b.write();
-	aString=difs[which].replace(/z/g, a.write()).replace(/y/g, aString);
+	aString="$$"+difs[which].replace(/z/g, a.write()).replace(/y/g, aString)+"$$";
 	var qa=[qString,aString];
 	return qa;
 }
@@ -994,20 +994,21 @@ function makeProductRule()
 	a.setrand(8);
 	b=new poly(0);
 	a.diff(b);
-	var qString="\\mbox{Differentiate }"
+	var qString="Differentiate $$";
 	if(a.terms()>1)
 		qString+='('+a.write()+')'+fns[which].replace(/z/g, 'x');
 	else
 		qString+=a.write()+fns[which].replace(/z/g, 'x');
+	qString += "$$";
 	var aString;
 	if(b.terms()>1)
-		aString='('+b.write()+')';
+		aString='$$('+b.write()+')';
 	else if(b[0]==1)
-		aString='';
+		aString='$$';
 	else if(b[0]==-1)
-		aString='-';
+		aString='$$-';
 	else
-		aString=b.write();
+		aString='$$'+b.write();
 	if(difs[which].charAt(0)=='-')
 	{
 		difs[which]=difs[which].slice(1);
@@ -1033,6 +1034,7 @@ function makeProductRule()
 		aString+=difs[which].replace(/y/g, '');
 	else
 		aString+=difs[which].replace(/y/g, a.write()).replace(/z/g, 'x');
+	aString += '$$';
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1047,7 +1049,7 @@ function makeQuotientRule()
 	b=new poly(2);
 	b.setrand(8);
 	// D(a/f.b = (f.b*Da)+(a*D{f.b})/(f*f).b = a*b'*f'.b/(f*f).b
-	var qString="\\mbox{Differentiate } \\frac{"+a+"}{"+fns[which].replace(/z/g, b.write())+"}";
+	var qString="Differentiate $$\\frac{"+a+"}{"+fns[which].replace(/z/g, b.write())+"}$$";
 	c=new poly(1);
 	b.diff(c);
 	c.xthru(a);
@@ -1067,7 +1069,7 @@ function makeQuotientRule()
 			lead="-";
 	}
 	var bot=difs[which].replace(/z/g, b.write());
-	var aString=lead+bot;
+	var aString='$$'+lead+bot+'$$';
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1093,7 +1095,7 @@ function makeGP()
 			c/=d;
 		}
 		var n=rand(5, 10);
-		var qString = "\\mbox{Evaluate } \\sum_{r=0}^{"+n+"} "+(a==1?"":a==-1?c==1&&b>0?"-\\left(":"-":a+"\\times")+(c==1?b<0?"\\left("+b+"\\right)":b:"\\left(\\frac{"+b+"}{"+c+"}\\right)")+"^{r}"+(a==-1&&c==1&&b>0?"\\right)":""); // don't you just love gratuitous use of the ternary operator?
+		var qString = "Evaluate $$\\sum_{r=0}^{"+n+"} "+(a==1?"":a==-1?c==1&&b>0?"-\\left(":"-":a+"\\times")+(c==1?b<0?"\\left("+b+"\\right)":b:"\\left(\\frac{"+b+"}{"+c+"}\\right)")+"^{r}"+(a==-1&&c==1&&b>0?"\\right)":"")+'$$'; // don't you just love gratuitous use of the ternary operator?
 		// Sum is a(1-r^n+1)/(1-r)
 		var top=new frac(-Math.pow(b, n+1), Math.pow(c, n+1));
 		top.add(1);
@@ -1102,7 +1104,7 @@ function makeGP()
 		bot.add(1);
 		var ans=new frac(top.top*bot.bot, top.bot*bot.top);
 		ans.reduce();
-		var aString = ans.write();
+		var aString = '$$'+ans.write()+'$$';
 	}
 	else
 	{
@@ -1112,12 +1114,12 @@ function makeGP()
 		if(rand()) b=-b;
 		var r=new frac(b, c);
 		r.reduce();
-		var qString = "\\mbox{Evaluate } \\sum_{r=0}^{\\infty} "+(a==1?"":a==-1?"-":a+"\\times")+"\\left("+r.write()+"\\right)^{r}";
+		var qString = "Evaluate$$\\sum_{r=0}^{\\infty} "+(a==1?"":a==-1?"-":a+"\\times")+"\\left("+r.write()+"\\right)^{r}$$";
 		// Sum is a/(1-r)
 		r.prod(-1);
 		r.add(1);
 		var ans=new frac(a*r.bot, r.top);
-		var aString = ans.write();
+		var aString = '$$'+ans.write()+'$$';
 	}
 	var qa=[qString,aString];
 	return qa;
@@ -1133,7 +1135,7 @@ function makeModulus()
 		var aa=Math.abs(a);
 		var l=rand(-aa-6, -aa-2);
 		var r=rand(aa+2, aa+6);
-		qString="\\mbox{Sketch the graph of }|"+a+"-|x||\\mbox{ for }"+l+"\\leq{x}\\leq"+r+".";
+		qString="Sketch the graph of \\(|"+a+"-|x||\\) for \\("+l+"\\leq{x}\\leq"+r+"\\).";
 		aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
@@ -1157,7 +1159,7 @@ function makeModulus()
 		var xa=Math.max(Math.abs(a[0]), Math.abs(a[1]));
 		var l=rand(-xa-6, -xa-2);
 		var r=rand(xa+2, xa+6);
-		qString="\\mbox{Sketch the graph of }("+a[0]+(s[0]?'+':'-')+"|x|)("+a[1]+(s[1]?'+':'-')+"|x|)\\mbox{ for }"+l+"\\leq{x}\\leq"+r+".";
+		qString="Sketch the graph of \\(("+a[0]+(s[0]?'+':'-')+"|x|)("+a[1]+(s[1]?'+':'-')+"|x|)\\) for \\("+l+"\\leq{x}\\leq"+r+"\\).";
 		aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
@@ -1198,7 +1200,7 @@ function makeTransformation()
 	else q[0]=0;
 	var l=which?rand(-5, 2):Math.max(Math.ceil((1-q[0])/q[1]), 0);
 	var r=l+rand(4, 8);
-	qString="\\mbox{Let }f(x)="+fnn[which].replace(/z/g, 'x')+"\\mbox{.  Sketch the graphs of }y=f(x)\\mbox{ and }y="+p.write("f("+q.write()+")")+"\\mbox{ for }"+l+((which==0&&l==0)?"<":"\\leq")+"{x}\\leq"+r+".";
+	qString="Let \\(f(x)="+fnn[which].replace(/z/g, 'x')+"\\).  Sketch the graphs of \\(y=f(x)\\) and \\(y="+p.write("f("+q.write()+")")+"\\) for \\("+l+((which==0&&l==0)?"<":"\\leq")+"{x}\\leq"+r+"\\).";
 	aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
@@ -1242,7 +1244,7 @@ function makeComposition()
 	var fn=0;
 	var l=rand(-4, 0);
 	var r=rand(Math.max(l+5, 2), 8);
-	qString="\\begin{array}{l}\\mbox{Let }f(x)="+fnn[which[0]].replace(/z/g, 'x')+"\\mbox{, }g(x)="+fnn[which[1]].replace(/z/g, 'x')+".\\\\\\mbox{Sketch the graph of }y=f(g(x))\\mbox{ (where it exists)}\\\\\\mbox{for }"+l+"\\leq{x}\\leq"+r+"\\mbox{ and }-12\\leq{y}\\leq12.\\end{array}";
+	qString="Let \\(f(x)="+fnn[which[0]].replace(/z/g, 'x')+", g(x)="+fnn[which[1]].replace(/z/g, 'x')+".\\) Sketch the graph of \\(y=f(g(x))\\) (where it exists) for \\("+l+"\\leq{x}\\leq"+r+"\\) and \\(-12\\leq{y}\\leq12.\\)";
 	aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
@@ -1280,7 +1282,7 @@ function makeParametric()
 	var which=distrand(2, 0, 6);
 	var parms=0;
 	var fn=0;
-	qString="\\begin{array}{l}\\mbox{Sketch the curve in the xy plane given by }x="+fnn[which[0]].replace(/z/g, 't')+"\\mbox{, }y="+fnn[which[1]].replace(/z/g, 't')+".\\\\t\\mbox{ is a real parameter which ranges from } "+(which[0]&&which[1]?"-10":"0")+" \\mbox{ to } 10.\\end{array}";
+	qString="Sketch the curve in the \\(xy\\) plane given by \\(x="+fnn[which[0]].replace(/z/g, 't')+", y="+fnn[which[1]].replace(/z/g, 't')+". t\\) is a real parameter which ranges from \\("+(which[0]&&which[1]?"-10":"0")+" \\mbox{ to } 10.\\)";
 	aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
@@ -1316,7 +1318,7 @@ function makeImplicitFunction()
 		var a=distrand(2, 2, 5);
 		var n=randnz(3);
 		var f=new frac(a[0], a[1]);
-		var qString="\\mbox{Sketch the curve in the xy plane given by }y="+ascoeff(n)+"x^{"+f.write()+"}";
+		var qString="Sketch the curve in the \\(xy\\) plane given by \\(y="+ascoeff(n)+"x^{"+f.write()+"}\\)";
 		var aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
@@ -1347,7 +1349,7 @@ function makeImplicitFunction()
 		var a=distrandnz(2, 5);
 		var n=randnz(6);
 		var f=new frac(a[0], a[1]);
-		var qString="\\mbox{Sketch the curve in the xy plane given by }"+ascoeff(a[0])+"y"+(a[1]>0?"+":"")+ascoeff(a[1])+"x"+(n>0?"+":"")+n+"=0";
+		var qString="Sketch the curve in the \\(xy\\) plane given by \\("+ascoeff(a[0])+"y"+(a[1]>0?"+":"")+ascoeff(a[1])+"x"+(n>0?"+":"")+n+"=0\\)";
 		var aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
@@ -1368,7 +1370,7 @@ function makeImplicitFunction()
 	function mIF3()
 	{
 		var a=distrandnz(2, 2, 5);
-		var qString="\\mbox{Sketch the curve in the xy plane given by }\\frac{x^2}{"+(a[0]*a[0])+"} + \\frac{y^2}{"+(a[1]*a[1])+"}=1";
+		var qString="Sketch the curve in the \\(xy\\) plane given by \\(\\frac{x^2}{"+(a[0]*a[0])+"} + \\frac{y^2}{"+(a[1]*a[1])+"}=1\\)";
 		var aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
@@ -1404,7 +1406,7 @@ function makeIntegration()
 			var u=randnz(4);
 			b=new poly(0);
 			a.diff(b);
-			var aString=p_linear(u, 0).write(fns[which].replace(/z/g, a.write()))+"+c";
+			var aString='$$'+p_linear(u, 0).write(fns[which].replace(/z/g, a.write()))+"+c$$";
 			if(difs[which].charAt(0)=='-')
 			{
 				difs[which]=difs[which].slice(1);
@@ -1418,7 +1420,7 @@ function makeIntegration()
 				qString=ascoeff(b[0]);
 			else
 				qString=b.write();
-			qString="\\mbox{Find } \\int"+difs[which].replace(/z/g, a.write()).replace(/y/g, qString)+"\\,dx";
+			qString="Find $$\\int"+difs[which].replace(/z/g, a.write()).replace(/y/g, qString)+"\\,\\mathrm{d}x$$";
 			var qa=[qString,aString];
 			return qa;
 		break;
@@ -1431,13 +1433,13 @@ function makeIntegration()
 			a.setrand(8);
 			b=new poly(0);
 			a.diff(b);
-			var aString=""
+			var aString="$$"
 			if(a.terms()>1)
 				aString+='('+a.write()+')'+fns[which].replace(/z/g, 'x');
 			else
 				aString+=a.write()+fns[which].replace(/z/g, 'x');
-			aString+="+c";
-			var qString="\\mbox{Find }\\int";
+			aString+="+c$$";
+			var qString="Find $$\\int";
 			if(b.terms()>1)
 				qString+='('+b.write()+')';
 			else if(b[0]==1)
@@ -1471,7 +1473,7 @@ function makeIntegration()
 				qString+=difs[which].replace(/y/g, '');
 			else
 				qString+=difs[which].replace(/y/g, a.write()).replace(/z/g, 'x');
-			qString+="\\,dx";
+			qString+="\\,\\mathrm{d}x$$";
 			var qa=[qString,aString];
 			return qa;
 		break;
@@ -1521,16 +1523,16 @@ function makeDE()
 	{
 		var roots=distrand(2, 4);
 		var p=p_quadratic(1, -roots[0]-roots[1], roots[0]*roots[1]);
-		qString="\\begin{array}{l}\\mbox{Find the general solution of the following second-order ODE:}\\\\ "+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]==0?"":"y")+"=0"+"\\end{array}";
-		aString="y="+(roots[0]==0?"A":"Ae^{"+ascoeff(roots[0])+"x}")+"+"+(roots[1]==0?"B":"Be^{"+ascoeff(roots[1])+"x}");
+		qString="Find the general solution of the following second-order ODE:$$"+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]==0?"":"y")+"=0"+"$$";
+		aString="$$y="+(roots[0]==0?"A":"Ae^{"+ascoeff(roots[0])+"x}")+"+"+(roots[1]==0?"B":"Be^{"+ascoeff(roots[1])+"x}") + '$$';
 		var qa=[qString,aString];
 		return qa;
 	}
 	else
 	{
 		var b=randnz(6);
-		qString="\\begin{array}{l}\\mbox{Find the general solution of the following first-order ODE:}\\\\ x\\frac{\\,dy}{\\,dx}-y="+(-b)+"\\end{array}";
-		aString="y=Ax"+(b>0?'+':'')+b;
+		qString="Find the general solution of the following first-order ODE:$$x\\frac{\\,dy}{\\,dx}-y="+(-b)+"$$";
+		aString="$$y=Ax"+(b>0?'+':'')+b+'$$';
 		var qa=[qString,aString];
 		return qa;
 	}
@@ -1578,8 +1580,8 @@ function makePowers()
 		}
 		if(i==1) q+="}{"
 	}
-	qString="\\mbox{Simplify }\\frac{"+q+"}";
-	aString=(res.top==res.bot?"x":"x^{"+res.write()+"}");
+	qString="Simplify $$\\frac{"+q+"}$$";
+	aString="$$"+(res.top==res.bot?"x":"x^{"+res.write()+"}")+'$$';
 	var qa=[qString,aString];
 	return qa;
 }
