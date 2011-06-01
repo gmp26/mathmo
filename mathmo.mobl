@@ -37,7 +37,7 @@ screen showMaths() {
 			sleep(2000);
 			renderMaths();
 		}
-		backButton() 
+		backButton()
 	}
 	group {
 		var tex:Array<String> = [

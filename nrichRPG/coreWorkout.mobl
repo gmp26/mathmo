@@ -4,6 +4,7 @@ import mobl
 import mobl::ui::generic
 import nrichRPG::questionAnswer
 import mathJAX
+import plot
 
 load nrichRPG/problems.js
 load nrichRPG/helpers.js
@@ -11,7 +12,7 @@ load nrichRPG/fractions.js
 load nrichRPG/polys.js 
 load nrichRPG/fpolys.js
 load nrichRPG/complex.js
-load nrichRPG/guessExact.js 
+load nrichRPG/guessExact.js
 load nrichRPG/stats.js
 
 // core exercises
@@ -58,8 +59,9 @@ screen coreWorkoutHome() {
 	group {
 		when(qCount == 0) {
 			item(helpStyle) {
-				html("Your personal workout. Touch [Add] to create a question (and its answer) on one of your chosen topics, or use one of the shortcuts below. Your questions will be preserved until you delete them.")
+				html("Your personal workout. Touch [Add] to create a question on one of your chosen topics. Your questions will be preserved until you delete them.")
 			}
+			/*
 			item(onclick={randomQ(5, 1000);qCount = qCount + 5;}) { // 1000 means any topic
 				label("5 random questions")
 			}
@@ -87,17 +89,16 @@ screen coreWorkoutHome() {
 			item(onclick={randomQ(5, 29);qCount = qCount + 5;}) { 
 				label("5 diff equations")
 			}
+			*/
 		}
 		list(qa in QA.all() order by number asc) {
 			item(/* onclick={showQA(qa);}, hideArrow=true */) { 
 				qaItem(qa) 
 			}
 		}
-		when(qCount > 3) {       
-			item(style=deleteStyle, hideArrow=true) {
-				button("Delete All", onclick = {QA.all().destroyAll(); qCount = 0;})
-			}
-		}		
+		item(style=deleteStyle, hideArrow=true) {
+			button("Delete All", onclick = {QA.all().destroyAll(); qCount = 0;})
+		}
 	}
 }
 
@@ -351,10 +352,20 @@ style answerStyle {
 	word-break: normal;
 }
 
+style plotStyle {
+	width : 300px;
+	height : 300px;
+}
+
 screen showQA(qa:QA) {
 	header(qa.topic) {
 		script {
 			renderMaths();
+			sleep(0);
+			if(qa.done && qa.answer == "%GRAPH%") {
+				var jsonData:JSON = JSON.parse(qa.plotData);
+				lineChart("corePlotArea", jsonData);
+			}
 		}
 		backButton()
 	}
@@ -362,17 +373,29 @@ screen showQA(qa:QA) {
 		item(questionStyle) {
 			html(qa.question)
 		}
-		when(qa.done) {
-			item(answerStyle) {
-				html(qa.answer)
-			}
-		}
-		else {
+		when(!qa.done) {
 			item {
 				checkBox(qa.done, label = "Check answer", onchange = {
 					renderMaths();
+					sleep(0);
+					if(qa.answer == "%GRAPH%") {
+						var jsonData:JSON = JSON.parse(qa.plotData);
+						lineChart("corePlotArea", jsonData);
+					}
 				})
 			}
+		}
+		else {
+			when(qa.answer != "%GRAPH%") {
+				item(answerStyle) {
+					html(qa.answer)
+				}
+			}
+			else {
+				item {
+					plot("corePlotArea", plotStyle)
+				}
+			} 
 		}
 	}
 }
@@ -395,6 +418,9 @@ function makeQA(qa:QA, n:Num):void {
 	qa.question = q_and_A[0];
 	qa.answer = q_and_A[1];
 	qa.topic = q_and_A[2];
+	if(q_and_A.length > 3) {
+		qa.plotData = q_and_A[3];
+	}
 	qa.done = false;
 	add(qa);
 }
