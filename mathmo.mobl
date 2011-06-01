@@ -1,5 +1,7 @@
 application mathmo
- 
+
+//load custom.css
+
 import mobl::ui::generic
 
 import mathJAX
@@ -8,6 +10,16 @@ import audioPlayer
 import videoPlayer
 import plot 
 
+
+
+load nrichRPG/problems.js
+load nrichRPG/helpers.js
+load nrichRPG/fractions.js
+load nrichRPG/polys.js 
+load nrichRPG/fpolys.js
+load nrichRPG/complex.js
+load nrichRPG/guessExact.js
+load nrichRPG/stats.js
 
 screen root() {
 	header("Mathmo")

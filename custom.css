@@ -1,0 +1,15 @@
+div .mobl__ui__generic__headerStyle {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(100, 100, 100)), to(rgb(80, 40, 40)));
+  background: -moz-linear-gradient(top, rgb(100, 100, 100), rgb(80, 40, 40));
+  padding: 0;
+  height: 3em;
+  font-size: 1em;
+  line-height: 3em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: #A00 1px 1px 1px;
+  color: #FFCCCC;
+  font-weight: bold;
+  margin: 0;
+  z-index: 2;
+}

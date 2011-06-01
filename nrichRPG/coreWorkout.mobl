@@ -6,14 +6,7 @@ import nrichRPG::questionAnswer
 import mathJAX
 import plot
 
-load nrichRPG/problems.js
-load nrichRPG/helpers.js
-load nrichRPG/fractions.js
-load nrichRPG/polys.js 
-load nrichRPG/fpolys.js
-load nrichRPG/complex.js
-load nrichRPG/guessExact.js
-load nrichRPG/stats.js
+
 
 // core exercises
 
@@ -61,35 +54,6 @@ screen coreWorkoutHome() {
 			item(helpStyle) {
 				html("Your personal workout. Touch [Add] to create a question on one of your chosen topics. Your questions will be preserved until you delete them.")
 			}
-			/*
-			item(onclick={randomQ(5, 1000);qCount = qCount + 5;}) { // 1000 means any topic
-				label("5 random questions")
-			}
-			item(onclick={randomQ(5, 100);qCount = qCount + 5;}) { 
-				label("5 on algebra")
-			}
-			item(onclick={randomQ(5, 200);qCount = qCount + 5;}) { 
-				label("5 curve sketches")
-			}
-			item(onclick={randomQ(5, 300);qCount = qCount + 5;}) { 
-				label("5 geometry")
-			}
-			item(onclick={randomQ(5, 400);qCount = qCount + 5;}) { 
-				label("5 sequences & series")
-			}
-			item(onclick={randomQ(5, 500);qCount = qCount + 5;}) { 
-				label("5 on vectors")
-			}
-			item(onclick={randomQ(5, 600);qCount = qCount + 5;}) { 
-				label("5 differentiation")
-			}
-			item(onclick={randomQ(5, 700);qCount = qCount + 5;}) { 
-				label("5 integration")
-			}
-			item(onclick={randomQ(5, 29);qCount = qCount + 5;}) { 
-				label("5 diff equations")
-			}
-			*/
 		}
 		list(qa in QA.all() order by number asc) {
 			item(/* onclick={showQA(qa);}, hideArrow=true */) { 
