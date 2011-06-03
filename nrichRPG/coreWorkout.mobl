@@ -40,18 +40,20 @@ function updateCounts():void
 	log("qCount = " + qCount + " tickCount = " + tickCount);
 }
 
+
+/* 
 control coreWorkoutHome() {
 	
 	
 	script {
 		updateCounts();
 	}
-	/*
- 	header("Mathmo Core") {
-		image("icon.png", 35, 35, valign="middle", align="left", style=headerLogo)
-		button("Add", onclick={addQA(); updateCounts();})
-	}
-	*/
+	//
+ 	//header("Mathmo Core") {
+	//	image("icon.png", 35, 35, valign="middle", align="left", style=headerLogo)
+	//	button("Add", onclick={addQA(); updateCounts();})
+	//}
+	//
 	group {
 		when(qCount == 0) {
 			item(helpStyle) {
@@ -59,7 +61,7 @@ control coreWorkoutHome() {
 			}
 		}
 		list(qa in QA.all() order by number asc) {
-			item(/*onclick={showQA(qa);}*/) { 
+			item() { 
 				checkBox(qa.done, label = "" + qa.number + ". " + qa.topic)
 			}
 		}
@@ -79,6 +81,7 @@ control coreWorkoutHome() {
 		}
 	}
 }
+*/
 
 function clearAllQ():void
 {
@@ -95,15 +98,15 @@ function randomQ(n:Num, topicId:Num):void
 
 resource icon.png
 
-screen addQA() {
+control addQA() {
 	var qa = QA()
 	
-	header("Choose topic") {
+	/*	header("Choose topic") {
 		backButton() 
-	}
+	}*/
 	group {
 		item(onclick = {makeQA(qa,1000); screen return;}) {
-			image("icon.png", 50, 50, align="left")
+			image("icon.png", 20, 20, align="left", valign="middle")
 			label("Random topic")
 		}
 		item(onclick = {addAlgebra(qa); screen return;}) {
@@ -328,12 +331,12 @@ style questionStyle {
 }
 
 style answerStyle {
-	background-color:#EEEEFF;
+	background-color:#F8F8F8;
 	border: 1px solid #CCCCCC;
 	border-left-width:0px;
 	border-right-width:0px;
 	font-size: 17px;
-	color: #338833;
+	color: #666666;
 	padding:10px;
 	word-break: normal;
 }
@@ -343,49 +346,74 @@ style plotStyle {
 	height : 300px;
 }
 
+
+style topicLabelStyle {
+	padding:20px;
+	width:100%;
+	height: 100%;
+	color:#666;
+}
+
 control showQA(qa:QA) {
-	header(qa.topic) {
+
+	label("on " + qa.topic.toLowerCase(), style=topicLabelStyle)
+	group {
 		script {
 			renderMaths();
-			sleep(0);
+			sleep(100);
 			if(qa.done && qa.answer == "%GRAPH%") {
 				var jsonData:JSON = JSON.parse(qa.plotData);
 				lineChart("corePlotArea", jsonData);
 			}
 		}
-		backButton()
-	}
-	group {
-		item(/*questionStyle*/) {
-			html("" + qa.number + ". " + qa.question)
+		item(questionStyle) {
+			html("Q" + qa.number + ". " + qa.question)
 		}
+		checkBox(qa.done, "Check answer", onchange = {
+			renderMaths();
+			sleep(0);
+			if(qa.answer == "%GRAPH%") {
+				var jsonData:JSON = JSON.parse(qa.plotData);
+				lineChart("corePlotArea", jsonData);
+			}
+		})
 		when(!qa.done) {
 			item {
-				checkBox(qa.done, "Check answer", onchange = {
+				script { /* NEEDED HERE */
 					renderMaths();
-					sleep(0);
-					if(qa.answer == "%GRAPH%") {
+					sleep(1000);
+					if(qa.done && qa.answer == "%GRAPH%") {
 						var jsonData:JSON = JSON.parse(qa.plotData);
 						lineChart("corePlotArea", jsonData);
 					}
-				})
+				}
 			}
 		}
 		else {
+			item() {
+				label("Do you agree?")
+				sideButton("Yes")
+				sideButton("No")
+			}
 			when(qa.answer != "%GRAPH%") {
 				item(answerStyle) {
+					label("A" + qa.number + ". ")
 					html(qa.answer)
 				}
 			}
 			else {
 				item {
+					label("A" + qa.number + ". ")
 					plot("corePlotArea", plotStyle)
 				}
 			} 
-			item() {
-				label("Do you agree?")
-				sideButton("Yes")
-				sideButton("No")
+			script {  /* NEEDED HERE */
+				renderMaths();
+				sleep(1000);
+				if(qa.done && qa.answer == "%GRAPH%") {
+					var jsonData:JSON = JSON.parse(qa.plotData);
+					lineChart("corePlotArea", jsonData);
+				}
 			}
 		}
 	}

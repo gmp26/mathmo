@@ -6,7 +6,6 @@ import mobl::ui::stylemixin
 import nrichRPG::coreWorkout
 import nrichRPG::questionAnswer
 
-
 load nrichRPG/problems.js
 load nrichRPG/helpers.js
 load nrichRPG/fractions.js
@@ -18,6 +17,7 @@ load nrichRPG/stats.js
 
 resource mathmoIcon.png
 resource nrichIcon.png
+resource english.json
 
 style logoStyle {
 	border: #888 1px solid;
@@ -30,7 +30,7 @@ var homeUrl:String = "http://nrich.maths.org";
 var resourceUrl:String = "http://nrich.maths.org/7088";
 
 control qaItem(qa:QA) {
-	checkBox(qa.done, label=qa.topic)
+	label("Q"+qa.number + ". " + qa.topic)
 }
 
 control qTab() {
@@ -44,12 +44,11 @@ control qTab() {
 		})
 	}
 	masterDetail(QA.all() order by number asc, qaItem, showQA)
-	//coreWorkoutHome()
 }
 
 control coreTab() {
 	header("new Core Q") 
-	label("tabB")
+	addQA()
 }
 
 control furtherTab() {
@@ -59,6 +58,9 @@ control furtherTab() {
 
 
 screen root() {
+	script {
+		fetchLanguageBundle("english.json");
+	}
 	tabSet(
 		[
 			("Mathmo", "", qTab),
