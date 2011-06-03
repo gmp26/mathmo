@@ -6,30 +6,13 @@ import nrichRPG::questionAnswer
 import mathJAX
 import plot
 
-
-
-// core exercises
-
-
-control qaItem(qa:QA) {
-	checkBox(qa.done, label = "" + qa.number + ". " + qa.topic)
-	contextMenu() {
-		button("Delete", onclick={
-			remove(qa);
-		})
-		button("Show", onclick={
-			showQA(qa);
-		})
-	}
-}
-
 style helpStyle {
 	background-color:#FFFFFF;
 	border: 1px solid #CCCCCC;
 	border-left-width:0px;
 	border-right-width:0px;
-	font-size: 14px;
-	color: #333388;
+	font-size: 20px;
+	color: #666666;
 	padding:10px;
 	word-break: normal;
 }
@@ -41,14 +24,34 @@ style deleteStyle {
 	float: right;
 }
 
-screen coreWorkoutHome() {
-	
-	var qCount:Num = QA.all().count()
+style headerLogo {
+	padding:0px;
+	margin: 4px;
+	border: #888888 1px solid;
+}
 
- 	header("Mathmo Core") {
-		button("Add", onclick={ addQA(); qCount = qCount + 1;})
-	}
+var qCount:Num = 0; //QA.all().count()
+var tickCount:Num = 0; //QA.all().filter("done","=",true).count()
+
+function updateCounts():void
+{
+	qCount = QA.all().count();
+	tickCount = QA.all().filter("done","=",true).count();
+	log("qCount = " + qCount + " tickCount = " + tickCount);
+}
+
+control coreWorkoutHome() {
 	
+	
+	script {
+		updateCounts();
+	}
+	/*
+ 	header("Mathmo Core") {
+		image("icon.png", 35, 35, valign="middle", align="left", style=headerLogo)
+		button("Add", onclick={addQA(); updateCounts();})
+	}
+	*/
 	group {
 		when(qCount == 0) {
 			item(helpStyle) {
@@ -56,14 +59,30 @@ screen coreWorkoutHome() {
 			}
 		}
 		list(qa in QA.all() order by number asc) {
-			item(/* onclick={showQA(qa);}, hideArrow=true */) { 
-				qaItem(qa) 
+			item(/*onclick={showQA(qa);}*/) { 
+				checkBox(qa.done, label = "" + qa.number + ". " + qa.topic)
 			}
 		}
-		item(style=deleteStyle, hideArrow=true) {
-			button("Delete All", onclick = {QA.all().destroyAll(); qCount = 0;})
+		
+		when(qCount > 0) {
+			button("Delete ticked", onclick = {
+				var ticked:Collection<QA> = QA.all().filter("done", "=", true);
+				foreach(t in ticked) {
+					remove(t);
+				}
+				updateCounts();
+			})
+			button("Delete all", onclick = {
+				QA.all().destroyAll();
+				updateCounts();
+			})
 		}
 	}
+}
+
+function clearAllQ():void
+{
+	QA.all().destroyAll();
 }
 
 function randomQ(n:Num, topicId:Num):void
@@ -74,27 +93,30 @@ function randomQ(n:Num, topicId:Num):void
 	}
 }
 
+resource icon.png
+
 screen addQA() {
 	var qa = QA()
 	
-	header("Choose type") {
+	header("Choose topic") {
 		backButton() 
 	}
 	group {
 		item(onclick = {makeQA(qa,1000); screen return;}) {
-			label("Random")
+			image("icon.png", 50, 50, align="left")
+			label("Random topic")
 		}
 		item(onclick = {addAlgebra(qa); screen return;}) {
 			label("Algebraic")
 		}
 		item(onclick = {addCurveSketch(qa); screen return;}) {
-			label("Curve Sketching")
+			label("Curve sketching")
 		}
 		item(onclick = {addGeometry(qa); screen return;}) {
 			label("Geometry")
 		}
 		item(onclick = {addSequencesAndSeries(qa); screen return;}) {
-			label("Sequences & Series")
+			label("Sequences & series")
 		}
 		item(onclick = {addVectors(qa); screen return;}) {
 			label("Vectors")
@@ -106,7 +128,7 @@ screen addQA() {
 			label("Integration")
 		}
 		item(onclick = {addDifferentialEquations(qa); screen return;}) {
-			label("Differential Equations")
+			label("Differential equations")
 		}
 	}
 }
@@ -120,7 +142,7 @@ screen addAlgebra(qa:QA) {
 			label("Random")
 		}
 		item(onclick = {makeQA(qa, 10); screen return;}) {
-         	label("Quadratic Equations")
+         	label("Quadratic equations")
         }
 		item(onclick = {makeQA(qa, 11); screen return;}) {
          	label("Completing the square")
@@ -129,10 +151,10 @@ screen addAlgebra(qa:QA) {
          	label("Inequalities")
         }
 		item(onclick = {makeQA(qa, 9); screen return;}) {
-         	label("Factor Theorem")
+         	label("Factor theorem")
         }
 		item(onclick = {makeQA(qa, 1); screen return;}) {
-         	label("Partial Fractions")
+         	label("Partial fractions")
         }
 		item(onclick = {makeQA(qa, 30); screen return;}) {
          	label("Powers")
@@ -141,7 +163,7 @@ screen addAlgebra(qa:QA) {
          	label("Logarithms")
         }
 		item(onclick = {makeQA(qa, 17); screen return;}) {
-         	label("Solving Trig Equations")
+         	label("Solving trig equations")
         }
 	}
 }
@@ -155,7 +177,7 @@ screen addCurveSketch(qa:QA) {
 			label("Random")
 		}
 		item(onclick = {makeQA(qa, 24); screen return;}) {
-         	label("Modulus Function")
+         	label("Modulus function")
         }
 		item(onclick = {makeQA(qa, 25); screen return;}) {
          	label("Transformations of functions")
@@ -201,16 +223,16 @@ screen addSequencesAndSeries(qa:QA) {
 			label("Random")
 		}
 		item(onclick = {makeQA(qa, 8); screen return;}) {
-         	label("Arithmetic Progressions")
+         	label("Arithmetic progressions")
         }
 		item(onclick = {makeQA(qa, 12); screen return;}) {
-         	label("Binomial Expansion")
+         	label("Binomial expansion")
         }
 		item(onclick = {makeQA(qa, 23); screen return;}) {
-         	label("Geometric Progressions")
+         	label("Geometric progressions")
         }
 		item(onclick = {makeQA(qa, 2); screen return;}) {
-         	label("Binomial Theorem")
+         	label("Binomial theorem")
         }
     }
 }
@@ -241,19 +263,19 @@ screen addDifferentiation(qa:QA) {
 			label("Random")
 		}
 		item(onclick = {makeQA(qa, 14); screen return;}) {
-         	label("Stationary Points")
+         	label("Stationary points")
         }
 		item(onclick = {makeQA(qa, 20); screen return;}) {
-         	label("Chain Rule")
+         	label("Chain rule")
         }
 		item(onclick = {makeQA(qa, 21); screen return;}) {
-         	label("Product Rule")
+         	label("Product rule")
         }
 		item(onclick = {makeQA(qa, 22); screen return;}) {
-         	label("Quotient Rule")
+         	label("Quotient rule")
         }
 		item(onclick = {makeQA(qa, 19); screen return;}) {
-         	label("Implicit Differentiation")
+         	label("Implicit differentiation")
         }
     }	
 }
@@ -270,16 +292,16 @@ screen addIntegration(qa:QA) {
          	label("Integration")
         }
 		item(onclick = {makeQA(qa, 3); screen return;}) {
-         	label("Polynomial Integration")
+         	label("Polynomial integration")
         }
 		item(onclick = {makeQA(qa, 4); screen return;}) {
-         	label("Trig Integration")
+         	label("Trig integration")
         }
     }	
 }
 
 screen addDifferentialEquations(qa:QA) {
-	header("Differential Equations") {
+	header("Differential equations") {
 		backButton()
 	}
 	group {
@@ -289,7 +311,7 @@ screen addDifferentialEquations(qa:QA) {
 		}
 		*/
 		item(onclick = {makeQA(qa, 29); screen return;}) {
-         	label("Differential Equations")
+         	label("Differential equations")
         }
     }	
 }
@@ -321,7 +343,7 @@ style plotStyle {
 	height : 300px;
 }
 
-screen showQA(qa:QA) {
+control showQA(qa:QA) {
 	header(qa.topic) {
 		script {
 			renderMaths();
@@ -334,12 +356,12 @@ screen showQA(qa:QA) {
 		backButton()
 	}
 	group {
-		item(questionStyle) {
-			html(qa.question)
+		item(/*questionStyle*/) {
+			html("" + qa.number + ". " + qa.question)
 		}
 		when(!qa.done) {
 			item {
-				checkBox(qa.done, label = "Check answer", onchange = {
+				checkBox(qa.done, "Check answer", onchange = {
 					renderMaths();
 					sleep(0);
 					if(qa.answer == "%GRAPH%") {
@@ -360,6 +382,11 @@ screen showQA(qa:QA) {
 					plot("corePlotArea", plotStyle)
 				}
 			} 
+			item() {
+				label("Do you agree?")
+				sideButton("Yes")
+				sideButton("No")
+			}
 		}
 	}
 }
@@ -432,22 +459,22 @@ function makeQA(qa:QA, n:Num):void {
 	    {
 	        case 1:
 	            var qa=makePartial();
-	   			qa.push("Partial Fractions");
+	   			qa.push("Partial fractions");
 	        break;
 	        
 	        case 2:
 	            var qa=makeBinomial2();
-	   			qa.push("Binomial Theorem");
+	   			qa.push("Binomial theorem");
 	        break;
 	        
 	        case 3:
 	            var qa=makePolyInt();
-	   			qa.push("Polynomial Integration");
+	   			qa.push("Polynomial integration");
 	        break;
 	        
 	        case 4:
 	            var qa=makeTrigInt();
-	   			qa.push("Trig Integration");
+	   			qa.push("Trig integration");
 	        break;
 	        
 	        case 5:
@@ -467,12 +494,12 @@ function makeQA(qa:QA, n:Num):void {
 	        
 	        case 8:
 	            var qa=makeAP();
-	   			qa.push("Arithmetic Progressions");
+	   			qa.push("Arithmetic progressions");
 	        break;
 	        
 	        case 9:
 	            var qa=makeFactor();
-	   			qa.push("Factor Theorem");
+	   			qa.push("Factor theorem");
 	        break;
 	        
 	        case 10:
@@ -482,12 +509,12 @@ function makeQA(qa:QA, n:Num):void {
 	        
 	        case 11:
 	            var qa=makeComplete();
-	   			qa.push("Completing the Square");
+	   			qa.push("Completing the square");
 	        break;
 	        
 	        case 12:
 	            var qa=makeBinExp();
-	   			qa.push("Binomial Expansion");
+	   			qa.push("Binomial expansion");
 	        break;
 	        
 	        case 13:
@@ -512,12 +539,12 @@ function makeQA(qa:QA, n:Num):void {
 	        
 	        case 17:
 	            var qa=makeSolvingTrig();
-	   			qa.push("Trig Equations");
+	   			qa.push("Trig equations");
 	        break;
 	        
 	        case 18:
 	            var qa=makeVectorEq();
-	   			qa.push("Vector Equations");
+	   			qa.push("Vector equations");
 	        break;
 	        
 	        case 19:
@@ -577,7 +604,7 @@ function makeQA(qa:QA, n:Num):void {
 	        
 	        case 29:
 	            var qa=makeDE();
-	   			qa.push("Differential Equations");
+	   			qa.push("Differential equations");
 	        break;
 	        
 	        case 30:

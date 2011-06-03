@@ -1,15 +1,10 @@
 application mathmo
 
-//load custom.css
-
 import mobl::ui::generic
+import mobl::ui::stylemixin
 
-import mathJAX
 import nrichRPG::coreWorkout
-import audioPlayer
-import videoPlayer
-import plot 
-
+import nrichRPG::questionAnswer
 
 
 load nrichRPG/problems.js
@@ -21,110 +16,57 @@ load nrichRPG/complex.js
 load nrichRPG/guessExact.js
 load nrichRPG/stats.js
 
+resource mathmoIcon.png
+resource nrichIcon.png
+
+style logoStyle {
+	border: #888 1px solid;
+	margin: 5px;
+	margin-right:0px;
+	float:left;
+}
+
+var homeUrl:String = "http://nrich.maths.org";
+var resourceUrl:String = "http://nrich.maths.org/7088";
+
+control qaItem(qa:QA) {
+	checkBox(qa.done, label=qa.topic)
+}
+
+control qTab() {
+	header("Exercise") {
+		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
+		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
+		button("New", onclick={
+			clearAllQ();
+			randomQ(10,1000);
+			reload();
+		})
+	}
+	masterDetail(QA.all() order by number asc, qaItem, showQA)
+	//coreWorkoutHome()
+}
+
+control coreTab() {
+	header("new Core Q") 
+	label("tabB")
+}
+
+control furtherTab() {
+	header("new Further Q")
+	label("tabC")
+}
+
+
 screen root() {
-	header("Mathmo")
-	group { 
-		item(onclick={showMaths();}) {
-			label("Show Maths")
-		}
-		item(onclick={coreWorkoutHome();}){
-			label("Core Workout")
-		}
-		item(onclick={playSound();}){
-			label("Play audio")
-		}
-		item(onclick={showVideo();}){ 
-			label("Show video")
-		}
-		item(onclick={plotGraph();}){
-			label("Plot Graph")
-		} 
-	}
+	tabSet(
+		[
+			("Mathmo", "", qTab),
+			("+", "", coreTab),
+			("++", "", furtherTab)
+		]
+	)
 }
 
-screen showMaths() {
-	
-	header("Show maths") {
-		script {
-			sleep(2000);
-			renderMaths();
-		}
-		backButton()
-	}
-	group {
-		var tex:Array<String> = [
-			"$$y<x^2$$",
-			"$$\\frac{1}{\\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {1+\\frac{e^{-6\\pi}}{1+\\frac{e^{-8\\pi}} {1+\\ldots} } } }$$",
-			"$$\\left( \\sum_{k=1}^n a_k b_k \\right)^2 \\leq \\left( \\sum_{k=1}^n a_k^2 \\right) \\left( \\sum_{k=1}^n b_k^2 \\right)$$",
-			"$$\\begin{aligned}\\nabla \\times \\vec{\\mathbf{B}} -\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{E}}}{\\partial t} & = \\frac{4\\pi}{c}\\vec{\\mathbf{j}} \\\\   \\nabla \\cdot \\vec{\\mathbf{E}} & = 4 \\pi \\rho \\\\\\nabla \\times \\vec{\\mathbf{E}}\\, +\\, \\frac1c\\, \\frac{\\partial\\vec{\\mathbf{B}}}{\\partial t} & = \\vec{\\mathbf{0}} \\\\\\nabla \\cdot \\vec{\\mathbf{B}} & = 0 \\end{aligned}$$"
-			]
-		
-		list(s in tex) {
-			item(onclick = {renderMathsIn(event);}) {
-				label(s) 
-			} 
-		}
-	}
-}
-
-screen playSound() {
-	header("Play Audio") {
-		backButton()
-	}
-	sound()
-}
-
-screen showVideo() {
-		
-	header("Big Bunny") {
-		script {
-			sleep(3000);
-			play("myvid");
-		}
-		backButton()
-	}
-	group {
-		item{
-			video("myvid", "http://broken-links.com/tests/media/BigBuck.m4v")
-		}
-	}
-	button("Play", onclick={ play("myvid"); })
-
-}
- 
-style plotAreaStyle {
-	width:250 px;
-	height:250 px; 
-}
-
-screen plotGraph() {
-	header("Plot example") {
-		script {
-			sleep(0);
-			lineChart(
-				"plotArea",
-				spiral() 
-			);
-		}
-		backButton()
-	}
-	group {
-		item{
-			plot("plotArea", plotAreaStyle)
-		}
-	}
-	button("Quadratic", onclick={
-		lineChart("plotArea", [range(-30,31).map(square)]);
-	})
-	button("Cubic", onclick={
-		lineChart("plotArea", [range(-30,31).map(cube)]);
-	})
-	button("Sine", onclick={
-		lineChart("plotArea", [range(-180,181).map(sine)]); 
-	})
-	button("Spiral", onclick={
-		lineChart("plotArea", spiral());
-	})
-}
 
 

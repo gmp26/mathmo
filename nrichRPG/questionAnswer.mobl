@@ -8,3 +8,9 @@ entity QA {
 	done : Bool
 	plotData : String
 }
+
+entity TopicScore {
+	topic: String
+	agree:Num
+	disagree:Num
+}
