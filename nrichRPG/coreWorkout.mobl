@@ -102,37 +102,36 @@ resource icon.png
 control addQA() {
 	var qa = QA()
 	
-	/*	header("Choose topic") {
-		backButton() 
-	}*/
 	group {
+		/*
 		item(onclick = {makeQA(qa,1000); screen return;}) {
 			image("icon.png", 20, 20, align="left", valign="middle")
 			label("Random topic")
 		}
+		*/
 		item(onclick = {addAlgebra(qa); screen return;}) {
-			label("Algebraic")
+			label("+Algebraic")
 		}
 		item(onclick = {addCurveSketch(qa); screen return;}) {
-			label("Curve sketching")
+			label("+Curve sketching")
 		}
 		item(onclick = {addGeometry(qa); screen return;}) {
-			label("Geometry")
+			label("+Geometry")
 		}
 		item(onclick = {addSequencesAndSeries(qa); screen return;}) {
-			label("Sequences & series")
+			label("+Sequences & series")
 		}
 		item(onclick = {addVectors(qa); screen return;}) {
-			label("Vectors")
+			label("+Vectors")
 		}
 		item(onclick = {addDifferentiation(qa); screen return;}) {
-			label("Differentiation")
+			label("+Differentiation")
 		}
 		item(onclick = {addIntegration(qa); screen return;}) {
-			label("Integration")
+			label("+Integration")
 		}
 		item(onclick = {addDifferentialEquations(qa); screen return;}) {
-			label("Differential equations")
+			label("+Differential equations")
 		}
 	}
 }
@@ -143,31 +142,31 @@ screen addAlgebra(qa:QA) {
 	}
 	group {
 		item(onclick = {makeQA(qa, 100); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
-		item(onclick = {makeQA(qa, 10); screen return;}) {
-         	label("Quadratic equations")
+		item(onclick = {makeQA(qa, 10); alert("added" + qa.topic); screen return;}) {
+         	label("+Quadratic equations")
         }
 		item(onclick = {makeQA(qa, 11); screen return;}) {
-         	label("Completing the square")
+         	label("+Completing the square")
         }
 		item(onclick = {makeQA(qa, 7); screen return;}) {
-         	label("Inequalities")
+         	label("+Inequalities")
         }
 		item(onclick = {makeQA(qa, 9); screen return;}) {
-         	label("Factor theorem")
+         	label("+Factor theorem")
         }
 		item(onclick = {makeQA(qa, 1); screen return;}) {
-         	label("Partial fractions")
+         	label("+Partial fractions")
         }
 		item(onclick = {makeQA(qa, 30); screen return;}) {
-         	label("Powers")
+         	label("+Powers")
         }
 		item(onclick = {makeQA(qa, 13); screen return;}) {
-         	label("Logarithms")
+         	label("+Logarithms")
         }
 		item(onclick = {makeQA(qa, 17); screen return;}) {
-         	label("Solving trig equations")
+         	label("+Trig equations")
         }
 	}
 }
@@ -178,10 +177,10 @@ screen addCurveSketch(qa:QA) {
 	}
 	group {
 		item(onclick = {makeQA(qa, 200); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
 		item(onclick = {makeQA(qa, 24); screen return;}) {
-         	label("Modulus function")
+         	label("+Modulus function")
         }
 		item(onclick = {makeQA(qa, 25); screen return;}) {
          	label("Transformations of functions")
@@ -199,7 +198,7 @@ screen addCurveSketch(qa:QA) {
 }
 
 screen addGeometry(qa:QA) {
-	header("Geometry") {
+	header("+Geometry") {
 		backButton()
 	}
 	group {
@@ -207,105 +206,105 @@ screen addGeometry(qa:QA) {
 			label("Random")
 		}
 		item(onclick = {makeQA(qa, 15); screen return;}) {
-         	label("Triangles")
+         	label("+Triangles")
         }
 		item(onclick = {makeQA(qa, 16); screen return;}) {
-         	label("Circles")
+         	label("+Circles")
         }
 		item(onclick = {makeQA(qa, 6); screen return;}) {
-         	label("Lines in 3D")
+         	label("+ 3D Lines")
         }
 	}
 }
 
 screen addSequencesAndSeries(qa:QA) { 
-	header("Sequences and Series") {
+	header("+Sequences and Series") {
 		backButton()
 	}
 	group {
 		item(onclick = {makeQA(qa, 400); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
 		item(onclick = {makeQA(qa, 8); screen return;}) {
-         	label("Arithmetic progressions")
+         	label("+Arithmetic progressions")
         }
 		item(onclick = {makeQA(qa, 12); screen return;}) {
-         	label("Binomial expansion")
+         	label("+Binomial expansion")
         }
 		item(onclick = {makeQA(qa, 23); screen return;}) {
-         	label("Geometric progressions")
+         	label("+Geometric progressions")
         }
 		item(onclick = {makeQA(qa, 2); screen return;}) {
-         	label("Binomial theorem")
+         	label("+Binomial theorem")
         }
     }
 }
 
 screen addVectors(qa:QA) {
-	header("Vectors") {
+	header("+Vectors") {
 		backButton()
 	}
 	group {
 		item(onclick = {makeQA(qa, 500); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
 		item(onclick = {makeQA(qa, 5); screen return;}) {
-         	label("Scalar products")
+         	label("+Scalar products")
         }
 		item(onclick = {makeQA(qa, 18); screen return;}) {
-         	label("Vector equation of lines")
+         	label("+Vector equation of lines")
         }
     }
 }
 
 screen addDifferentiation(qa:QA) {
-	header("Differentiation") {
+	header("+Differentiation") {
 		backButton()
 	}
 	group {
 		item(onclick = {makeQA(qa, 600); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
 		item(onclick = {makeQA(qa, 14); screen return;}) {
-         	label("Stationary points")
+         	label("+Stationary points")
         }
 		item(onclick = {makeQA(qa, 20); screen return;}) {
-         	label("Chain rule")
+         	label("+Chain rule")
         }
 		item(onclick = {makeQA(qa, 21); screen return;}) {
-         	label("Product rule")
+         	label("+Product rule")
         }
 		item(onclick = {makeQA(qa, 22); screen return;}) {
-         	label("Quotient rule")
+         	label("+Quotient rule")
         }
 		item(onclick = {makeQA(qa, 19); screen return;}) {
-         	label("Implicit differentiation")
+         	label("+Implicit differentiation")
         }
     }	
 }
 
 screen addIntegration(qa:QA) {
-	header("Integration") {
+	header("+Integration") {
 		backButton()
 	}
 	group {
 		item(onclick = {makeQA(qa, 700); screen return;}) {
-			label("Random")
+			label("+Random")
 		}
 		item(onclick = {makeQA(qa, 28); screen return;}) {
-         	label("Integration")
+         	label("+Integration")
         }
 		item(onclick = {makeQA(qa, 3); screen return;}) {
-         	label("Polynomial integration")
+         	label("+Polynomial integration")
         }
 		item(onclick = {makeQA(qa, 4); screen return;}) {
-         	label("Trig integration")
+         	label("+Trig integration")
         }
     }	
 }
 
 screen addDifferentialEquations(qa:QA) {
-	header("Differential equations") {
+	header("+Diff equations") {
 		backButton()
 	}
 	group {
@@ -315,7 +314,7 @@ screen addDifferentialEquations(qa:QA) {
 		}
 		*/
 		item(onclick = {makeQA(qa, 29); screen return;}) {
-         	label("Differential equations")
+         	label("+Differential equations")
         }
     }	
 }

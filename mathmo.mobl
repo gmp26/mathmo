@@ -34,16 +34,15 @@ control qaItem(qa:QA) {
 }
 
 control qTab() {
-	header("Exercise") {
+	header("Q & A") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
-		button("+10Q", onclick={
-			randomQ(10,1000);
+		button("+5", onclick={
+			randomQ(5,1000);
 			reload();
 		})
-		button("Clear", onclick={
+		button("Del", onclick={
 			clearAllQ();
-			randomQ(10,1000);
 			reload();
 		})
 	}
@@ -51,13 +50,13 @@ control qTab() {
 }
 
 control coreTab() {
-	header("new Core Q") 
+	header("+Q on topic") 
 	addQA()
 }
 
 control furtherTab() {
-	header("new Further Q")
-	label("tabC")
+	header("+Q on topic+")
+	label("not implemented yet")
 }
 
 
