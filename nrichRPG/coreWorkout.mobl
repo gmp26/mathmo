@@ -194,14 +194,14 @@ screen addGeometry() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(15); screen return;}) {
+		item(onclick = {makeQA(15); alert("Triangles Q added"); screen return;}) {
          	label("+Triangles")
         }
-		item(onclick = {makeQA(16); screen return;}) {
+		item(onclick = {makeQA(16); alert("Circles Q added"); screen return;}) {
          	label("+Circles")
         }
-		item(onclick = {makeQA(6); screen return;}) {
-         	label("+ 3D Lines")
+		item(onclick = {makeQA(6); alert("3D lines Q added");  screen return;}) {
+         	label("+ 3D lines")
         }
 	}
 }
@@ -211,16 +211,16 @@ screen addSequencesAndSeries() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(8); screen return;}) {
+		item(onclick = {makeQA(8);  alert("Arithmetic Progressions Q added"); screen return;}) {
          	label("+Arithmetic progressions")
         }
-		item(onclick = {makeQA(12); screen return;}) {
+		item(onclick = {makeQA(12); alert("Binomial Expansion Q added");  screen return;}) {
          	label("+Binomial expansion")
         }
-		item(onclick = {makeQA(23); screen return;}) {
+		item(onclick = {makeQA(23);  alert("Geometric Progression Q added"); screen return;}) {
          	label("+Geometric progressions")
         }
-		item(onclick = {makeQA(2); screen return;}) {
+		item(onclick = {makeQA(2); alert("Binomial theorem Q added");  screen return;}) {
          	label("+Binomial theorem")
         }
     }
@@ -231,10 +231,10 @@ screen addVectors() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(5); screen return;}) {
+		item(onclick = {makeQA(5);  alert("Scalar product Q added"); screen return;}) {
          	label("+Scalar products")
         }
-		item(onclick = {makeQA(18); screen return;}) {
+		item(onclick = {makeQA(18);  alert("Vector equation of lines Q added"); screen return;}) {
          	label("+Vector equation of lines")
         }
     }
@@ -245,16 +245,16 @@ screen addDifferentiation() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(14); screen return;}) {
+		item(onclick = {makeQA(14);  alert("Stationary points Q added"); screen return;}) {
          	label("+Stationary points")
         }
-		item(onclick = {makeQA(20); screen return;}) {
+		item(onclick = {makeQA(20);  alert("Chain rule Q added"); screen return;}) {
          	label("+Chain rule")
         }
-		item(onclick = {makeQA(21); screen return;}) {
+		item(onclick = {makeQA(21);  alert("Product rule Q added"); screen return;}) {
          	label("+Product rule")
         }
-		item(onclick = {makeQA(22); screen return;}) {
+		item(onclick = {makeQA(22);  alert("Quotient rule Q added"); screen return;}) {
          	label("+Quotient rule")
         }
 		item(onclick = {makeQA(19); screen return;}) {
@@ -268,13 +268,13 @@ screen addIntegration() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(28); screen return;}) {
+		item(onclick = {makeQA(28);  alert("Integration Q added"); screen return;}) {
          	label("+Integration")
         }
-		item(onclick = {makeQA(3); screen return;}) {
+		item(onclick = {makeQA(3);  alert("Polynomial integration Q added"); screen return;}) {
          	label("+Polynomial integration")
         }
-		item(onclick = {makeQA(4); screen return;}) {
+		item(onclick = {makeQA(4);  alert("Trig integration Q added"); screen return;}) {
          	label("+Trig integration")
         }
     }	
@@ -285,7 +285,7 @@ screen addDifferentialEquations() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(29); screen return;}) {
+		item(onclick = {makeQA(29);  alert("Differential equations Q added"); screen return;}) {
          	label("+Diff equations")
         }
     }	
