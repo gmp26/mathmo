@@ -6,6 +6,7 @@ entity QA {
 	question : String
 	answer : String
 	done : Bool
+	correct : Bool
 	plotData : String
 }
 

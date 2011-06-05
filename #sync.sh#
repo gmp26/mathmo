@@ -1,3 +1,0 @@
-#!/bin/bash
-sed
-#rsync -av www/ gmp26@maths.org:/www/nrich/html/mobl/mathmo 

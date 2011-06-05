@@ -191,8 +191,8 @@ function makeTrigInt()
 	else if(soln[4]>0) aString+=(aString.length?"+":"")+"\\frac\{"+soln[4]+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
 	else if(soln[4]<0) aString+="-\\frac\{"+(-soln[4])+"\}\{"+soln[5]+"\}\\sqrt\{3\}";
 
-	if(aString=="") 
-		aString="$$0$$";
+	if(aString=="$$") 
+		aString += "0$$";
 	else
 		aString += "$$";
 	var qa=[qString,aString];

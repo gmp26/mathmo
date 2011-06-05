@@ -30,35 +30,99 @@ var homeUrl:String = "http://nrich.maths.org";
 var resourceUrl:String = "http://nrich.maths.org/7088";
 
 control qaItem(qa:QA) {
-	label("Q"+qa.number + ". " + qa.topic)
+	var color:String = ""
+	var text:String = ""
+	script{
+		if(qa.done) {
+			if(qa.correct) {
+				color="#480";
+			}
+			else {
+				color="#C00";
+			}
+		}	
+		else {
+			color = "#000";
+		}
+		text = "<span style=\"color:" + color + "\">Q"+qa.number + ". " + qa.topic + "</span>";
+	}
+	html(text)
 }
 
 control qTab() {
-	header("Q & A") {
+	header("Qs") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
-		button("+5", onclick={
+		button("+5Q", onclick={
 			randomQ(5,1000);
-			reload();
 		})
-		button("Del", onclick={
+		button("CA", onclick={
 			clearAllQ();
-			reload();
 		})
 	}
 	masterDetail(QA.all() order by number asc, qaItem, showQA)
 }
 
 control coreTab() {
-	header("+Q on topic") 
+	header("+Q on topic")
 	addQA()
 }
 
 control furtherTab() {
-	header("+Q on topic+")
+	header("+Q on *topic")
 	label("not implemented yet")
 }
 
+control aboutTab() {
+	var credits="""
+<div style="padding:20px">
+<h2>
+Mathmo by the <a href="http://nrich.maths.org">NRICH team</a>, University of Cambridge
+</h2>
+<h3>Help</h3>
+On the Mathmo tab you'll find your current set of Questions (abbr. Qs)<br>
+Touch [CA] to delete all your current Qs.<br>
+Touch [+5Q] to add 5 new random Qs<br>
+<br>
+On the +Q tab you can select a subtopic to add a new core Q.<br>
+<br>
+On the +Q* tab you can selecta subtopic to add a new further maths Q.<br>
+<br>
+When a question is displayed, touch [Check Answer] to check working and then
+reply to the 'Did you agree' [Yes] [No]. You may need to do a little more work to see whether your answer is really the same or not.
+The questions will change colour (red == No; green == Yes, black == not checked) so you can track how you are doing.
+
+<p>
+Idea: Stephen Hewson
+</p>
+<p>
+<a href="http://nrich.maths.org/public/titlesearch.php?search=interactive%20workout">Desktop Implementation:</a>
+ Tom White, Edward Cree
+</p>
+<p>
+<a href="http://github.com/gmp26/mobl">Mobile Implementation:</a> Mike Pearson
+</p>
+
+<p>
+The following have been important in developing mathmo
+<ul>
+<li>
+<a href="http://www.mobl-lang.org">Mobl-lang</a> by Zef Hemel, University of Delft.
+</li>
+<li>
+The <a href="http://code.google.com/p/flot/">flot plotting library</a>
+</li>
+
+</ul>
+<a href="http://www.mathjax.org/">
+  <img title="Powered by MathJax"
+       src="http://www.mathjax.org/badge.gif"
+       border="0" alt="Powered by MathJax" />
+</a>
+</div>
+"""
+	html(credits)
+}
 
 screen root() {
 	script {
@@ -67,8 +131,9 @@ screen root() {
 	tabSet(
 		[
 			("Mathmo", "", qTab),
-			("+", "", coreTab),
-			("++", "", furtherTab)
+			("+Q", "", coreTab),
+			("+Q*", "", furtherTab),
+			("About", "", aboutTab)
 		]
 	)
 }
