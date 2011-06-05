@@ -878,7 +878,7 @@ function makeSolvingTrig()
 	qString+="\\sin{\\theta}+"+c.write();
 	if(alpha==4) qString+="\\sqrt{2}";
 	else if(alpha==3) qString+="\\sqrt{3}";
-	qString+="\\cos{\\theta}$$ in the form \\(\\sin(\\theta+\\alpha),\\) where \\(A\\) and \\(\\alpha\\) are to be determined.";
+	qString+="\\cos{\\theta}$$ in the form \\(A\\sin(\\theta+\\alpha),\\) where \\(A\\) and \\(\\alpha\\) are to be determined.";
 	var aString="$$"+(A==1?"":A)+"\\sin\\left(\\theta+\\frac{\\pi}{"+alpha+"}\\right)$$";
 	var qa=[qString,aString];
 	return qa;

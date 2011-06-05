@@ -1,7 +1,8 @@
 module nrichRPG::coreWorkout
 
 import mobl
-import mobl::ui::generic
+import ui
+import mobl::ui::stylemixin
 import nrichRPG::questionAnswer
 import mathJAX
 import plot
@@ -335,6 +336,7 @@ style answerStyle {
 	border: 1px solid #CCCCCC;
 	border-left-width:0px;
 	border-right-width:0px;
+	border-bottom-width:0px;
 	font-size: 17px;
 	color: #666666;
 	padding:10px;
@@ -354,65 +356,82 @@ style topicLabelStyle {
 	color:#666;
 }
 
-control showQA(qa:QA) {
+function renderQA(qa:QA):void {
+	sleep(100);
+	renderMaths();
+	if(qa.done && qa.answer == "%GRAPH%") {
+		var jsonData:JSON = JSON.parse(qa.plotData);
+		lineChart("corePlotArea", jsonData);
+	}
+}
 
-	label("on " + qa.topic.toLowerCase(), style=topicLabelStyle)
-	group {
-		script {
-			renderMaths();
-			sleep(100);
-			if(qa.done && qa.answer == "%GRAPH%") {
-				var jsonData:JSON = JSON.parse(qa.plotData);
-				lineChart("corePlotArea", jsonData);
-			}
+
+style panelHeaderStyle {
+  //backgroundGradientMixin($baseColor, rgb($baseColor.r~40, $baseColor.g~40, $baseColor.b~40));
+  padding: 12px;
+  height: 2.3em;
+  font-size: 1em;
+  line-height: 2.3em;
+  font-weight: bold;
+  text-align: center;
+  //text-shadow: #477 0px 1px 1px;
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  z-index: 2;
+}
+
+style panelHeaderContainerStyle {
+  width: 250px;
+  margin-left: -125px;
+  //border:red 1px solid;
+  position: absolute;
+  left: 50%;
+}
+
+style panelHeaderTextStyle {
+    //border:orange 1px solid;
+	width:250px;
+}
+
+control panelHeader(text : String, onclick : Callback = null) {
+  <div class=panelHeaderStyle onclick=onclick>
+    <div class=panelHeaderContainerStyle><div databind=text class=panelHeaderTextStyle/></div>
+    elements()
+  </div>
+}
+
+control showQA(qa:QA) {
+	panelHeader(qa.topic.toLowerCase()) {
+		script{
+			renderQA(qa);
 		}
-		item(questionStyle) {
+	}
+	group {
+		item(questionStyle, onclick={renderMaths();}, hideArrow=true) {
 			html("Q" + qa.number + ". " + qa.question)
 		}
-		checkBox(qa.done, "Check answer", onchange = {
-			renderMaths();
-			sleep(0);
-			if(qa.answer == "%GRAPH%") {
-				var jsonData:JSON = JSON.parse(qa.plotData);
-				lineChart("corePlotArea", jsonData);
+		item() {
+			block(answerStyle) {
+				checkBox(qa.done, "Check answer", onchange = {
+					renderQA(qa);
+				})
 			}
-		})
-		when(!qa.done) {
-			item {
-				script { /* NEEDED HERE */
-					renderMaths();
-					sleep(1000);
-					if(qa.done && qa.answer == "%GRAPH%") {
-						var jsonData:JSON = JSON.parse(qa.plotData);
-						lineChart("corePlotArea", jsonData);
+			when(qa.done) {
+				block(answerStyle) {
+					when(qa.answer != "%GRAPH%") {
+						label("A" + qa.number + ". ")
+						html(qa.answer)
+					}
+					else {
+						label("A" + qa.number + ". ")
+						plot("corePlotArea", plotStyle)
 					}
 				}
-			}
-		}
-		else {
-			item() {
-				label("Do you agree?")
-				sideButton("Yes")
-				sideButton("No")
-			}
-			when(qa.answer != "%GRAPH%") {
-				item(answerStyle) {
-					label("A" + qa.number + ". ")
-					html(qa.answer)
-				}
-			}
-			else {
-				item {
-					label("A" + qa.number + ". ")
-					plot("corePlotArea", plotStyle)
-				}
-			} 
-			script {  /* NEEDED HERE */
-				renderMaths();
-				sleep(1000);
-				if(qa.done && qa.answer == "%GRAPH%") {
-					var jsonData:JSON = JSON.parse(qa.plotData);
-					lineChart("corePlotArea", jsonData);
+				block(answerStyle) {
+					label("Did you agree?")
+					sideButton("Yes")
+					sideButton("No")
 				}
 			}
 		}

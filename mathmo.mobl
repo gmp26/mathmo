@@ -1,6 +1,6 @@
 application mathmo
 
-import mobl::ui::generic
+import ui
 import mobl::ui::stylemixin
 
 import nrichRPG::coreWorkout
@@ -37,7 +37,11 @@ control qTab() {
 	header("Exercise") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
-		button("New", onclick={
+		button("+10Q", onclick={
+			randomQ(10,1000);
+			reload();
+		})
+		button("Clear", onclick={
 			clearAllQ();
 			randomQ(10,1000);
 			reload();

@@ -1,0 +1,29 @@
+module ui
+
+mixin mobl::ui::generic
+
+/*
+style headerStyle {
+  backgroundGradientMixin($baseColor, rgb($baseColor.r~40, $baseColor.g~40, $baseColor.b~40));
+  padding: 12px;
+  height: 2.3em;
+  font-size: 1em;
+  line-height: 2.3em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: #477 0px 1px 1px;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+  z-index: 2;
+}
+
+style headerContainerStyle {
+  width: 300px;
+  position: absolute;
+  left: 50%;
+}
+
+style headerTextStyle {
+	width:200px;
+}*/
