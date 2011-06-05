@@ -92,6 +92,7 @@ When a question is displayed, touch [Check Answer] to check working and then
 reply to the 'Did you agree' [Yes] [No]. You may need to do a little more work to see whether your answer is really the same or not.
 The questions will change colour (red == No; green == Yes, black == not checked) so you can track how you are doing.
 
+<h3>Credits</h3>
 <p>
 Idea: Stephen Hewson
 </p>
@@ -100,7 +101,7 @@ Idea: Stephen Hewson
  Tom White, Edward Cree
 </p>
 <p>
-<a href="http://github.com/gmp26/mobl">Mobile Implementation:</a> Mike Pearson
+<a href="http://github.com/gmp26/mathmo">Mobile Implementation:</a> Mike Pearson
 </p>
 
 <p>
@@ -119,6 +120,10 @@ The <a href="http://code.google.com/p/flot/">flot plotting library</a>
        src="http://www.mathjax.org/badge.gif"
        border="0" alt="Powered by MathJax" />
 </a>
+
+<h3>License</h3>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Mathmo</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://nrich.maths.org" property="cc:attributionName" rel="cc:attributionURL">NRICH Project, University of Cambridge</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://github.com/gmp26/mathmo" rel="dct:source">github.com</a>.
+
 </div>
 """
 	html(credits)
