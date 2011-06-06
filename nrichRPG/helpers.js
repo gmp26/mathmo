@@ -5,7 +5,7 @@ function gcd()
 	var b=Math.abs(gcd.arguments[gcd.arguments.length-1]);
 	for(var i=gcd.arguments.length;i>2;i--) b=gcd(b,gcd.arguments[i-2]);
 	if(a*b==0) return(a+b); // if either is zero, then their gcd is the other
-	while((a=a%b)&&(b=b%a));
+	while((a=a%b)&&(b=b%a)) {};
 	return a+b;
 }
 
@@ -26,12 +26,12 @@ function sinpi(a,b)
 	{
 		var A=new Array(6);
 		A=sinpi(a-b,b);
-		for(i=0;i<6;i+=2) A[i]*=-1;
+		for(var i=0;i<6;i+=2) A[i]*=-1;
 		return A;
 	}
 	if(a/b>1.5&&a/b<2)
 	{
-		var A=new Array(6);
+		A=new Array(6);
 		A=sinpi(2*b-a,b); 
 		for(i=0;i<6;i+=2) A[i]*=-1;
 		return A;
@@ -91,9 +91,9 @@ function rank(r)
 {
 	var n=rank.arguments.length-1;
 	if(r==0) r=n;
-	list=new Array(n);
+	var list=new Array(n);
 	for(var i=0;i<n;i++) list[i]=rank.arguments[i+1];
-	for(var i=0;i<n;i++)
+	for(i=0;i<n;i++)
 	{
 		if(list[i]>list[i+1])
 		{
@@ -110,7 +110,8 @@ function rank(r)
 function maxel(a)
 {
 	var n=a.length;
-	var m=a[0];ma=0;
+	var m=a[0];
+	var ma=0;
 	for(var i=1;i<n;i++)
 	{
 		if(a[i]>m)
@@ -140,8 +141,9 @@ function ranking(a)
 		var ls=ranking(left);
 		var rs=ranking(right);
 		var result=new Array(n);
-		var lp=0;rp=0;
-		for(var i=0;i<n;i++)
+		var lp=0;
+		var rp=0;
+		for(i=0;i<n;i++)
 		{
 			if((rp==right.length)||(lp<left.length&&left[ls[lp]]<right[rs[rp]]))
 			{
@@ -188,7 +190,7 @@ function distrand(n, min, max)
 	var res=new Array(n);
 	for(var i=0;i<max+1-min;i++)
 		list[i]=i+min;
-	for(var i=0;i<n;i++)
+	for(i=0;i<n;i++)
 	{
 		var s=rand(i, max-min);
 		res[i]=list[s];
@@ -224,7 +226,7 @@ function distrandnz(n, min, max)
 		list[i]=i+min;
 		if(a&&list[i]>=0) list[i]++;
 	}
-	for(var i=0;i<n;i++)
+	for(i=0;i<n;i++)
 	{
 		var s=rand(i, max+(a?-1:0)-min);
 		res[i]=list[s];
@@ -258,6 +260,7 @@ function ord(n)
 			return(n+"th");
 		break;
 	}
+	return(n+"th"); // keep jslint happy
 }
 
 // ordinals, using text for anything up to twelfth
@@ -276,6 +279,8 @@ function ordt(n)
 // root object a sqrt(n): reduces itself, write in latex
 function sqroot(n)
 {
+	var that = this;
+	
 	if(n!=Math.floor(n)) alert("non-integer sent to square root");
 	var a=1;
 	for(var i=2;i*i<=n;i++)
@@ -286,39 +291,43 @@ function sqroot(n)
 			a*=i--;
 		}
 	}
-	this.a=a;
-	this.n=n;
-	this.write=function()
+	that.a=a;
+	that.n=n;
+	that.write=function()
 	{
-		if(this.a==1&&this.n==1) return "1";
-		else if(this.a==1) return "\\sqrt{"+this.n+"}";
-		else if(this.n==1) return this.a;
-		else return this.a+"\\sqrt{"+this.n+"}";
-	}
+		if(that.a==1&&that.n==1) return "1";
+		else if(that.a==1) return "\\sqrt{"+that.n+"}";
+		else if(that.n==1) return that.a;
+		else return that.a+"\\sqrt{"+that.n+"}";
+	};
 }
 
 // vector object: can be set manually or randomly, dot product with another vector, its magnitude squared, write it in latex, 
 function vector(dim)
 {
-	this.dim=dim;
-	this.set=function()
+	var that = this;
+	that.dim=dim;
+	that.set=function()
 	{
-		this.dim=this.set.arguments.length;
-		for(var i=0;i<this.dim;i++) this[i]=this.set.arguments[i];
-	}	
-	this.setrand=function(maxentry)
+		that.dim=that.set.arguments.length;
+		for(var i=0;i<that.dim;i++) that[i]=that.set.arguments[i];
+	};
+	
+	that.setrand=function(maxentry)
 	{
-		for(var i=0;i<this.dim;i++) this[i]=Math.round(-maxentry+2*maxentry*Math.random());
-	}
-	this.dot=function(U)
+		for(var i=0;i<that.dim;i++) that[i]=Math.round(-maxentry+2*maxentry*Math.random());
+	};
+	
+	that.dot=function(U)
 	{
-		sum=0;
-		for(var i=0;i<dim;i++) sum+=this[i]*U[i];
+		var sum=0;
+		for(var i=0;i<dim;i++) sum+=that[i]*U[i];
 		return sum;
-	}
-	this.cross=function(U)
+	};
+	
+	that.cross=function(U)
 	{
-		if((this.dim==3)&&(U.dim==3))
+		if((that.dim==3)&&(U.dim==3))
 		{
 			var res=new vector(3);
 			res.set(0, 0, 0);
@@ -329,29 +338,32 @@ function vector(dim)
 					for(var k=0;k<3;k++)
 					{
 						// (axb)i = eijk aj bk
-						res[i]+=epsi(i, j, k)*this[j]*U[k];
+						res[i]+=epsi(i, j, k)*that[j]*U[k];
 					}
 				}
 			}
-			return(res); // = this x U
+			return(res); // = that x U
 		}
 		else
 		{
 			console.log("vector.cross() called on vectors other than 3D");
-			console.log(this);
+			console.log(that);
 			console.log(U);
+			return res; // jslint again
 		}
-	}
-	this.mag=function()
+	};
+	
+	that.mag=function()
 	{
-		return this.dot(this);
-	}
-	this.write=function()
+		return that.dot(that);
+	};
+	
+	that.write=function()
 	{
-		var q="\\left(\\begin{array}{c}"+this[0];
-		for(var i=1;i<this.dim;i++) q=q+"\\\\"+this[i];
+		var q="\\left(\\begin{array}{c}"+that[0];
+		for(var i=1;i<that.dim;i++) q=q+"\\\\"+that[i];
 		return q+"\\end{array}\\right)";
-	}
+	};
 }
 
 // Levi-Civita symbol on {n, n+1, n+2} for n \in Z
@@ -363,19 +375,21 @@ function epsi(i, j, k)
 // square matrix object
 function matrix(dim)
 {
-	this.dim=dim;
-	this.set=function()
+	var that = this;
+	
+	that.dim=dim;
+	that.set=function()
 	{
-		var n=Math.round(Math.sqrt(this.set.arguments.length));
-		if(this.set.arguments.length==n*n)
+		var n=Math.round(Math.sqrt(that.set.arguments.length));
+		if(that.set.arguments.length==n*n)
 		{
-			this.dim=n;
+			that.dim=n;
 			for(var i=0;i<n;i++)
 			{
-				this[i]=new Array(this.dim);
+				that[i]=new Array(that.dim);
 				for(var j=0;j<n;j++)
 				{
-					this[i][j]=this.set.arguments[(i*n)+j];
+					that[i][j]=that.set.arguments[(i*n)+j];
 				}
 			}
 		}
@@ -383,171 +397,172 @@ function matrix(dim)
 		{
 			alert('Non-square number of elements sent to matrix.set()!');
 		}
-	}
-	this.setrand=function(maxentry)
+	};
+	that.setrand=function(maxentry)
 	{
-		for(var i=0;i<this.dim;i++)
+		for(var i=0;i<that.dim;i++)
 		{
-			this[i]=new Array(this.dim);
-			for(var j=0;j<this.dim;j++)
+			that[i]=new Array(that.dim);
+			for(var j=0;j<that.dim;j++)
 			{
-				this[i][j]=Math.round(-maxentry+2*maxentry*Math.random());
+				that[i][j]=Math.round(-maxentry+2*maxentry*Math.random());
 			}
 		}
-	}
-	this.add=function(a)
+	};
+	that.add=function(a)
 	{
-		if(this.dim!=a.dim)
+		var s=new matrix(that.dim);
+		if(that.dim!=a.dim)
 		{
 			alert('Size mismatch matrices sent to matrix.add()!');
 		}
 		else
 		{
-			var s=new matrix(this.dim);
-			for(var i=0;i<this.dim;i++)
+			//var s=new matrix(that.dim);
+			for(var i=0;i<that.dim;i++)
 			{
-				s[i]=new Array(this.dim);
-				for(var j=0;j<this.dim;j++)
+				s[i]=new Array(that.dim);
+				for(var j=0;j<that.dim;j++)
 				{
-					s[i][j]=this[i][j]+a[i][j];
+					s[i][j]=that[i][j]+a[i][j];
 				}
 			}
-			return(s);
 		}
-	}
-	this.times=function(a) // Returns This*A, not A*This (they're different!)
+		return(s);
+	};
+	that.times=function(a) // Returns This*A, not A*This (they're different!)
 	{
-		if(this.dim!=a.dim) // since we only deal in square matrices, they have to be the same size
+		var s=new matrix(that.dim);
+		if(that.dim!=a.dim) // since we only deal in square matrices, they have to be the same size
 		{
 			alert('Size mismatch matrices sent to matrix.times()!');
 		}
 		else
 		{
-			var s=new matrix(this.dim);
-			for(var i=0;i<this.dim;i++)
+			for(var i=0;i<that.dim;i++)
 			{
-				s[i]=new Array(this.dim);
-				for(var j=0;j<this.dim;j++)
+				s[i]=new Array(that.dim);
+				for(var j=0;j<that.dim;j++)
 				{
 					s[i][j]=0;
 				}
 			}
-			for(var i=0;i<this.dim;i++)
+			for(i=0;i<that.dim;i++)
 			{
-				for(var j=0;j<this.dim;j++)
+				for(j=0;j<that.dim;j++)
 				{
-					for(var k=0;k<this.dim;k++)
+					for(var k=0;k<that.dim;k++)
 					{
-						s[i][k]+=this[i][j]*a[j][k]; // (AB)ik=AijBjk
+						s[i][k]+=that[i][j]*a[j][k]; // (AB)ik=AijBjk
 					}
 				}
 			}
-			return(s);
 		}
-	}
-	this.det=function()
+		return(s);
+	};
+	that.det=function()
 	{
 		var res=0;
-		if(this.dim==2)
+		if(that.dim==2)
 		{
-			return(this[0][0]*this[1][1] - this[0][1]*this[1][0]);
+			return(that[0][0]*that[1][1] - that[0][1]*that[1][0]);
 		}
-		else if(this.dim==1)
+		else if(that.dim==1)
 		{
-			return(this[0][0]);
+			return(that[0][0]);
 		}
-		else if(this.dim==0)
+		else if(that.dim==0)
 		{
 			return(1);
 		}
 		else
 		{
 			// Laplace expansion by first row.  It's slow, but it still works (and it's more maintainable than the other, quicker algos.  Besides, we're only going up to 3x3.  It's still bugged though :S
-			for(var i=0;i<this.dim;i++) // which column
+			for(var i=0;i<that.dim;i++) // which column
 			{
-				var minor=new matrix(this.dim-1);
-				for(var j=0;j<this.dim-1;j++)
+				var minor=new matrix(that.dim-1);
+				for(var j=0;j<that.dim-1;j++)
 				{
-					minor[j]=new Array(this.dim-1);
-					for(var k=0;k<this.dim-1;k++)
+					minor[j]=new Array(that.dim-1);
+					for(var k=0;k<that.dim-1;k++)
 					{
-						minor[j][k]=this[j+1][k>=i?k+1:k];
+						minor[j][k]=that[j+1][k>=i?k+1:k];
 					}
 				}
-				res+=minor.det()*(i%2==1?-1:1)*this[0][i];
+				res+=minor.det()*(i%2==1?-1:1)*that[0][i];
 			}
 		}
 		return(res);
-	}
-	this.T=function()
+	};
+	that.T=function()
 	{
-		var res=new matrix(this.dim);
-		for(var i=0;i<this.dim;i++)
+		var res=new matrix(that.dim);
+		for(var i=0;i<that.dim;i++)
 		{
-			res[i]=new Array(this.dim);
-			for(var j=0;j<this.dim;j++)
+			res[i]=new Array(that.dim);
+			for(var j=0;j<that.dim;j++)
 			{
-				res[i][j]=this[j][i];
+				res[i][j]=that[j][i];
 			}
 		}
 		return(res);
-	}
-	this.inv=function()
+	};
+	that.inv=function()
 	{
-		var d=this.det();
+		var d=that.det();
+		var cof=new matrix(that.dim);
 		if(d==0)
 		{
 			alert('Singular matrix sent to matrix.inv()!');
 		}
 		else
 		{
-			if(this.dim==2)
+			if(that.dim==2)
 			{
 				var res=new matrix(2);
-				res.set(this[1][1]/d, -this[0][1]/d, -this[1][0]/d, this[0][0]/d);
+				res.set(that[1][1]/d, -that[0][1]/d, -that[1][0]/d, that[0][0]/d);
 				return(res);
 			}
-			var cof=new matrix(this.dim);
-			for(var i=0;i<this.dim;i++)
+			for(var i=0;i<that.dim;i++)
 			{
-				cof[i]=new Array(this.dim);
-				for(var j=0;j<this.dim;j++)
+				cof[i]=new Array(that.dim);
+				for(var j=0;j<that.dim;j++)
 				{
-					var minor=new matrix(this.dim-1);
-					for(var k=0;k<this.dim-1;k++)
+					var minor=new matrix(that.dim-1);
+					for(var k=0;k<that.dim-1;k++)
 					{
-						minor[k]=new Array(this.dim);
-						for(var l=0;l<this.dim-1;l++)
+						minor[k]=new Array(that.dim);
+						for(var l=0;l<that.dim-1;l++)
 						{
-							minor[k][l]=this[k>=i?k+1:k][l>=j?l+1:l];
+							minor[k][l]=that[k>=i?k+1:k][l>=j?l+1:l];
 						}
 					}
 					cof[i][j]=minor.det()*((i+j)%2==1?-1:1)/d;
 				}
 			}
-			return(cof.T());
 		}
-	}
-	this.tr=function()
+		return(cof.T());
+	};
+	that.tr=function()
 	{
 		var res=0;
-		for(var i=0;i<this.dim;i++)
-			res+=this[i][i];
+		for(var i=0;i<that.dim;i++)
+			res+=that[i][i];
 		return(res);
-	}
-	this.write=function(l)
+	};
+	that.write=function(l)
 	{
 		if(typeof(l)=='undefined')
 			l=["(",")"];
-		var res="\\left"+l[0]+"\\begin{array}{"+"c".repeat(this.dim)+"}";
-		for(var i=0;i<this.dim;i++)
+		var res="\\left"+l[0]+"\\begin{array}{"+"c".repeat(that.dim)+"}";
+		for(var i=0;i<that.dim;i++)
 		{
-			for(var j=0;j<this.dim;j++)
+			for(var j=0;j<that.dim;j++)
 			{
-				res+=guessExact(this[i][j]);
-				if(j==this.dim-1)
+				res+=guessExact(that[i][j]);
+				if(j==that.dim-1)
 				{
-					if(i==this.dim-1)
+					if(i==that.dim-1)
 					{
 						res+="\\end{array}\\right"+l[1];
 					}
@@ -563,10 +578,10 @@ function matrix(dim)
 			}
 		}
 		return(res);
-	}
-}
+	};
+};
 
 String.prototype.repeat = function(num)
 {
     return(new Array(num+1).join(this));
-}
+};

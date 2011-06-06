@@ -28,82 +28,88 @@ function fbcoeff(f, t)
 // Polynomial over Q
 function fpoly(rank)
 {
-	this.rank=rank;
-	this.terms=function()
+	var that = this;
+	
+	that.rank=rank;
+	that.terms=function()
 	{
 		var n=0;
-		for(var i=0;i<=this.rank;i++) if(this[i]) n++;
+		for(var i=0;i<=that.rank;i++) {
+			if(that[i]) {
+				n++;
+			}
+		}
 		return n;
-	}
-	this.set=function()
+	};
+	that.set=function()
 	{
-		this.rank=this.set.arguments.length-1;
-		for(var i=0;i<=this.rank;i++) this[i]=this.set.arguments[i];
-	}
-	this.setrand=function(maxentry)
+		that.rank=that.set.arguments.length-1;
+		for(var i=0;i<=that.rank;i++) that[i]=that.set.arguments[i];
+	};
+	that.setrand=function(maxentry)
 	{
-		for(var i=0;i<=this.rank;i++) this[i]=randfrac(12);
-		if(this[this.rank].top==0) this[this.rank].top=maxentry;
-		this[this.rank].reduce();
-	}
-	this.setpoly=function(a) // set from a poly (over Z) object
+		for(var i=0;i<=that.rank;i++) that[i]=randfrac(12);
+		if(that[that.rank].top==0) that[that.rank].top=maxentry;
+		that[that.rank].reduce();
+	};
+	that.setpoly=function(a) // set from a poly (over Z) object
 	{
-		this.rank=a.rank;
-		for(var i=0;i<=this.rank;i++) this[i]=new frac(a[i], 1);
-	}
-	this.compute=function(x)
+		that.rank=a.rank;
+		for(var i=0;i<=that.rank;i++) that[i]=new frac(a[i], 1);
+	};
+	that.compute=function(x)
 	{
 		if(typeof(x)!='frac')
 			x=new frac(x, 1);
 		var y=new frac(0, 1);
-		for(var i=0;i<=this.rank;i++)
-			y.add(this[i].top*Math.pow(x.top, i), this[i].bot*Math.pow(x.bot, i));
+		for(var i=0;i<=that.rank;i++)
+			y.add(that[i].top*Math.pow(x.top, i), that[i].bot*Math.pow(x.bot, i));
 		y.reduce();
 		return y;
-	}
-	this.gcd=function()
+	};
+	that.gcd=function()
 	{
 		var g=frac(0, 1);
-		for(var i=0;i<this.rank;i++) g.bot*=this[i].bot;
-		var a=this[this.rank].top*g.bot/this[this.rank].bot;
-		for(var i=0;i<this.rank;i++) a=gcd(a, this[i].top*g.bot/this[i].bot);
+		for(var i=0;i<that.rank;i++) g.bot*=that[i].bot;
+		var a=that[that.rank].top*g.bot/that[that.rank].bot;
+		for(var i=0;i<that.rank;i++) a=gcd(a, that[i].top*g.bot/that[i].bot);
 		g.reduce();
 		return g;
-	}
-	this.xthru=function(x)
+	};
+	that.xthru=function(x)
 	{
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			this[i].prod(x);
+			that[i].prod(x);
 		}
-	}
-	this.diff=function(d)
+	};
+	that.diff=function(d)
 	{
 		d.rank=rank-1;
-		for(var i=0;i<this.rank;i++)
+		for(var i=0;i<that.rank;i++)
 		{
-			d[i]=this[i+1];
+			d[i]=that[i+1];
 			d[i].prod(frac(i+1, 1));
 		}
-	}
-	this.integ=function(d)
+	};
+	that.integ=function(d)
 	{
-		d.rank=this.rank+1;
+		d.rank=that.rank+1;
 		d[0]=new frac();
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			d[i+1]=this[i];
+			d[i+1]=that[i];
 			d[i+1].bot*=(i+1);
 			d[i+1].reduce();
 		}
-	}
-	this.write=function()
+	};
+	that.write=function()
 	{
 		var q="";
 		var j=false;
-		for(var i=this.rank;i>=0;i--)
+		for(var i=that.rank;i>=0;i--)
 		{
-			var val=this[i].top/this[i].bot;
+			var val=that[i].top/that[i].bot;
 			if(val<0)
 			{
 				if(j) q+=' ';
@@ -117,7 +123,7 @@ function fpoly(rank)
 			}
 			if(val)
 			{
-				var a=new frac(Math.abs(this[i].top), this[i].bot);
+				var a=new frac(Math.abs(that[i].top), that[i].bot);
 				switch(i)
 				{
 					case 0:
@@ -141,14 +147,14 @@ function fpoly(rank)
 			}
 		}
 		return q;
-	}
-	this.rwrite=function()
+	};
+	that.rwrite=function()
 	{
 		var q="";
 		var j=false;
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			var val=this[i].top/this[i].bot;
+			var val=that[i].top/that[i].bot;
 			if(val<0)
 			{
 				if(j) q+=' ';
@@ -162,7 +168,7 @@ function fpoly(rank)
 			}
 			if(val)
 			{
-				var a=new frac(Math.abs(this[i].top), this[i].bot);
+				var a=new frac(Math.abs(that[i].top), that[i].bot);
 				switch(i)
 				{
 					case 0:
@@ -186,5 +192,5 @@ function fpoly(rank)
 			}
 		}
 		return q;
-	}
+	};
 }

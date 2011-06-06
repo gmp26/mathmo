@@ -56,106 +56,106 @@
 */
 function guessExact(x)
 {
-	var n=proxInt(x)
+	var n=proxInt(x);
 	if(n[0])
 		return(n[1]);
 	for(var s=1;s<18;s++)
 	{
 		for(var i=2;i<=(3+2*s);i++)
 		{
-			var n=proxInt(x*i);
+			n=proxInt(x*i);
 			if(n[0])
 			{
 				var top=n[1];
 				var bot=i;
-				var c=gcd(top, bot)
+				var c=gcd(top, bot);
 				top/=c;
 				bot/=c;
 				return((x<0?"-":"")+"\\frac{"+Math.abs(top)+"}{"+bot+"}");
 			}
 		}
-		var n=proxInt(Math.pow(x, 2))
+		n=proxInt(Math.pow(x, 2));
 		if(n[0] && (n[1]<s*10))
 		{
 			var v=new sqroot(n[1]);
 			return((x<0?"-":"")+v.write());
 		}
-		for(var i=2;i<(2+s);i++)
+		for(i=2;i<(2+s);i++)
 		{
-			var n=proxInt(Math.pow(x*i, 2))
+			n=proxInt(Math.pow(x*i, 2));
 			if(n[0] && (n[1]<s*10))
 			{
-				var v=new sqroot(n[1]);
+				v=new sqroot(n[1]);
 				return((x<0?"-":"")+"\\frac{"+v.write()+"}{"+i+"}");
 			}
 		}
 		for(var j=1;j<1+(3*s);j++)
 		{
-			var n=proxInt(Math.pow(x-j, 2))
+			n=proxInt(Math.pow(x-j, 2));
 			if(n[0] && (n[1]<s*10))
 			{
-				var v=new sqroot(n[1]);
+				v=new sqroot(n[1]);
 				return("\\left\("+j+((x-j)<0?"-":"+")+v.write()+"\\right)");
 			}
-			var n=proxInt(Math.pow(x+j, 2))
+			n=proxInt(Math.pow(x+j, 2));
 			if(n[0] && (n[1]<s*10))
 			{
-				var v=new sqroot(n[1]);
+				v=new sqroot(n[1]);
 				return("\\left(-"+j+((x+j)<0?"-":"+")+v.write()+"\\right)");
 			}
 		}
 		for(var k=2;k<=(2+(2*s));k++)
 		{
-			for(var j=1;j<(2+(2*s));j++)
+			for(j=1;j<(2+(2*s));j++)
 			{
-				var n=proxInt(Math.pow((x-(j/k)), 2))
+				n=proxInt(Math.pow((x-(j/k)), 2));
 				if(n[0] && (n[1]<s*10))
 				{
-					var v=new sqroot(n[1]);
+					v=new sqroot(n[1]);
 					return("\\left\(\\frac{"+j+"}{"+k+"}"+((x-(j/k))<0?"-":"+")+v.write()+"\\right)");
 				}
-				var n=proxInt(Math.pow((x+(j/k)), 2))
+				n=proxInt(Math.pow((x+(j/k)), 2));
 				if(n[0] && (n[1]<s*10))
 				{
-					var v=new sqroot(n[1]);
+					v=new sqroot(n[1]);
 					return("\\left(-\\frac{"+j+"}{"+k+"}"+((x+(j/k))<0?"-":"+")+v.write()+"\\right)");
 				}
 			}
 		}
-		for(var i=2;i<s;i++)
+		for(i=2;i<s;i++)
 		{
-			for(var j=1;j<3+(2*s);j++)
+			for(j=1;j<3+(2*s);j++)
 			{
-				var n=proxInt(Math.pow((x-j)*i, 2))
+				n=proxInt(Math.pow((x-j)*i, 2));
 				if(n[0] && (n[1]<s*10))
 				{
-					var v=new sqroot(n[1]);
+					v=new sqroot(n[1]);
 					return("\\left\("+j+((x-j)<0?"-":"+")+"\\frac{"+v.write()+"}{"+i+"}\\right)");
 				}
-				var n=proxInt(Math.pow((x+j)*i, 2))
+				n=proxInt(Math.pow((x+j)*i, 2));
 				if(n[0] && (n[1]<s*10))
 				{
-					var v=new sqroot(n[1]);
+					v=new sqroot(n[1]);
 					return("\\left(-"+j+((x+j)<0?"-":"+")+"\\frac{"+v.write()+"}{"+i+"}\\right)");
 				}
 			}
 		}
-		for(var i=2;i<s;i++)
+		for(i=2;i<s;i++)
 		{
-			for(var k=2;k<2+(2*s);k++)
+			for(k=2;k<2+(2*s);k++)
 			{
-				for(var j=1;j<1+(2*s);j++)
+				for(j=1;j<1+(2*s);j++)
 				{
-					var n=proxInt(Math.pow((x-(j/k))*i, 2))
+					n=proxInt(Math.pow((x-(j/k))*i, 2));
 					if((n[0] && (n[1]<s*10)) && (Math.sqrt(n[1])!=Math.floor(Math.sqrt(n[1]))))
 					{
-						var v=new sqroot(n[1]);
+						v=new sqroot(n[1]);
 						return("\\left\(\\frac{"+j+"}{"+k+"}"+((x-(j/k))<0?"-":"+")+"\\frac{"+v.write()+"}{"+i+"}\\right)");
 					}
-					var n=proxInt(Math.pow((x+(j/k))*i, 2))
+					n=proxInt(Math.pow((x+(j/k))*i, 2));
 					if((n[0] && (n[1]<s*10)) && (Math.sqrt(n[1])!=Math.floor(Math.sqrt(n[1]))))
 					{
-						var v=new sqroot(n[1]);
+						v=new sqroot(n[1]);
 						return("\\left(-\\frac{"+j+"}{"+k+"}"+((x+(j/k))<0?"+":"-")+"\\frac{"+v.write()+"}{"+i+"}\\right)");
 					}
 				}

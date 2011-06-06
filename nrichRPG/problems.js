@@ -10,7 +10,7 @@ function makePartial()
 	function makePartial1()
 	{
 		var a=randnz(8);
-		var b=new poly(1);b.setrand(8)
+		var b=new poly(1);b.setrand(8);
 		if(b[1]<0)
 		{
 			b.xthru(-1);
@@ -23,7 +23,7 @@ function makePartial()
 			a/=e;
 		}
 		var c=randnz(8);
-		var d=new poly(1);d.setrand(8)
+		var d=new poly(1);d.setrand(8);
 		if(d[1]<0)
 		{
 			d.xthru(-1);
@@ -101,20 +101,20 @@ function makePolyInt()
 	var A=rand(-3,2);
 	var B=rand(A+1,3);
 	
-	a=new poly(3);
+	var a=new poly(3);
 	a.setrand(6);
-	b=new fpoly(3);
+	var b=new fpoly(3);
 	b.setpoly(a);
-	c=new fpoly(4);
+	var c=new fpoly(4);
 	b.integ(c);
 	
-	qString="Evaluate$$\\int_\{"+A+"\}^\{"+B+"\}"+a.write()+"\\,\\mathrm{d}x$$";
+	var qString="Evaluate$$\\int_\{"+A+"\}^\{"+B+"\}"+a.write()+"\\,\\mathrm{d}x$$";
 	var hi=c.compute(B);
 	var lo=c.compute(A);
 	lo.prod(-1);
-	ans=new frac(hi.top, hi.bot);
+	var ans=new frac(hi.top, hi.bot);
 	ans.add(lo.top, lo.bot);
-	aString="$$"+ans.write()+"$$";
+	var aString="$$"+ans.write()+"$$";
 	
 	var qa = [qString, aString];
 	return qa;
@@ -129,14 +129,14 @@ function makeTrigInt()
 	var B=b?randnz(4):0;
 	var U=pickrand(2,3,4,6);
 
-	term1=a?ascoeff(A)+"\\sin\{"+ascoeff(a)+"x\}":"";
-	term2=b?abscoeff(B)+"\\cos\{"+ascoeff(b)+"x\}":"";
+	var term1=a?ascoeff(A)+"\\sin\{"+ascoeff(a)+"x\}":"";
+	var term2=b?abscoeff(B)+"\\cos\{"+ascoeff(b)+"x\}":"";
 
-	qString="Evaluate$$\\int_\{0\}^\{\\pi/"+U+"\}"+(a?b?term1+(B>0?" + ":" - ")+term2:term1:(B<0?"-":"")+term2)+"\\,\\mathrm{d}x$$";
+	var qString="Evaluate$$\\int_\{0\}^\{\\pi/"+U+"\}"+(a?b?term1+(B>0?" + ":" - ")+term2:term1:(B<0?"-":"")+term2)+"\\,\\mathrm{d}x$$";
 
-	soln1=new Array(6);
-	soln2=new Array(6);
-	soln=new Array(6);
+	var soln1=new Array(6);
+	var soln2=new Array(6);
+	var soln=new Array(6);
 
 	if(a)
 	{
@@ -175,12 +175,12 @@ function makeTrigInt()
 		}
 		if(soln[i])
 		{
-			c=gcd(Math.abs(soln[i]),soln[i+1]);
+			var c=gcd(Math.abs(soln[i]),soln[i+1]);
 			soln[i]/=c;
 			soln[i+1]/=c;
 		}
 	} 
-	aString="$$";
+	var aString="$$";
 	if(soln[0]&&soln[1]==1) aString+=soln[0];
 	else if(soln[0]>0) aString+="\\frac\{"+soln[0]+"\}\{"+soln[1]+"\}";
 	else if(soln[0]<0) aString+="-\\frac\{"+(-soln[0])+"\}\{"+soln[1]+"\}";
@@ -206,14 +206,14 @@ function makeVector()
 	{
 		return String.fromCharCode(n+"A".charCodeAt(0));
 	}
-	A=new Array(4);
+	var A=new Array(4);
 	for(var i=0;i<4;i++)
 	{
 		A[i]=new vector(3);
 		A[i].setrand(10);
 	}	
-	B=new Array(0,1,2,3);
-	for(var i=0;i<3;i++)
+	var B=new Array(0,1,2,3);
+	for(i=0;i<3;i++)
 	{
 		if(A[B[i]].mag()<A[B[i+1]].mag())
 		{
@@ -234,20 +234,20 @@ function makeVector()
 	qString += "<ol style=\"list-style-type:lower-alpha\"><li>\\(\\mathbf{" + ntol(v[0]) + "}\\) and \\(\\mathbf{" + ntol(v[1]) + "}\\),</li>";
 	qString += "<li>\\(\\mathbf{" + ntol(v[1]) + "}\\) and \\(\\mathbf{" + ntol(v[2]) + "}\\)</li></ol></ol>";
 	
-	aString = "<ol style=\"list-style-type:lower-roman\"><li>";
+	var aString = "<ol style=\"list-style-type:lower-roman\"><li>";
 	aString += "\\(|\\mathbf{" + ntol(B[0]) + "}|=\\sqrt{" + A[B[0]].mag();
 	aString += "}, |\\mathbf{" + ntol(B[1]) + "}|=\\sqrt{" + A[B[1]].mag();
 	aString += "},\\)<br>\\( |\\mathbf{" + ntol(B[2]) + "}|=\\sqrt{" + A[B[2]].mag();
 	aString += "}, |\\mathbf{" + ntol(B[3]) + "}|=\\sqrt{" + A[B[3]].mag();
 	aString += "}\\).</li>";
 
-	top1=A[v[0]].dot(A[v[1]]);
-	bot1=new sqroot(A[v[0]].mag()*A[v[1]].mag());
-	var c=gcd(Math.abs(top1),bot1.a);
+	var top1=A[v[0]].dot(A[v[1]]);
+	var bot1=new sqroot(A[v[0]].mag()*A[v[1]].mag());
+	c=gcd(Math.abs(top1),bot1.a);
 	top1/=c;
 	bot1.a/=c;
-	top2=A[v[1]].dot(A[v[2]]);
-	bot2=new sqroot(A[v[1]].mag()*A[v[2]].mag());
+	var top2=A[v[1]].dot(A[v[2]]);
+	var bot2=new sqroot(A[v[1]].mag()*A[v[2]].mag());
 	c=gcd(Math.abs(top2),bot2.a);
 	top2/=c;
 	bot2.a/=c;
@@ -358,21 +358,26 @@ function makeLines()
 		e2=rand(3);
 		f2=rand(3);
 	}
-	p1=new poly(1);p1[0]=d1;p1[1]=a1;
-	q1=new poly(1);q1[0]=e1;q1[1]=b1;
-	r1=new poly(1);r1[0]=f1;r1[1]=c1;
-	p2=new poly(1);p2[0]=d2;p2[1]=a2;
-	q2=new poly(1);q2[0]=e2;q2[1]=b2;
-	r2=new poly(1);r2[0]=f2;r2[1]=c2;
+	var p1=new poly(1);p1[0]=d1;p1[1]=a1;
+	var q1=new poly(1);q1[0]=e1;q1[1]=b1;
+	var r1=new poly(1);r1[0]=f1;r1[1]=c1;
+	var p2=new poly(1);p2[0]=d2;p2[1]=a2;
+	var q2=new poly(1);q2[0]=e2;q2[1]=b2;
+	var r2=new poly(1);r2[0]=f2;r2[1]=c2;
 	var eqn1=p1.write('x')+"="+q1.write('y')+"="+r1.write('z');
 	var eqn2=p2.write('x')+"="+q2.write('y')+"="+r2.write('z');
 
-	qString="Consider the lines$$"+eqn1+"$$and$$"+eqn2+"$$Find the angle between them<br>and determine whether they<br>intersect.";
-
+	var qString="Consider the lines$$"+eqn1+"$$and$$"+eqn2+"$$Find the angle between them<br>and determine whether they<br>intersect.";
+	var aString = "";
+	
 	if(a1*b2==b1*a2&&b1*c2==c1*b2)
 	{
-		if(a2*b2*d1-b2*a1*d2==a2*b2*e1-a2*b1*e2&&b2*c2*e1-c2*b1*e2==b2*c2*f1-b2*c1*f2) aString="\\mbox{The lines are identical.}";
-		else aString="The lines are parallel and do not meet.";
+		if(a2*b2*d1-b2*a1*d2==a2*b2*e1-a2*b1*e2&&b2*c2*e1-c2*b1*e2==b2*c2*f1-b2*c1*f2) {
+			aString="\\mbox{The lines are identical.}";
+		}
+		else {
+			aString="The lines are parallel and do not meet.";
+		}
 	}
 
 	else
@@ -387,7 +392,7 @@ function makeLines()
 			aString+="\\arccos\\left(";
 			if(cosbot.n==1) aString+=costh.write();
 			else aString+="\\frac{"+costh.top+"}{"+cosbot.write()+"}";
-			aString+="\\right).$$"
+			aString+="\\right).$$";
 		}
 		mu=new frac();
 		lam1=new frac();
@@ -409,7 +414,7 @@ function makeLines()
 			xm=new frac(lam1.top-d1*lam1.bot,a1*lam1.bot);
 			ym=new frac(lam1.top-e1*lam1.bot,b1*lam1.bot);
 			zm=new frac(lam1.top-f1*lam1.bot,c1*lam1.bot);
-			aString+="The lines meet at the point$$left("+xm.write()+","+ym.write()+","+zm.write()+"\\right).$$";
+			aString+="The lines meet at the point$$\\left("+xm.write()+","+ym.write()+","+zm.write()+"\\right).$$";
 		}
 		else aString+="The lines do not meet.";
 	}
@@ -491,8 +496,8 @@ function makeAP()
 	var m=rand(2,6);
 	var n=rand(m+2,11);
 	var k=rand(Math.max(n+3,10),40);
-	a1=new frac();
-	a2=new frac();
+	var a1=new frac();
+	var a2=new frac();
 	var qString="An arithmetic progression has "+ordt(m)+" term \\(\\alpha\\) and "+ordt(n)+" term \\(\\beta\\). Find the ";
 	if(rand()==0)
 	{ 
@@ -502,7 +507,7 @@ function makeAP()
 	}
 	else
 	{
-		qString+="value of the \\("+ordt(k)+"\\) term."
+		qString+="value of the \\("+ordt(k)+"\\) term.";
 		a1.set(n-k,n-m);
 		a2.set(k-m,n-m);
 	}
@@ -570,7 +575,7 @@ function makeQuadratic()
 	if(rand())
 	{
 		var p=new poly(2);
-		p.setrand(5)
+		p.setrand(5);
 		p[2]=1;
 		qString+=p.write();
 		dcr=p[1]*p[1]-4*p[0];
@@ -580,12 +585,12 @@ function makeQuadratic()
 		}
 		else if(dcr==0)
 		{
-			r1=new frac(-p[1],2);
+			var r1=new frac(-p[1],2);
 			aString="$$x="+r1.write()+"$$is a repeated root.";
 		}
 		else
 		{
-			disc=new sqroot(dcr);
+			var disc=new sqroot(dcr);
 			r1=new frac(-p[1],2);
 			if(disc.n==1)
 			{
@@ -596,7 +601,7 @@ function makeQuadratic()
 			}
 			else
 			{
-				r2=new frac(disc.a,2);
+				var r2=new frac(disc.a,2);
 				aString="$$x="+(r1.top?r1.write():"")+"\\pm";
 				if((r2.top!=1)||(r2.bot!=1)) aString+=r2.write();
 				aString+="\\sqrt{"+disc.n+"}$$";
@@ -606,7 +611,7 @@ function makeQuadratic()
 	else
 	{
 		var roots=distrandnz(2, 5);
-		var p=new poly(2);
+		p=new poly(2);
 		p[2]=1;p[1]=-roots[0]-roots[1];p[0]=roots[0]*roots[1];
 		qString+=p.write();
 		aString="$$x="+roots[0]+"\\mbox{ and }x="+roots[1]+"$$";
@@ -651,7 +656,7 @@ function makeBinExp()
 	var b=randnz(2);
 	var n=rand(2,5);
 	var m=rand(1,n-1);
-	pow=new frac(m,n);
+	var pow=new frac(m,n);
 	var p=new fpoly(1);
 	p[0]=new frac(1,1);p[1]=new frac(b,a);
 	var qString="Find the first four terms in the expansion of $$\\left("+p.rwrite()+"\\right)^{"+pow.write()+"}$$";
@@ -677,7 +682,7 @@ function makeLog()
 		var m=rand(1,4);
 		var n=rand(1,4);if(n>=m) n++;
 		var qString="If \\("+Math.pow(a,m)+"="+Math.pow(a,n)+"^{x}\\) find \\(x\\).";
-		r=new frac(m,n);
+		var r=new frac(m,n);
 		var aString="$$x="+r.write()+"$$";
 		var qa=[qString,aString];
 		return qa;
@@ -697,7 +702,7 @@ function makeLog()
 		var a=rand(2,7);
 		var b=Math.floor(Math.pow(a,7*Math.random()));
 		var qString="If \\("+a+"^{x}="+b+"\\), find \\(x\\) to three decimal places.";
-		c=new Number(Math.log(b)/Math.log(a));
+		var c=new Number(Math.log(b)/Math.log(a));
 		var aString="$$x="+c.toFixed(3)+"$$";
 		var qa=[qString,aString];
 		return qa;
@@ -728,7 +733,7 @@ function makeStationary()
 	{
 		var p=new poly(2);
 		p.set(randnz(4), randnz(8), randnz(4));
-		d=new frac(-p[1],2*p[2]);
+		var d=new frac(-p[1],2*p[2]);
 		var qString="Find the stationary point of $$y="+p.write()+",$$ and state whether it is a maximum or a minimum.";
 		var aString="\\(x="+d.write()+"\\),";
 		if(p[2]>0) aString+=" minimum.";
@@ -776,7 +781,7 @@ function makeTriangle()
 		var m=distrand(3, 0, 2);
 		var s=["AB", "BC", "CA"];
 		var hyp=s[m[0]];
-		var short=s[m[1]];
+		var shortv=s[m[1]];
 		var other=s[m[2]];
 		var angle;
 		switch(hyp) {
@@ -790,8 +795,8 @@ function makeTriangle()
 				angle="B";
 				break;
 		}
-		var qString="In triangle \\(ABC, "+short+"="+a+","+hyp+"="+b+",\\) and angle \\("+angle+"\\) is a right angle. Find \\("+other+"\\).";
-		length=new sqroot(b*b-a*a);
+		var qString="In triangle \\(ABC, "+shortv+"="+a+","+hyp+"="+b+",\\) and angle \\("+angle+"\\) is a right angle. Find \\("+other+"\\).";
+		var length=new sqroot(b*b-a*a);
 		var aString="$$"+other+"="+length.write()+"$$";
 		var qa=[qString,aString];
 		return qa;
@@ -802,9 +807,9 @@ function makeTriangle()
 		var b=rand(1,6);
 		var c=rand(Math.max(a,b)-Math.min(a,b)+1,a+b-1);
 		var qString="In triangle \\(ABC, AB="+c+",BC="+a+",\\) and \\(CA="+b+".\\) Find the angles of the triangle.";
-		aa=new frac(b*b+c*c-a*a,2*b*c);
-		bb=new frac(c*c+a*a-b*b,2*c*a);
-		cc=new frac(a*a+b*b-c*c,2*a*b);
+		var aa=new frac(b*b+c*c-a*a,2*b*c);
+		var bb=new frac(c*c+a*a-b*b,2*c*a);
+		var cc=new frac(a*a+b*b-c*c,2*a*b);
 		var aString="$$\\cos A="+aa.write()+",\\cos B="+bb.write()+",\\cos C="+cc.write()+".$$";
 		var qa=[qString,aString];
 		return qa;
@@ -813,10 +818,10 @@ function makeTriangle()
 	{
 		var a=rand(1,6);
 		var cc=pickrand(3,4,6);
-		var lb=a*Math.ceil(Math.sin(Math.PI/cc))
+		var lb=a*Math.ceil(Math.sin(Math.PI/cc));
 		var c=rand(lb, Math.max(5, lb+1));
 		var qString="In triangle \\(ABC, AB="+c+", BC="+a+"\\) and angle \\(C=\\frac{\\pi}{"+cc+"}. \\) Find angle \\(A\\).";
-		d=new frac(a,2*c);
+		var d=new frac(a,2*c);
 		var aString="$$A=\\arcsin\\left("+d.write();
 		if(cc==3) aString+="\\sqrt{3}";
 		else if(cc==4) aString+="\\sqrt{2}";
@@ -849,14 +854,14 @@ function makeCircle()
 	var r=rand(2,8);
 	var bot=rand(2,9);
 	var top=rand(1,2*bot-1);
-	prop=new frac(top,bot);
+	var prop=new frac(top,bot);
 	var qString="Find, for a sector of angle \\(";
 	qString += ((prop.bot===1) ? 
 		(ascoeff(prop.top)+"\\pi") :
 		("\\frac{" + ascoeff(prop.top) + "\\pi}{" + prop.bot + "}"));
 	qString += "\\) of a disc of radius \\(" + r + ":\\)<br>i. the length of the perimeter; and<br>ii. the area.";
-	length=new frac(prop.top*r,prop.bot);
-	area=new frac(prop.top*r*r,2*prop.bot);
+	var length=new frac(prop.top*r,prop.bot);
+	var area=new frac(prop.top*r*r,2*prop.bot);
 	var aString="i. \\("+(r*2)+"+"+length.write()+"\\pi\\)<br>ii. \\("+area.write()+"\\pi\\)";
 	var qa=[qString,aString];
 	return qa;
@@ -870,7 +875,7 @@ function makeSolvingTrig()
 //	}
 	var A=pickrand(1,3,4,5);
 	var alpha=pickrand(3,4,6);
-	c=new frac(A,2);
+	var c=new frac(A,2);
 	
 	var qString="Write $$"+c.write();
 	if(alpha==6) qString+="\\sqrt{3}";
@@ -886,12 +891,12 @@ function makeSolvingTrig()
 
 function makeVectorEq()
 {
-	a=new vector(3);
+	var a=new vector(3);
 	a.setrand(6);
-	b=new vector(3);
+	var b=new vector(3);
 	b.setrand(6);
-	l=distrand(3, 5);
-	v=new Array(3);
+	var l=distrand(3, 5);
+	var v=new Array(3);
 	for(var i=0;i<3;i++)
 	{
 		v[i]=new vector(3);
@@ -925,35 +930,35 @@ function makeImplicit()
 		var t=randnz(3);
 		while((c1*t+d1)==0||(c2*t+d2)==0) (t>0?t++:t--);
 		var qString="If $$y=\\frac{"+p_linear(a1, b1).write('t')+"}{"+p_linear(c1, d1).write('t')+"}$$ and $$x=\\frac{"+p_linear(a2, b2).write('t')+"}{"+p_linear(c2, d2).write('t')+"},$$find \\(\\frac{dy}{dx}\\) when \\(t="+t+"\\)";
-		a=new frac((a1*d1-b1*c1)*(c2*t+d2)*(c2*t+d2), (a2*d2-b2*c2)*(c1*t+d1)*(c1*t+d1));
+		var a=new frac((a1*d1-b1*c1)*(c2*t+d2)*(c2*t+d2), (a2*d2-b2*c2)*(c1*t+d1)*(c1*t+d1));
 		var aString="$$"+a.write()+"$$";
 		var qa=[qString,aString];
 		return qa;
 	}
 	else
 	{
-		fns=new Array("\\ln(z)", "e^{z}", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
-		difs=new Array("\\frac{1}{z}", "e^{z}", "-\\csc(z)\\cot(z)", "\\sec(z)\\tan(z)", "\\cos(z)", "\\sec^2(z)", "-\\sin(z)");
+		var fns=new Array("\\ln(z)", "e^{z}", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
+		var difs=new Array("\\frac{1}{z}", "e^{z}", "-\\csc(z)\\cot(z)", "\\sec(z)\\tan(z)", "\\cos(z)", "\\sec^2(z)", "-\\sin(z)");
 		var which=distrand(2, 0, 6);
 		var p=new poly(rand(1, 3));
 		p.setrand(3);
 		var q=new poly(1);p.diff(q);
-		var qString="If $$y+"+fns[which[0]].replace(/z/g, 'y')+"="+fns[which[1]].replace(/z/g, 'x')+(p[p.rank]>0?"+":"")+p.write('x')+",$$ find \\(\\frac{dy}{dx}\\) in terms of \\(y\\) and \\(x\\).";
-		var aString="$$\\frac{dy}{dx} = \\frac{"+difs[which[1]].replace(/z/g, 'x')+(q[q.rank]>0?"+":"")+q.write('x')+"}{"+difs[which[0]].replace(/z/g, 'y')+"+1}$$";
-		var qa=[qString,aString];
+		qString="If $$y+"+fns[which[0]].replace(/z/g, 'y')+"="+fns[which[1]].replace(/z/g, 'x')+(p[p.rank]>0?"+":"")+p.write('x')+",$$ find \\(\\frac{dy}{dx}\\) in terms of \\(y\\) and \\(x\\).";
+		aString="$$\\frac{dy}{dx} = \\frac{"+difs[which[1]].replace(/z/g, 'x')+(q[q.rank]>0?"+":"")+q.write('x')+"}{"+difs[which[0]].replace(/z/g, 'y')+"+1}$$";
+		qa=[qString,aString];
 		return qa;
 	}
 }
 
 function makeChainRule()
 {
-	fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
-	difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
-	even=new Array(-1, 1, -1, 1, 1, -1);
+	var fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
+	var difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
+	var even=new Array(-1, 1, -1, 1, 1, -1);
 	var which=rand(0, 5);
-	a=new poly(rand(1, 3));
+	var a=new poly(rand(1, 3));
 	a.setrand(8);
-	b=new poly(0);
+	var b=new poly(0);
 	a.diff(b);
 	var qString="Differentiate \\("+fns[which].replace(/z/g, a.write())+"\\)";
 	if(difs[which].charAt(0)=='-')
@@ -986,13 +991,13 @@ function makeChainRule()
 
 function makeProductRule()
 {
-	fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
-	difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
-	even=new Array(-1, 1, -1, 1, 1, -1);
+	var fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
+	var difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
+	var even=new Array(-1, 1, -1, 1, 1, -1);
 	var which=rand(0, 5);
-	a=new poly(rand(1, 3));
+	var a=new poly(rand(1, 3));
 	a.setrand(8);
-	b=new poly(0);
+	var b=new poly(0);
 	a.diff(b);
 	var qString="Differentiate $$";
 	if(a.terms()>1)
@@ -1041,16 +1046,16 @@ function makeProductRule()
 
 function makeQuotientRule()
 {
-	fns=new Array("\\sin(z)", "\\tan(z)", "\\cos(z)");
-	difs=new Array("\\csc(z)\\cot(z)", "\\csc^2(z)", "\\sec(z)\\tan(z)");
-	even=new Array(1, 1, -1);
+	var fns=new Array("\\sin(z)", "\\tan(z)", "\\cos(z)");
+	var difs=new Array("\\csc(z)\\cot(z)", "\\csc^2(z)", "\\sec(z)\\tan(z)");
+	var even=new Array(1, 1, -1);
 	var which=rand(0, 2);
 	var a=randnz(8);
-	b=new poly(2);
+	var b=new poly(2);
 	b.setrand(8);
 	// D(a/f.b = (f.b*Da)+(a*D{f.b})/(f*f).b = a*b'*f'.b/(f*f).b
 	var qString="Differentiate $$\\frac{"+a+"}{"+fns[which].replace(/z/g, b.write())+"}$$";
-	c=new poly(1);
+	var c=new poly(1);
 	b.diff(c);
 	c.xthru(a);
 	if(b[b.rank]<0)
@@ -1108,18 +1113,18 @@ function makeGP()
 	}
 	else
 	{
-		var a=randnz(8);
-		var b=rand(1, 6);
-		var c=rand(b+1, 12);
+		a=randnz(8);
+		b=rand(1, 6);
+		c=rand(b+1, 12);
 		if(rand()) b=-b;
 		var r=new frac(b, c);
 		r.reduce();
-		var qString = "Evaluate$$\\sum_{r=0}^{\\infty} "+(a==1?"":a==-1?"-":a+"\\times")+"\\left("+r.write()+"\\right)^{r}$$";
+		qString = "Evaluate$$\\sum_{r=0}^{\\infty} "+(a==1?"":a==-1?"-":a+"\\times")+"\\left("+r.write()+"\\right)^{r}$$";
 		// Sum is a/(1-r)
 		r.prod(-1);
 		r.add(1);
-		var ans=new frac(a*r.bot, r.top);
-		var aString = '$$'+ans.write()+'$$';
+		ans=new frac(a*r.bot, r.top);
+		aString = '$$'+ans.write()+'$$';
 	}
 	var qa=[qString,aString];
 	return qa;
@@ -1129,16 +1134,15 @@ function makeModulus()
 {
 	var parms=0;
 	var fn=0;
-	var data="";
+	var data=[];
 	if(rand())
 	{
 		var a=randnz(4);
 		var aa=Math.abs(a);
 		var l=rand(-aa-6, -aa-2);
 		var r=rand(aa+2, aa+6);
-		var data=[];
-		qString="Sketch the graph of \\(|"+a+"-|x||\\) for \\("+l+"\\leq{x}\\leq"+r+"\\).";
-		aString='%GRAPH%';
+		var qString="Sketch the graph of \\(|"+a+"-|x||\\) for \\("+l+"\\leq{x}\\leq"+r+"\\).";
+		var aString='%GRAPH%';
 		fn=function drawIt(parms)
 		{
 			var d1 = [];
@@ -1152,17 +1156,17 @@ function makeModulus()
 			}
 			//$.plot($("#graph"), [d1]);
 			return [d1];
-		}
+		};
 		parms=[a, l, r];
 		data = JSON.stringify(fn(parms));
 	}
 	else
 	{
-		var a=distrandnz(2, 4);
+		a=distrandnz(2, 4);
 		var s=[rand(), rand()];
 		var xa=Math.max(Math.abs(a[0]), Math.abs(a[1]));
-		var l=rand(-xa-6, -xa-2);
-		var r=rand(xa+2, xa+6);
+		l=rand(-xa-6, -xa-2);
+		r=rand(xa+2, xa+6);
 		qString="Sketch the graph of \\(("+a[0]+(s[0]?'+':'-')+"|x|)("+a[1]+(s[1]?'+':'-')+"|x|)\\) for \\("+l+"\\leq{x}\\leq"+r+"\\).";
 		aString='%GRAPH%';
 		fn=function drawIt(parms)
@@ -1182,7 +1186,7 @@ function makeModulus()
 			}
 			//$.plot($("#graph"), [d1]);
 			return [d1];
-		}
+		};
 		parms=[a,s,l,r];
 		data = JSON.stringify(fn(parms));
 	}
@@ -1192,8 +1196,8 @@ function makeModulus()
 
 function makeTransformation()
 {
-	fnn=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)", "{z}^{2}");
-	fnf=new Array(Math.log, function(x) { return 1/Math.sin(x);}, function(x) {return 1/Math.cos(x);}, Math.sin, Math.tan, Math.cos, function(x) {return Math.pow(x, 2);});
+	var fnn=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)", "{z}^{2}");
+	var fnf=new Array(Math.log, function(x) { return 1/Math.sin(x);}, function(x) {return 1/Math.cos(x);}, Math.sin, Math.tan, Math.cos, function(x) {return Math.pow(x, 2);});
 	var which=rand(0, 6);
 	var parms=0;
 	var fn=0;
@@ -1207,9 +1211,9 @@ function makeTransformation()
 	else q[0]=0;
 	var l=which?rand(-5, 2):Math.max(Math.ceil((1-q[0])/q[1]), 0);
 	var r=l+rand(4, 8);
-	qString="Let \\(f(x)="+fnn[which].replace(/z/g, 'x')+"\\). Sketch the graphs of \\(y=f(x)\\) and \\(y="+p.write("f("+q.write()+")")+"\\) for \\("+l+((which==0&&l==0)?" < ":"\\leq ")+"x \\leq "+r+"\\).";
-	console.log(qString);
-	aString='%GRAPH%';
+	var qString="Let \\(f(x)="+fnn[which].replace(/z/g, 'x')+"\\). Sketch the graphs of \\(y=f(x)\\) and \\(y="+p.write("f("+q.write()+")")+"\\) for \\("+l+((which==0&&l==0)?" < ":"\\leq ")+"x \\leq "+r+"\\).";
+	//console.log(qString);
+	var aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
 		var p=parms[0];
@@ -1236,7 +1240,7 @@ function makeTransformation()
 		}
 		//$.plot($("#graph"), [d1, d2]);
 		return [d1, d2];
-	}
+	};
 	parms=[p,q,fnf[which],l,r];
 	data = JSON.stringify(fn(parms));
 	var qa=[qString,aString,"Transformations of functions",data];
@@ -1255,8 +1259,8 @@ function makeComposition()
 	var data="";
 	var l=rand(-4, 0);
 	var r=rand(Math.max(l+5, 2), 8);
-	qString="Let \\(f(x)="+fnn[which[0]].replace(/z/g, 'x')+", g(x)="+fnn[which[1]].replace(/z/g, 'x')+".\\) Sketch the graph of \\(y=f(g(x))\\) (where it exists) for \\("+l+"\\leq{x}\\leq"+r+"\\) and \\(-12\\leq{y}\\leq12.\\)";
-	aString='%GRAPH%';
+	var qString="Let \\(f(x)="+fnn[which[0]].replace(/z/g, 'x')+", g(x)="+fnn[which[1]].replace(/z/g, 'x')+".\\) Sketch the graph of \\(y=f(g(x))\\) (where it exists) for \\("+l+"\\leq{x}\\leq"+r+"\\) and \\(-12\\leq{y}\\leq12.\\)";
+	var aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
 		var f=parms[0];
@@ -1279,7 +1283,7 @@ function makeComposition()
 		}
 		//$.plot($("#graph"), [d1]);
 		return [d1];
-	}
+	};
 	parms=[fnf[which[0]], fnf[which[1]], p, l, r];
 	data = JSON.stringify(fn(parms));
 	var qa=[qString,aString,"Composition of functions",data];
@@ -1296,8 +1300,8 @@ function makeParametric()
 	var parms=0;
 	var fn=0;
 	var data="";
-	qString="Sketch the curve in the \\(xy\\) plane given by \\(x="+fnn[which[0]].replace(/z/g, 't')+", y="+fnn[which[1]].replace(/z/g, 't')+". t\\) is a real parameter which ranges from \\("+(which[0]&&which[1]?"-10":"0")+" \\mbox{ to } 10.\\)";
-	aString='%GRAPH%';
+	var qString="Sketch the curve in the \\(xy\\) plane given by \\(x="+fnn[which[0]].replace(/z/g, 't')+", y="+fnn[which[1]].replace(/z/g, 't')+". t\\) is a real parameter which ranges from \\("+(which[0]&&which[1]?"-10":"0")+" \\mbox{ to } 10.\\)";
+	var aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
 		var f=parms[0];
@@ -1320,7 +1324,7 @@ function makeParametric()
 		}
 		//$.plot($("#graph"), [d1]);
 		return [d1];
-	}
+	};
 	parms=[fnf[which[0]], fnf[which[1]], p, (which[0]&&which[1]?-10:0)];
 	data = JSON.stringify(fn(parms));
 	var qa=[qString,aString,"Parametric functions",data];
@@ -1337,7 +1341,7 @@ function makeImplicitFunction()
 		var data="";
 		var qString="Sketch the curve in the \\(xy\\) plane given by \\(y="+ascoeff(n)+"x^{"+f.write()+"}\\)";
 		var aString='%GRAPH%';
-		fn=function drawIt(parms)
+		var fn=function drawIt(parms)
 		{
 			var f=parms[0];
 			var n=parms[1];
@@ -1357,8 +1361,8 @@ function makeImplicitFunction()
 			}
 			//$.plot($("#graph"), [d1]);
 			return [d1];
-		}
-		parms=[f, n];
+		};
+		var parms=[f, n];
 		data = JSON.stringify(fn(parms));
 		var qa=[qString,aString,"Implicit functions",data];
 		return qa;
@@ -1371,7 +1375,7 @@ function makeImplicitFunction()
 		var data="";
 		var qString="Sketch the curve in the \\(xy\\) plane given by \\("+ascoeff(a[0])+"y"+(a[1]>0?"+":"")+ascoeff(a[1])+"x"+(n>0?"+":"")+n+"=0\\)";
 		var aString='%GRAPH%';
-		fn=function drawIt(parms)
+		var fn=function drawIt(parms)
 		{
 			var f=parms[0];
 			var n=parms[1];
@@ -1383,8 +1387,8 @@ function makeImplicitFunction()
 			}
 			//$.plot($("#graph"), [d1]);
 			return [d1];
-		}
-		parms=[f, n];
+		};
+		var parms=[f, n];
 		data = JSON.stringify(fn(parms));
 		var qa=[qString,aString,"Implicit functions",data];
 		return qa;
@@ -1395,7 +1399,7 @@ function makeImplicitFunction()
 		var a=distrandnz(2, 2, 5);
 		var qString="Sketch the curve in the \\(xy\\) plane given by \\(\\frac{x^2}{"+(a[0]*a[0])+"} + \\frac{y^2}{"+(a[1]*a[1])+"}=1\\)";
 		var aString='%GRAPH%';
-		fn=function drawIt(parms)
+		var fn=function drawIt(parms)
 		{
 			var d1 = [];
 			for(var i=-1;i<=1; i+=0.005)
@@ -1406,8 +1410,8 @@ function makeImplicitFunction()
 			}
 			//$.plot($("#graph"), [d1]);
 			return [d1];
-		}
-		parms=a;
+		};
+		var parms=a;
 		data = JSON.stringify(fn(parms));
 		var qa=[qString,aString,"Implicit functions",data];
 		return qa;
@@ -1420,16 +1424,16 @@ function makeIntegration()
 	switch(rand(0, 1))
 	{
 		case 0:
-			fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
-			difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
-			even=new Array(-1, 1, -1, 1, 1, -1);
+			var fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
+			var difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
+			var even=new Array(-1, 1, -1, 1, 1, -1);
 			var which=rand(0, 5);
-			a=new poly(rand(1, 3));
+			var a=new poly(rand(1, 3));
 			a.setrand(8);
 			a[a.rank]=Math.abs(a[a.rank]);
 			if(which==0) a.xthru(1.0/a.gcd());
 			var u=randnz(4);
-			b=new poly(0);
+			var b=new poly(0);
 			a.diff(b);
 			var aString='$$'+p_linear(u, 0).write(fns[which].replace(/z/g, a.write()))+"+c$$";
 			if(difs[which].charAt(0)=='-')
@@ -1453,18 +1457,18 @@ function makeIntegration()
 			fns=new Array("\\ln(z)", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
 			difs=new Array("\\frac{y}{z}", "-y\\csc(z)\\cot(z)", "y\\sec(z)\\tan(z)", "y\\cos(z)", "y\\sec^2(z)", "-y\\sin(z)");
 			even=new Array(-1, 1, -1, 1, 1, -1);
-			var which=rand(0, 5);
+			which=rand(0, 5);
 			a=new poly(rand(1, 3));
 			a.setrand(8);
 			b=new poly(0);
 			a.diff(b);
-			var aString="$$"
+			aString="$$";
 			if(a.terms()>1)
 				aString+='('+a.write()+')'+fns[which].replace(/z/g, 'x');
 			else
 				aString+=a.write()+fns[which].replace(/z/g, 'x');
 			aString+="+c$$";
-			var qString="Find $$\\int";
+			qString="Find $$\\int";
 			if(b.terms()>1)
 				qString+='('+b.write()+')';
 			else if(b[0]==1)
@@ -1499,10 +1503,11 @@ function makeIntegration()
 			else
 				qString+=difs[which].replace(/y/g, a.write()).replace(/z/g, 'x');
 			qString+="\\,\\mathrm{d}x$$";
-			var qa=[qString,aString];
+			qa=[qString,aString];
 			return qa;
 		break;
 	}
+	return qa;
 }
 
 function makeDE()
@@ -1548,8 +1553,8 @@ function makeDE()
 	{
 		var roots=distrand(2, 4);
 		var p=p_quadratic(1, -roots[0]-roots[1], roots[0]*roots[1]);
-		qString="Find the general solution of the following second-order ODE:$$"+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]==0?"":"y")+"=0"+"$$";
-		aString="$$y="+(roots[0]==0?"A":"Ae^{"+ascoeff(roots[0])+"x}")+"+"+(roots[1]==0?"B":"Be^{"+ascoeff(roots[1])+"x}") + '$$';
+		var qString="Find the general solution of the following second-order ODE:$$"+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]==0?"":"y")+"=0"+"$$";
+		var aString="$$y="+(roots[0]==0?"A":"Ae^{"+ascoeff(roots[0])+"x}")+"+"+(roots[1]==0?"B":"Be^{"+ascoeff(roots[1])+"x}") + '$$';
 		var qa=[qString,aString];
 		return qa;
 	}
@@ -1558,7 +1563,7 @@ function makeDE()
 		var b=randnz(6);
 		qString="Find the general solution of the following first-order ODE:$$x\\frac{\\,dy}{\\,dx}-y="+(-b)+"$$";
 		aString="$$y=Ax"+(b>0?'+':'')+b+'$$';
-		var qa=[qString,aString];
+		qa=[qString,aString];
 		return qa;
 	}
 }
@@ -1581,8 +1586,8 @@ function makePowers()
 				res.add(a, b);
 			break;
 			case 2:
-				var a=randnz(4);
-				var b=randnz(2, 5);
+				a=randnz(4);
+				b=randnz(2, 5);
 				if(gcd(a, b)!=1) (a>0?a++:a--);
 				q+="\\root "+b+" \\of"+(a==1?"{x}":"{x^{"+a+"}}");
 				if(i>1) a=-a;
@@ -1590,10 +1595,10 @@ function makePowers()
 			break;
 			case 3:
 				var u=distrand(2, 1, 3);
-				var a=u[0];
-				var b=u[1];
+				a=u[0];
+				b=u[1];
 				var c=randnz(2, 6);
-				var p=new frac(a, b);
+				p=new frac(a, b);
 				q+="\\left(x^{"+p.write()+"}\\right)^"+c;
 				if(i>1) a=-a;
 				res.add(a*c, b);
@@ -1603,10 +1608,10 @@ function makePowers()
 				res.add((i>1?-1:1), 1);
 			break;
 		}
-		if(i==1) q+="}{"
+		if(i==1) q+="}{";
 	}
-	qString="Simplify $$\\frac{"+q+"}$$";
-	aString="$$"+(res.top==res.bot?"x":"x^{"+res.write()+"}")+'$$';
+	var qString="Simplify $$\\frac{"+q+"}$$";
+	var aString="$$"+(res.top==res.bot?"x":"x^{"+res.write()+"}")+'$$';
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1619,9 +1624,9 @@ function makeCArithmetic()
 {
 	var z=Complex.randnz(6, 6);
 	var w=Complex.randnz(4, 6);
-	qString="\\begin{array}{l}\\mbox{Given }z="+z.write()+"\\mbox{ and }w="+w.write()+"\\mbox{, compute:}\\\\";
+	var qString="\\begin{array}{l}\\mbox{Given }z="+z.write()+"\\mbox{ and }w="+w.write()+"\\mbox{, compute:}\\\\";
 	qString+="\\mbox{(i) }z+w\\\\\\mbox{(ii) }z\\times w\\\\\\mbox{(iii) }\\frac{z}{w}\\\\\\mbox{(iv) }\\frac{w}{z}\\end{array}";
-	aString="\\mbox{(i) }"+z.add(w.Re, w.Im).write()+"\\mbox{; (ii) }"+z.times(w.Re, w.Im).write()+"\\mbox{; (iii) }"+z.divide(w.Re, w.Im).write()+"\\mbox{; (iv) }"+w.divide(z.Re, z.Im).write()+"\\mbox{.}";
+	var aString="\\mbox{(i) }"+z.add(w.Re, w.Im).write()+"\\mbox{; (ii) }"+z.times(w.Re, w.Im).write()+"\\mbox{; (iii) }"+z.divide(w.Re, w.Im).write()+"\\mbox{; (iv) }"+w.divide(z.Re, z.Im).write()+"\\mbox{.}";
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1629,11 +1634,11 @@ function makeCArithmetic()
 function makeCPolar()
 {
 	var z=(rand()?Complex.randnz(6, 6):Complex.randnz(6, 4));
-	qString="\\mbox{Convert }"+z.write()+"\\mbox{ to modulus-argument form.}";
+	var qString="\\mbox{Convert }"+z.write()+"\\mbox{ to modulus-argument form.}";
 	var ma=Complex.ctop(z);
 	var r=Math.round(ma[0]);
 	var t=guessExact(ma[1]/Math.PI);
-	aString=(r==1?"":r+"\\times ")+"e^{"+(t==0?"0":t==1?"\\pi i":t+"\\pi i")+"}";
+	var aString=(r==1?"":r+"\\times ")+"e^{"+(t==0?"0":t==1?"\\pi i":t+"\\pi i")+"}";
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1730,8 +1735,8 @@ function makePolarSketch()
 	var fn=0;
 	var a=rand(0, 3);
 	var b=rand(1, (which==3?1:5));
-	qString="\\mbox{Sketch the curve given in polar co-ordinates by }r="+(a?a+"+":"")+fnn[which].replace(/z/g, ascoeff(b)+'\\theta')+"\\mbox{ (where }\\theta\\mbox{ runs from }-\\pi\\mbox{ to }\\pi\\mbox{).}";
-	aString='%GRAPH%';
+	var qString="\\mbox{Sketch the curve given in polar co-ordinates by }r="+(a?a+"+":"")+fnn[which].replace(/z/g, ascoeff(b)+'\\theta')+"\\mbox{ (where }\\theta\\mbox{ runs from }-\\pi\\mbox{ to }\\pi\\mbox{).}";
+	var aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
 		var f=parms[0];
@@ -1751,7 +1756,7 @@ function makePolarSketch()
 				d1.push([null, null]);
 		}
 		$.plot($("#graph"), [d1]);
-	}
+	};
 	parms=[fnf[which], a, b];
 	var qa=[qString,aString,fn,parms];
 	return qa;
@@ -1812,7 +1817,7 @@ function makeNewtonRaphson()
 	var x=new Array;x.length=n+1;x[0]=rand((which?0:2), 4);
 	var qString="\\begin{array}{l}\\mbox{Use the Newton-Raphson method to find the first }"+n+"\\mbox{ iterates in}\\\\\\mbox{solving }"+p.write()+" = "+fns[which].replace(/z/g, 'x')+"\\mbox{ with }x_0 = "+x[0]+"\\mbox{.}\\end{array}";
 	var aString="\\begin{array}{l}\\mbox{Iteration: }x_{n+1}=x_{n}-\\frac{"+fns[which].replace(/z/g, 'x_n')+np.write()+"}{"+difs[which].replace(/z/g, 'x_n')+nq.write()+"}\\\\";
-	for(var i=0;i<n;i++)
+	for(i=0;i<n;i++)
 	{
 		var eff=fnf[which](x[i])-p.compute(x[i]);
 		var effdash=diff[which](x[i])-q.compute(x[i]);
@@ -1832,7 +1837,7 @@ function makeFurtherIneq()
 	var A=distrandnz(2, 6);
 	var B=distrandnz(2, 6);
 	var C=distrand(2, 6);
-	var qString="\\begin{array}{l}\\mbox{Find the range of values of }x\\mbox{ for which}\\\\"
+	var qString="\\begin{array}{l}\\mbox{Find the range of values of }x\\mbox{ for which}\\\\";
 	qString+="\\frac{"+A[0]+"}{"+p_linear(B[0], C[0]).write()+"} < \\frac{"+A[1]+"}{"+p_linear(B[1], C[1]).write()+"}\\end{array}";
 	var aString="";
 	var aedb=A[0]*B[1]-A[1]*B[0];
@@ -1868,7 +1873,8 @@ function makeFurtherIneq()
 		if(poles[0].equals(poles[1]))
 		{
 			//for x<-C/B iff A/B > D/E
-			var i=A[0]/B[0], j=A[1]/B[1];
+			i=A[0]/B[0];
+			var j=A[1]/B[1];
 			if(i>j)
 			{
 				aString="x < "+poles[0].write();
@@ -1882,12 +1888,13 @@ function makeFurtherIneq()
 		{
 			// changes at root and poles, all distinct
 			var n=[root, poles[0], poles[1]];
-			var m=new Array(3);
-			for(var i=0;i<3;i++)
+			m=new Array(3);
+			for(i=0;i<3;i++)
 				m[i]=n[i].top/n[i].bot;
-			var l=ranking(m);
+			l=ranking(m);
 			// state for lge -ve x? < if i>j
-			var i=A[0]/B[0], j=A[1]/B[1];
+			i=A[0]/B[0];
+			j=A[1]/B[1];
 			if(i>j)
 			{
 				aString="x < "+n[l[0]].write()+"\\mbox{ or }"+n[l[1]].write()+" < x < "+n[l[2]].write();
@@ -1973,13 +1980,13 @@ function makeRevolution()
 	}
 	function makeSurfaceRevolution()
 	{
-		a=new poly(rand(1, 3));
+		var a=new poly(rand(1, 3));
 		a.setrand(6);
 		for(var i=0;i<=a.rank;i++)
 			a[i]=Math.abs(a[i]);
-		b=new fpoly(3);
+		var b=new fpoly(3);
 		b.setpoly(a);
-		c=new fpoly(4);
+		var c=new fpoly(4);
 		b.integ(c);
 		
 		var x=rand(1, 4);
@@ -1988,7 +1995,7 @@ function makeRevolution()
 		qString+="y = "+a.write('x')+"\\\\";
 		qString+="\\mbox{from }x = 0\\mbox{ to }x = "+x+"\\mbox{ is rotated through }2\\pi\\mbox{ around the x-axis.}\\end{array}";
 		var hi=c.compute(x); // lo is going to be 0 since our lower limit on the integral is 0, and the antiderivs are polys with no (or arb) constant term
-		ans=new frac(hi.top, hi.bot);
+		var ans=new frac(hi.top, hi.bot);
 		ans.prod(2);
 		var aString=fcoeff(ans, "\\pi");
 		var qa=[qString,aString];
@@ -2160,11 +2167,10 @@ function makeHypTest()
 	}
 	else
 	{
-		var mu=new Array(2); // 0 = H-null, 1 = actual
-		var sigma;
-		var which=0; // 0: =.  1: <.  2: >.
-		var n=rand(10, 25);
-		var sl=pickrand(1, 5, 10);
+		mu=new Array(2); // 0 = H-null, 1 = actual
+		which=0; // 0: =.  1: <.  2: >.
+		n=rand(10, 25);
+		sl=pickrand(1, 5, 10);
 		if(rand())
 		{
 			mu[1]=mu[0]=rand(-1, 5);
@@ -2177,14 +2183,15 @@ function makeHypTest()
 			sigma=rand(1, 4);
 			which=rand()?(mu[0]<mu[1]?2:1):0;
 		}
-		var Sx=0,Sxx=0;
+		Sx=0;
+		var Sxx=0;
 		for(var i=0;i<n;i++)
 		{
 			var xi=genN(mu[1], sigma);
 			Sx+=xi;
 			Sxx+=(xi*xi);
 		}
-		var qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\\\";
+		qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\\\";
 		qString+="\\mbox{The alternative hypothesis }{\\rm H}_1\\mbox{ is that }\\mu"+['\\ne','<','>'][which]+mu[0]+"\\\\";
 		qString+="\\mbox{The significance level is }"+sl+"\\%\\\\";
 		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Math.round(Sx*1e3)/1e3+"\\\\";
@@ -2192,12 +2199,12 @@ function makeHypTest()
 		qString+="\\mbox{(i) Compute }\\overline{x}\\\\";
 		qString+="\\mbox{(ii) Compute an estimate, }S^2\\mbox{, of the variance of }X\\\\";
 		qString+="\\mbox{(iii) Is }{\\rm H}_0\\mbox{ accepted?}\\end{array}";
-		var xbar=Sx/n;
-		var aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+Math.round(xbar*1e3)/1e3+"\\\\";
+		xbar=Sx/n;
+		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+Math.round(xbar*1e3)/1e3+"\\\\";
 		var SS=(Sxx-Sx*Sx/n)/(n-1);
 		aString+="\\mbox{(ii) }S^2 = "+Math.round(SS*1e3)/1e3+"\\\\";
 		aString+="\\mbox{Under }{\\rm H}_0\\mbox{, }{\\frac{\\overline{X}"+(mu[0]?(mu[0]>0?"-":"+")+Math.abs(mu[0]):"")+"}{"+Math.round(Math.sqrt(SS/n)*1e3)/1e3+"}}\\sim t_{"+(n-1)+"}\\\\";
-		var p=0;
+		p=0;
 		if(which) // one tail
 		{
 			switch(sl)
@@ -2228,7 +2235,7 @@ function makeHypTest()
 				break;
 			}
 		}
-		var critdev=Math.sqrt(SS)*tableT.values[n-2][p]/Math.sqrt(n);
+		critdev=Math.sqrt(SS)*tableT.values[n-2][p]/Math.sqrt(n);
 		if(which)
 		{
 			aString+="\\mbox{(iii) The critical region is }\\overline{x}"+(which==1?"<"+Math.round((mu[0]-critdev)*1e3)/1e3:">"+Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
@@ -2237,7 +2244,7 @@ function makeHypTest()
 		{
 			aString+="\\mbox{(iii) The critical values are }"+(Math.round((mu[0]-critdev)*1e3)/1e3)+"\\mbox{ and }"+(Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
 		}
-		var acc=false;
+		acc=false;
 		switch(which)
 		{
 			case 0:
@@ -2252,7 +2259,7 @@ function makeHypTest()
 		}
 		aString+=acc?"{\\rm H}_0\\mbox{ is accepted.}":"{\\rm H}_0\\mbox{ is rejected.}";
 		aString+="\\end{array}";
-		var qa=[qString,aString];
+		qa=[qString,aString];
 		return(qa);
 	}
 }

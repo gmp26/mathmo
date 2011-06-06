@@ -29,7 +29,7 @@ function express(a)
 	var p=ranking(a);
 	var q;
 	var t=0;
-	s=new poly(1);
+	var s=new poly(1);
 	s[1]=1;
 	for(var i=0;i<n;i++)
 	{
@@ -49,12 +49,12 @@ function express(a)
 	}
 	if(t)
 		r+="^"+(t+1);
-	return(r)
+	return(r);
 }
 
 function polyexpand(a, b)
 {
-	p=new poly(a.rank+b.rank);
+	var p=new poly(a.rank+b.rank);
 	p.setrand(0); // set all entries to 0
 	for(var i=0;i<=a.rank;i++)
 	{
@@ -68,21 +68,21 @@ function polyexpand(a, b)
 
 function p_quadratic(a, b, c)
 {
-	p=new poly(2);
+	var p=new poly(2);
 	p.set(c, b, a);
 	return p; // = ax^2 + bx + c
 }
 
 function p_linear(a, b)
 {
-	p=new poly(1);
+	var p=new poly(1);
 	p.set(b, a);
 	return p; // = ax + b
 }
 
 function p_const(a)
 {
-	p=new poly(0);
+	var p=new poly(0);
 	p.set(a);
 	return p; // = a
 }
@@ -91,60 +91,75 @@ function p_const(a)
 // REMEMBER: it's stored backwards (x^0 term first)
 function poly(rank)
 {
-	this.rank=rank;
-	this.terms=function()
+	var that = this;
+	
+	that.rank=rank;
+	that.terms=function()
 	{
 		var n=0;
-		for(var i=0;i<=this.rank;i++) if(this[i]) n++;
+		for(var i=0;i<=this.rank;i++) {
+			if(this[i]) {
+				n++;
+			}
+		}
 		return n;
-	}
-	this.set=function()
+	};
+	
+	that.set=function()
 	{
-		this.rank=this.set.arguments.length-1;
-		for(var i=0;i<=this.rank;i++) this[i]=this.set.arguments[i];
-	}
-	this.setrand=function(maxentry)
+		that.rank=that.set.arguments.length-1;
+		for(var i=0;i<=that.rank;i++) that[i]=that.set.arguments[i];
+	};
+	
+	that.setrand=function(maxentry)
 	{
-		for(var i=0;i<=this.rank;i++) this[i]=Math.round(-maxentry+2*maxentry*Math.random());
-		if(this[this.rank]==0) this[this.rank]=maxentry;
-	}
-	this.compute=function(x)
+		for(var i=0;i<=that.rank;i++) that[i]=Math.round(-maxentry+2*maxentry*Math.random());
+		if(that[that.rank]==0) that[that.rank]=maxentry;
+	};
+	
+	that.compute=function(x)
 	{
 		var y=0;
-		for(var i=0;i<=this.rank;i++) y+=this[i]*Math.pow(x, i);
+		for(var i=0;i<=that.rank;i++) y+=that[i]*Math.pow(x, i);
 		return y;
-	}
-	this.gcd=function()
+	};
+	
+	that.gcd=function()
 	{
-		var a=this[this.rank];
-		for(var i=0;i<this.rank;i++) a=gcd(a, this[i]);
+		var a=that[that.rank];
+		for(var i=0;i<that.rank;i++) a=gcd(a, that[i]);
 		return a;
-	}
-	this.xthru=function(x)
+	};
+	
+	that.xthru=function(x)
 	{
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			this[i]=(this[i]*x);
+			that[i]=(that[i]*x);
 		}
-	}
-	this.addp=function(x)
+	};
+	
+	that.addp=function(x)
 	{
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			this[i]=this[i]+x[i];
+			that[i]=that[i]+x[i];
 		}
-	}
-	this.diff=function(d)
+	};
+	
+	that.diff=function(d)
 	{
 		d.rank=rank-1;
-		for(var i=0;i<this.rank;i++) d[i]=this[i+1]*(i+1);
-	}
-	this.integ=function(d)
+		for(var i=0;i<that.rank;i++) d[i]=that[i+1]*(i+1);
+	};
+	
+	that.integ=function(d)
 	{
 		d.rank=rank+1;
-		for(var i=0;i<this.rank;i++) d[i+1]=this[i]/(i+1);
-	}
-	this.write=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to x
+		for(var i=0;i<that.rank;i++) d[i+1]=that[i]/(i+1);
+	};
+	
+	that.write=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to x
 	{
 		if(typeof(l)=='undefined')
 		{
@@ -152,46 +167,47 @@ function poly(rank)
 		}
 		var q="";
 		var j=false;
-		for(var i=this.rank;i>=0;i--)
+		for(var i=that.rank;i>=0;i--)
 		{
-			if(this[i]<0)
+			if(that[i]<0)
 			{
 				if(j) q+=' ';
 				q+='- ';
 				j=false;
 			}
-			else if(j&&this[i])
+			else if(j&&that[i])
 			{
 				q+=' + ';
 				j=false;
 			}
-			if(this[i])
+			if(that[i])
 			{
 				switch(i)
 				{
 					case 0:
-						q+=Math.abs(this[i]); j=true;
+						q+=Math.abs(that[i]); j=true;
 					break;
 					case 1:
-						if(Math.abs(this[i])==1)
+						if(Math.abs(that[i])==1)
 							q+=l;
 						else
-							q+=Math.abs(this[i])+l;
+							q+=Math.abs(that[i])+l;
 						j=true;
 					break;
 					default:
-						if(Math.abs(this[i])==1)
+						if(Math.abs(that[i])==1)
 							q+=l+'^'+i;
 						else
-							q+=Math.abs(this[i])+l+'^'+i;
+							q+=Math.abs(that[i])+l+'^'+i;
 						j=true;
 					break;
 				}
 			}
 		}
 		return q;
-	}
-	this.rwrite=function(l)
+	};
+	
+	that.rwrite=function(l)
 	{
 		if(typeof(l)=='undefined')
 		{
@@ -199,47 +215,48 @@ function poly(rank)
 		}
 		var q="";
 		var j=false;
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			if(this[i]<0)
+			if(that[i]<0)
 			{
 				if(j) q+=' ';
 				q+='- ';
 				j=false;
 			}
-			else if(j&&this[i])
+			else if(j&&that[i])
 			{
 				q+=' + ';
 				j=false;
 			}
-			if(this[i])
+			if(that[i])
 			{
 				switch(i)
 				{
 					case 0:
-						q+=Math.abs(this[i]); j=true;
+						q+=Math.abs(that[i]); j=true;
 					break;
 					case 1:
-						if(Math.abs(this[i])==1)
+						if(Math.abs(that[i])==1)
 							q+=l;
 						else
-							q+=Math.abs(this[i])+l;
+							q+=Math.abs(that[i])+l;
 						j=true;
 					break;
 					default:
-						if(Math.abs(this[i])==1)
+						if(Math.abs(that[i])==1)
 							q+=l+'^'+i;
 						else
-							q+=Math.abs(this[i])+l+'^'+i;
+							q+=Math.abs(that[i])+l+'^'+i;
 						j=true;
 					break;
 				}
 			}
 		}
 		return q;
-	}
+	};
+	
 	/*
-	this.gerwrite=function(l)
+	that.gerwrite=function(l)
 	{
 		if(typeof(l)=='undefined')
 		{
@@ -247,22 +264,22 @@ function poly(rank)
 		}
 		var q="";
 		var j=false;
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			c=guessExact(this[i]);
-			ac=guessExact(Math.abs(this[i]));
-			if(this[i]<0)
+			c=guessExact(that[i]);
+			ac=guessExact(Math.abs(that[i]));
+			if(that[i]<0)
 			{
 				if(j) q+=' ';
 				q+='- ';
 				j=false;
 			}
-			else if(j&&this[i])
+			else if(j&&that[i])
 			{
 				q+=' + ';
 				j=false;
 			}
-			if(this[i])
+			if(that[i])
 			{
 				switch(i)
 				{

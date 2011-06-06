@@ -133,6 +133,59 @@ control addQA() {
 	}
 }
  
+control addQAPlus() {
+	group {
+		/*
+		item(onclick = {makeQA(qa,1000); screen return;}) {
+			image("icon.png", 20, 20, align="left", valign="middle")
+			label("Random topic")
+		}
+		*/
+		item(onclick = {addComplex(); screen return;}) {
+			label("+Complex arithmetic")
+		}
+		item(onclick = {addModulusArgument(); screen return;}) {
+			label("+Modulus argument")
+		}
+		item(onclick = {addFirstOrder(); screen return;}) {
+			label("+1st order DEs")
+		}
+		item(onclick = {addSecondOrder(); screen return;}) {
+			label("+2nd order DEs")
+		}
+		item(onclick = {addRank2Matrices(); screen return;}) {
+			label("+Rank 2 matrices")
+		}
+		item(onclick = {addTaylorSeries(); screen return;}) {
+			label("+TaylorSeries")
+		}
+		item(onclick = {addPolarCoords(); screen return;}) {
+			label("+Polar Coordinates")
+		}
+		item(onclick = {addRank3Matrices(); screen return;}) {
+			label("+Rank 3 matrices")
+		}
+		item(onclick = {addVectorsPlus(); screen return;}) {
+			label("+Further vectors")
+		}
+		item(onclick = {addNewtonRaphson(); screen return;}) {
+			label("+Newton-Raphson")
+		}
+		item(onclick = {addInequalitiesPlus(); screen return;}) {
+			label("+Further inequalities")
+		}
+		item(onclick = {addSubstitution(); screen return;}) {
+			label("+Integration by substitution")
+		}
+		item(onclick = {addFigsOfRev(); screen return;}) {
+			label("+Figures of revolution")
+		}
+		item(onclick = {addMatrixTransforms(); screen return;}) {
+			label("+Matrix transformations")
+		}
+	}
+}
+ 
 screen addAlgebra() {
 	var qa = QA()
 	header("Algebraic") {
@@ -291,6 +344,107 @@ screen addDifferentialEquations() {
     }	
 }
 
+/* Start of Core+ */
+screen addComplex() {
+	header("+Complex arithmetic") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addModulusArgument() {
+	header("+Modulus argument") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addFirstOrder() {
+	header("+1st order DEs") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addSecondOrder() {
+	header("+2nd order DEs") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addRank2Matrices() {
+	header("+Rank 2 matrices") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addTaylorSeries() {
+	header("+TaylorSeries") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addPolarCoords() {
+	header("+Polar Coordinates") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addRank3Matrices() {
+	header("+Rank 3 matrices") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addVectorsPlus() {
+	header("+Further vectors") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addNewtonRaphson() {
+	header("+Newton-Raphson") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addInequalitiesPlus() {
+	header("+Further inequalities") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addSubstitution() {
+	header("+Integration by substitution") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addFigsOfRev() {
+	header("+Figures of revolution") {
+		backButton()
+	}
+	label("not yet")
+}
+
+screen addMatrixTransforms() {
+	header("+Matrix transformations") {
+		backButton()
+	}
+	label("not yet")
+}
+
+
+
 style questionStyle {
 	background-color:#FFFFFF;
 	border: 1px solid #CCCCCC;
@@ -303,8 +457,8 @@ style questionStyle {
 }
 
 style answerStyle {
-	background-color:#F8F8F8;
-	border: 1px solid #CCCCCC;
+	background-color:#FFF8F8;
+	border: 0px none #CCCCCC;
 	border-left-width:0px;
 	border-right-width:0px;
 	border-bottom-width:0px;
@@ -327,15 +481,6 @@ style topicLabelStyle {
 	color:#666;
 }
 
-function renderQA(qa:QA):void {
-	sleep(100);
-	renderMaths();
-	if(qa.done && qa.answer == "%GRAPH%") {
-		var jsonData:JSON = JSON.parse(qa.plotData);
-		lineChart("corePlotArea", jsonData);
-	}
-}
-
 
 style panelHeaderStyle {
   //backgroundGradientMixin($baseColor, rgb($baseColor.r~40, $baseColor.g~40, $baseColor.b~40));
@@ -355,13 +500,11 @@ style panelHeaderStyle {
 style panelHeaderContainerStyle {
   width: 250px;
   margin-left: -125px;
-  //border:red 1px solid;
   position: absolute;
   left: 50%;
 }
 
 style panelHeaderTextStyle {
-    //border:orange 1px solid;
 	width:250px;
 }
 
@@ -372,15 +515,45 @@ control panelHeader(text : String, onclick : Callback = null) {
   </div>
 }
 
-control showQA(qa:QA) {
-	panelHeader(qa.topic.toLowerCase()) {
-		script{
-			renderQA(qa);
+
+function renderQA(qa:QA):String {
+	renderMaths();
+	if(qa.done && qa.answer == "%GRAPH%") {
+		var jsonData:JSON = JSON.parse(qa.plotData);
+		lineChart("corePlotArea", jsonData);
+	}
+	return "";
+}
+
+control answerBlock(qa:QA) {
+	block(answerStyle) {
+		when(qa.answer != "%GRAPH%") {
+			label("A" + qa.number + ". ")
+			html(qa.answer)
+		}
+		else {
+			label("A" + qa.number + ". ")
+			plot("corePlotArea", plotStyle)
 		}
 	}
+	block(answerStyle) {
+		<span style="display:none">
+			html(renderQA(qa))
+		</span>
+		label("Did you agree?")
+		sideButton("Yes", onclick={qa.correct=true;})
+		sideButton("No", onclick={qa.correct=false;})
+	}	
+}
+
+control showQA(qa:QA) {
+	panelHeader(qa.topic.toLowerCase()) {}
 	group {
-		item(questionStyle, onclick={renderMaths();}, hideArrow=true) {
+		item(questionStyle) {
 			html("Q" + qa.number + ". " + qa.question)
+			<span style="display:none">
+				html(renderQA(qa))
+			</span>
 		}
 		item() {
 			block(answerStyle) {
@@ -389,21 +562,7 @@ control showQA(qa:QA) {
 				})
 			}
 			when(qa.done) {
-				block(answerStyle) {
-					when(qa.answer != "%GRAPH%") {
-						label("A" + qa.number + ". ")
-						html(qa.answer)
-					}
-					else {
-						label("A" + qa.number + ". ")
-						plot("corePlotArea", plotStyle)
-					}
-				}
-				block(answerStyle) {
-					label("Did you agree?")
-					sideButton("Yes", onclick={qa.correct=true;reload();})
-					sideButton("No", onclick={qa.correct=false;reload();})
-				}
+				answerBlock(qa)
 			}
 		}
 	}

@@ -2,12 +2,12 @@ module plot
 
 import mobl
 
-load jquery.flot.js
 
 control plot(id:String, s:Style) {
 	<div id=id class=s></div>
 }
 
+/* demo stuff not needed here
 var r:Num = 30;
 
 function curves():[[[Num]]] 
@@ -51,6 +51,8 @@ function sine(n:Num):[Num]
 {
 	return [n, Math.sin(n * Math.pi()/180)];
 }
+
+*/
 
 external sync function lineChart(id:String, data:[[[Num]]]) : void 
 
