@@ -1,8 +1,8 @@
 // nRich RPG (Randomised Problems Generator)
 
 
-egfn=function(){};
-egparms=0;
+var egfn=function(){};
+var egparms=0;
 
 // Partial Fractions
 function makePartial()
@@ -1624,26 +1624,39 @@ function makeCArithmetic()
 {
 	var z=Complex.randnz(6, 6);
 	var w=Complex.randnz(4, 6);
-	var qString="\\begin{array}{l}\\mbox{Given }z="+z.write()+"\\mbox{ and }w="+w.write()+"\\mbox{, compute:}\\\\";
-	qString+="\\mbox{(i) }z+w\\\\\\mbox{(ii) }z\\times w\\\\\\mbox{(iii) }\\frac{z}{w}\\\\\\mbox{(iv) }\\frac{w}{z}\\end{array}";
-	var aString="\\mbox{(i) }"+z.add(w.Re, w.Im).write()+"\\mbox{; (ii) }"+z.times(w.Re, w.Im).write()+"\\mbox{; (iii) }"+z.divide(w.Re, w.Im).write()+"\\mbox{; (iv) }"+w.divide(z.Re, z.Im).write()+"\\mbox{.}";
+	var qString="Given \\(z="+z.write()+"\\) and \\(w="+w.write()+"\\), compute:";
+
+	qString += "<ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>\\(z+w\\)</li>";
+	qString += "<li>\\(z\\times w\\)</li>";
+	qString += "<li>\\(\\frac{z}{w}\\)</li>";
+	qString += "<li>\\(\\frac{w}{z}\\)</li>";
+	qString += "</ul>";
+	
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>\\(" + z.add(w.Re, w.Im).write() +"\\)</li>";
+	aString += "<li>\\(" + z.times(w.Re, w.Im).write() +"\\)</li>";
+	aString += "<li>\\(" + z.divide(w.Re, w.Im).write() +"\\)</li>";
+	aString += "<li>\\(" + w.divide(z.Re, z.Im).write() +"\\)</li>";
+	aString += "</ul>";
 	var qa=[qString,aString];
 	return qa;
 }
+
 
 function makeCPolar()
 {
 	var z=(rand()?Complex.randnz(6, 6):Complex.randnz(6, 4));
-	var qString="\\mbox{Convert }"+z.write()+"\\mbox{ to modulus-argument form.}";
+	var qString="Convert \\("+z.write()+"\\) to modulus-argument form.";
 	var ma=Complex.ctop(z);
 	var r=Math.round(ma[0]);
 	var t=guessExact(ma[1]/Math.PI);
-	var aString=(r==1?"":r+"\\times ")+"e^{"+(t==0?"0":t==1?"\\pi i":t+"\\pi i")+"}";
+	var aString="$$"+(r===1?"":r/*+"\\times "*/)+"e^{"+(t===0?"0":t===1?"\\pi i":t+"\\pi i")+"}$$";
 	var qa=[qString,aString];
 	return qa;
 }
 
-function makeSODE()
+function makeDETwoHard()
 {
 	var p=new poly(2);
 	p.setrand(6);
@@ -1655,7 +1668,7 @@ function makeSODE()
 		roots[0]=(-p[1]+Math.sqrt(disc))/2;
 		roots[1]=(-p[1]-Math.sqrt(disc))/2;
 	}
-	else if(disc==0)
+	else if(disc===0)
 	{
 		roots[0]=roots[1]=(-p[1])/2;
 	}
@@ -1664,27 +1677,27 @@ function makeSODE()
 		roots[0]=new complex(-p[1]/2, Math.sqrt(-disc)/2);
 		roots[1]=new complex(-p[1]/2, -Math.sqrt(-disc)/2);
 	}
-	var qString="\\begin{array}{l}\\mbox{Find the general solution of the following second-order ODE:}\\\\ "+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]==0?"":"y")+"=0"+"\\end{array}";
+	var qString="Find the general solution of the following second-order ODE:$$"+p.write('D').replace("D^2", "\\frac{{\\,d^2}y}{{\\,dx}^2}").replace("D", "\\frac{\\,dy}{\\,dx}")+(p[0]===0?"":"y")+"=0"+"$$";
 	qString=qString.replace(/1y/g, "y");
 	var aString="";
 	if(disc>0)
 	{
-		aString="y="+(guessExact(roots[0])==0?"A":"Ae^{"+ascoeff(guessExact(roots[0]))+"x}")+"+"+(guessExact(roots[1])==0?"B":"Be^{"+ascoeff(guessExact(roots[1]))+"x}");
+		aString="$$y="+(guessExact(roots[0])===0?"A":"Ae^{"+ascoeff(guessExact(roots[0]))+"x}")+"+"+(guessExact(roots[1])===0?"B":"Be^{"+ascoeff(guessExact(roots[1]))+"x}")+"$$";
 	}
-	else if(disc==0)
+	else if(disc===0)
 	{
-		if(roots[0]==0)
+		if(roots[0]===0)
 		{
 			aString="y=Ax+B";
 		}
 		else
 		{
-			aString="y=(Ax+B)"+(guessExact(roots[0])?"e^{"+ascoeff(guessExact(roots[0]))+"x}":"");
+			aString="$$y=(Ax+B)"+(guessExact(roots[0])?"e^{"+ascoeff(guessExact(roots[0]))+"x}":"") + "$$";
 		}
 	}
 	else
 	{
-		aString="y=A\\cos\\left("+ascoeff(guessExact(roots[0].Im))+"x+\\varepsilon\\right)"+(guessExact(roots[0].Re)?"e^{"+ascoeff(guessExact(roots[0].Re))+"x}":"");
+		aString="$$y=A\\cos\\left("+ascoeff(guessExact(roots[0].Im))+"x+\\varepsilon\\right)"+(guessExact(roots[0].Re)?"e^{"+ascoeff(guessExact(roots[0].Re))+"x}":"")+"$$";
 	}
 	var qa=[qString,aString];
 	return qa;
@@ -1694,16 +1707,24 @@ function makeMatrix2()
 {
 	var A=new matrix(2);A.setrand(6);
 	var B=new matrix(2);B.setrand(6);
-	if(B.det()==0) B[0][0]++;
-	if(B.det()==0) B[0][1]++;
-	if(B.det()==0) {B[0][1]--; B[1][0]++;};
-	if(B.det()==0) alert('Bad math things happening in makeMatrix2(), eek!'); // THIS SHOULD NEVER EVER EVER HAPPEN
-	var qString="\\begin{array}{l}\\mbox{Let }A="+A.write()+", B="+B.write()+".\\\\";
-	qString+="\\mbox{Compute: (i) }A+B\\mbox{, (ii) }A \\times B\\mbox{, (iii) }B^{-1}\\mbox{.}\\end{array}";
+	if(B.det()===0) {B[0][0]++;}
+	if(B.det()===0) {B[0][1]++;}
+	if(B.det()===0) {B[0][1]--; B[1][0]++;}
+	if(B.det()===0) {alert('Bad math things happening in makeMatrix2(), eek!');} // THIS SHOULD NEVER EVER EVER HAPPEN
+	var qString="Let $$A="+A.write()+", B="+B.write()+".$$";
+	qString += "Compute: <ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>\\(A+B\\)</li>";
+	qString += "<li>\\(A \\times B\\)</li>";
+	qString += "<li>\\(B^{-1}\\)</li>";
+	qString += "</ul>";
 	var S=A.add(B);
 	var P=A.times(B);
 	var Y=B.inv();
-	var aString="(i) "+S.write()+", (ii) "+P.write()+", (iii) "+Y.write();
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>\\(" + S.write() +"\\)</li>";
+	aString += "<li>\\(" + P.write() +"\\)</li>";
+	aString += "<li>\\(" + Y.write() +"\\)</li>";
+	aString += "</ul>";
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1714,28 +1735,29 @@ function makeTaylor()
 	var t=[[new frac(0), new frac(1), new frac(0), new frac(-1, 6)], [new frac(1), new frac(0), new frac(-1, 2), new frac(0)], [new frac(0), new frac(1), new frac(0), new frac(-1, 3)], [new frac(1), new frac(1), new frac(1, 2), new frac(1, 6)], [new frac(0), new frac(1), new frac(-1, 2), new frac(1, 3)]];
 	var which=rand(0, 4);
 	var n=randfrac(6);
-	if(n.top==0) n=new frac(1);
-	var qString="\\mbox{Find the Taylor series of }"+f[which].replace(/z/g, fcoeff(n, 'x'))+"\\mbox{ about }x=0\\mbox{ up to and including the term in }x^3";
+	if(n.top===0) {n=new frac(1);}
+	var qString="Find the Taylor series of \\("+f[which].replace(/z/g, fcoeff(n, 'x'))+"\\) about \\(x=0\\) up to and including the term in \\(x^3\\)";
 	var p=new fpoly(3);
 	for(var i=0;i<=3;i++)
 	{
 		p[i]=new frac(t[which][i].top*Math.pow(n.top, i),t[which][i].bot*Math.pow(n.bot, i));
 	}
-	var aString=p.rwrite();
+	var aString="$$"+p.rwrite()+"$$";
 	var qa=[qString,aString];
 	return qa;
 }
 
 function makePolarSketch()
 {
-	var fnf=new Array(Math.sin, Math.tan, Math.cos, function(x){return x;});
-	var fnn=new Array("\\sin(z)", "\\tan(z)", "\\cos(z)", "z");
+	var fnf=[Math.sin, Math.tan, Math.cos, function(x){return x;}];
+	var fnn=["\\sin(z)", "\\tan(z)", "\\cos(z)", "z"];
 	var which=rand(0, 3);
 	var parms=0;
+	var data;
 	var fn=0;
 	var a=rand(0, 3);
-	var b=rand(1, (which==3?1:5));
-	var qString="\\mbox{Sketch the curve given in polar co-ordinates by }r="+(a?a+"+":"")+fnn[which].replace(/z/g, ascoeff(b)+'\\theta')+"\\mbox{ (where }\\theta\\mbox{ runs from }-\\pi\\mbox{ to }\\pi\\mbox{).}";
+	var b=rand(1, (which===3?1:5));
+	var qString="Sketch the curve given in polar co-ordinates by \\(r="+(a?a+"+":"")+fnn[which].replace(/z/g, ascoeff(b)+'\\theta')+"\\) (where \\(\\theta\\) runs from \\(-\\pi\\) to \\(\\pi\\)).";
 	var aString='%GRAPH%';
 	fn=function drawIt(parms)
 	{
@@ -1745,20 +1767,25 @@ function makePolarSketch()
 		{
 			var r=parms[1]+f(i*Math.PI*parms[2]);
 			var x=r*Math.cos(i*Math.PI);
-			if(Math.abs(x)>6)
-				x=null;
+			if(Math.abs(x)>6) {x=null;}
 			var y=r*Math.sin(i*Math.PI);
-			if(Math.abs(y)>6)
-				y=null;
+			if(Math.abs(y)>6) {y=null;}
 			if(x&&y)
+			{
 				d1.push([x, y]);
+			}
 			else
+			{
 				d1.push([null, null]);
+			}
 		}
-		$.plot($("#graph"), [d1]);
+		return [d1];
+		//$.plot($("#graph"), [d1]);
 	};
 	parms=[fnf[which], a, b];
-	var qa=[qString,aString,fn,parms];
+
+	data = JSON.stringify(fn(parms));
+	var qa=[qString,aString,"Polar coordinates",data];
 	return qa;
 }
 
@@ -1766,19 +1793,28 @@ function makeMatrix3()
 {
 	var A=new fmatrix(3);A.setrand(4);
 	var B=new fmatrix(3);B.setrand(4);
-	if(B.det().top==0) B[0][0]=B[0][0].add(1, 0);
-	if(B.det().top==0) B[0][1]=B[0][1].add(1, 0);
-	if(B.det().top==0) B[0][2]=B[0][2].add(1, 0);
-	if(B.det().top==0) B[1][1]=B[1][1].add(1, 0);
-	if(B.det().top==0) B[1][2]=B[1][2].add(1, 0);
-	if(B.det().top==0) B[2][2]=B[2][2].add(1, 0);
-	if(B.det().top==0) alert('Bad math things happening in makeMatrix3(), eek!'); // THIS SHOULDN'T HAPPEN, BUT I'M NOT 100% SURE IT CAN'T
-	var qString="\\begin{array}{l}\\mbox{Let }A="+A.write()+", B="+B.write()+".\\\\";
-	qString+="\\mbox{Compute: (i) }A+B\\mbox{, (ii) }A \\times B\\mbox{, (iii) }B^{-1}\\mbox{.}\\end{array}";
+	if(B.det().top===0) {B[0][0]=B[0][0].add(1, 0);}
+	if(B.det().top===0) {B[0][1]=B[0][1].add(1, 0);}
+	if(B.det().top===0) {B[0][2]=B[0][2].add(1, 0);}
+	if(B.det().top===0) {B[1][1]=B[1][1].add(1, 0);}
+	if(B.det().top===0) {B[1][2]=B[1][2].add(1, 0);}
+	if(B.det().top===0) {B[2][2]=B[2][2].add(1, 0);}
+	if(B.det().top===0) {alert('Bad math things happening in makeMatrix3(), eek!');} // THIS SHOULDN'T HAPPEN, BUT I'M NOT 100% SURE IT CAN'T
+	var qString="$$\\mbox{Let }A="+A.write()+",$$$$B="+B.write()+".$$";
+	qString+="Compute: <ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>\\(A+B\\)</li>";
+	qString += "<li>\\(A \\times B\\)</li>";
+	qString += "<li>\\(B^{-1}\\)</li>";
+	qString += "</ul>";
 	var S=A.add(B);
 	var P=A.times(B);
 	var Y=B.inv();
-	var aString="(i) "+S.write()+", (ii) "+P.write()+", (iii) "+Y.write();
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>\\(" + S.write() +"\\)</li>";
+	aString += "<li>\\(" + P.write() +"\\)</li>";
+	aString += "<li>\\(" + Y.write() +"\\)</li>";
+	aString += "</ul>";
+	//var aString="(i) "+S.write()+", (ii) "+P.write()+", (iii) "+Y.write();
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1788,46 +1824,54 @@ function makeFurtherVector()
 	var a=new vector(3);a.setrand(5);
 	var b=new vector(3);b.setrand(5);
 	var c=new vector(3);c.setrand(5);
-	var qString="\\begin{array}{l}\\mbox{Let }a="+a.write()+", b="+b.write()+", c="+c.write()+".\\\\";
-	qString+="\\mbox{Calculate:}\\\\\\mbox{(i) the vector product, }a\\wedge b\\\\\\mbox{(ii) the scalar triple product, }[a, b, c]\\end{array}";
+	var qString="Let \\(a="+a.write()+"\\), \\(b="+b.write()+"\\), \\(c="+c.write()+"\\). ";
+	qString += "Calculate: <ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>the vector product, \\(a\\wedge b\\),</li>";
+	qString += "<li>the scalar triple product, \\([a, b, c]\\).</li>";
+	qString += "</ul>";
 	var axb=a.cross(b);
 	var abc=axb.dot(c);
-	var aString="\\mbox{(i) }"+axb.write()+"\\mbox{, (ii) }"+abc;
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>\\(" + axb.write() +"\\)</li>";
+	aString += "<li>\\(" + abc +"\\)</li>";
+	aString += "</ul>";
 	var qa=[qString,aString];
 	return qa;
 }
 
 function makeNewtonRaphson()
 {
-	var fns=new Array("\\ln(z)", "e^{z}", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)");
-	var difs=new Array("\\frac{1}{z}", "e^{z}", "-\\csc(z)\\cot(z)", "\\sec(z)\\tan(z)", "\\cos(z)", "\\sec^2(z)", "-\\sin(z)");
-	var fnf=new Array(Math.log, Math.exp, function(x) {return 1/Math.sin(x);}, function(x) {return 1/Math.cos(x);}, Math.sin, Math.tan, Math.cos);
-	var diff=new Array(function(x) {return 1/x;}, Math.exp, function(x) {return Math.cos(x)/Math.pow(Math.sin(x), 2);}, function(x) {return Math.sin(x)/Math.pow(Math.cos(x), 2);}, Math.cos, function(x) {return 1/Math.pow(Math.cos(x), 2);}, function(x) {return -Math.sin(x);});
+	var fns=["\\ln(z)", "e^{z}", "\\csc(z)", "\\sec(z)", "\\sin(z)", "\\tan(z)", "\\cos(z)"];
+	var difs=["\\frac{1}{z}", "e^{z}", "-\\csc(z)\\cot(z)", "\\sec(z)\\tan(z)", "\\cos(z)", "\\sec^2(z)", "-\\sin(z)"];
+	var fnf=[Math.log, Math.exp, function(x) {return 1/Math.sin(x);}, function(x) {return 1/Math.cos(x);}, Math.sin, Math.tan, Math.cos];
+	var diff=[function(x) {return 1/x;}, Math.exp, function(x) {return Math.cos(x)/Math.pow(Math.sin(x), 2);}, function(x) {return Math.sin(x)/Math.pow(Math.cos(x), 2);}, Math.cos, function(x) {return 1/Math.pow(Math.cos(x), 2);}, function(x) {return -Math.sin(x);}];
 	var which=rand(0, 6);
 	var p=new poly(2);
 	p.setrand(6);p[2]=1;
 	var np=new poly(2);
-	for(var i=0;i<=2;i++)
+	var i;
+	for(i=0;i<=2;i++)
 	{
 		np[i]=-p[i];
 	}
 	var q=new poly(1); p.diff(q);
 	var nq=new poly(1); np.diff(nq);
 	var n=rand(4, 6);
-	var x=new Array;x.length=n+1;x[0]=rand((which?0:2), 4);
-	var qString="\\begin{array}{l}\\mbox{Use the Newton-Raphson method to find the first }"+n+"\\mbox{ iterates in}\\\\\\mbox{solving }"+p.write()+" = "+fns[which].replace(/z/g, 'x')+"\\mbox{ with }x_0 = "+x[0]+"\\mbox{.}\\end{array}";
-	var aString="\\begin{array}{l}\\mbox{Iteration: }x_{n+1}=x_{n}-\\frac{"+fns[which].replace(/z/g, 'x_n')+np.write()+"}{"+difs[which].replace(/z/g, 'x_n')+nq.write()+"}\\\\";
+	var x=new Array(n+1);x[0]=rand((which?0:2), 4);
+	var qString="Use the Newton-Raphson method to find the first \\("+n+"m\\) iterates in solving \\("+p.write()+" = "+fns[which].replace(/z/g, 'x')+"\\) with \\(x_0 = "+x[0]+"\\).";
+	var aString="Iteration: $$x_{n+1}=x_{n}-\\frac{"+fns[which].replace(/z/g, 'x_n')+np.write()+"}{"+difs[which].replace(/z/g, 'x_n')+nq.write()+"}$$";
 	for(i=0;i<n;i++)
 	{
 		var eff=fnf[which](x[i])-p.compute(x[i]);
 		var effdash=diff[which](x[i])-q.compute(x[i]);
 		x[i+1]=x[i]-(eff/effdash);
-		if(Math.abs(x[i+1])<1e-7) x[i+1]=0;
-		aString+="x_{"+(i+1)+"} = "+x[i+1]/*+"&"+p.write('x_{'+(i+1)+'}')+'='+p.compute(x[i+1])+"&"+fns[which].replace(/z/g, 'x_{'+(i+1)+'}')+"="+fnf[which](x[i+1])*/+"\\\\";
+		if(Math.abs(x[i+1])<1e-7) {x[i+1]=0;}
+		aString+="$$x_{"+(i+1)+"} = "+x[i+1]+"$$"; /*+"&"+p.write('x_{'+(i+1)+'}')+'='+p.compute(x[i+1])+"&"+fns[which].replace(/z/g, 'x_{'+(i+1)+'}')+"="+fnf[which](x[i+1])*/
 	}
-	aString+="\\end{array}";
 	if(isNaN(x[n]))
+	{
 		return(makeNewtonRaphson()); //TODO: find a better way; this is worst-case infinite
+	}
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1837,34 +1881,37 @@ function makeFurtherIneq()
 	var A=distrandnz(2, 6);
 	var B=distrandnz(2, 6);
 	var C=distrand(2, 6);
-	var qString="\\begin{array}{l}\\mbox{Find the range of values of }x\\mbox{ for which}\\\\";
-	qString+="\\frac{"+A[0]+"}{"+p_linear(B[0], C[0]).write()+"} < \\frac{"+A[1]+"}{"+p_linear(B[1], C[1]).write()+"}\\end{array}";
-	var aString="";
+	var qString="Find the range of values of \\(x\\) for which$$";
+	qString+="\\frac{"+A[0]+"}{"+p_linear(B[0], C[0]).write()+"} < \\frac{"+A[1]+"}{"+p_linear(B[1], C[1]).write()+"}$$";
+	var aString;
 	var aedb=A[0]*B[1]-A[1]*B[0];
 	var root=new frac(A[1]*C[0]-A[0]*C[1], aedb);
 	var poles=[new frac(-C[0], B[0]), new frac(-C[1], B[1])]; // both always exist, but they mightn't be distinct
-	if(aedb==0) // AE=DB
+	var i,j,l,m;
+	if(aedb===0) // AE=DB
 	{
 		// singular
 		if(poles[0].equals(poles[1])) // always equal
 		{
-			aString="\\mbox{The two fractions are equivalent, so the inequality never holds.}";
+			aString="The two fractions are equivalent, so the inequality never holds.";
 		}
 		else // never equal
 		{
 			// changes at poles
-			var m=new Array(2);
-			for(var i=0;i<2;i++)
+			m=new Array(2);
+			for(i=0;i<2;i++)
+			{
 				m[i]=poles[i].top/poles[i].bot;
-			var l=ranking(m);
+			}
+			l=ranking(m);
 			// state for lge -ve x? < if poles[0]>poles[1]
 			if(m[0]>m[1])
 			{
-				aString="x < "+poles[l[0]].write()+" \\mbox{ or }"+poles[l[1]].write()+" < x";
+				aString="$$x < "+poles[l[0]].write()+" \\mbox{ or }"+poles[l[1]].write()+" < x$$";
 			}
 			else
 			{
-				aString=poles[l[0]].write()+" < x < "+poles[l[1]].write();
+				aString="$$" + poles[l[0]].write()+" < x < "+poles[l[1]].write() + "$$";
 			}
 		}
 	}
@@ -1874,14 +1921,14 @@ function makeFurtherIneq()
 		{
 			//for x<-C/B iff A/B > D/E
 			i=A[0]/B[0];
-			var j=A[1]/B[1];
+			j=A[1]/B[1];
 			if(i>j)
 			{
-				aString="x < "+poles[0].write();
+				aString="$$x < "+poles[0].write() + "$$";
 			}
 			else
 			{
-				aString=poles[0].write()+" < x";
+				aString="$$"+poles[0].write()+" < x$$";
 			}
 		}
 		else
@@ -1890,18 +1937,20 @@ function makeFurtherIneq()
 			var n=[root, poles[0], poles[1]];
 			m=new Array(3);
 			for(i=0;i<3;i++)
+			{
 				m[i]=n[i].top/n[i].bot;
+			}
 			l=ranking(m);
 			// state for lge -ve x? < if i>j
 			i=A[0]/B[0];
 			j=A[1]/B[1];
 			if(i>j)
 			{
-				aString="x < "+n[l[0]].write()+"\\mbox{ or }"+n[l[1]].write()+" < x < "+n[l[2]].write();
+				aString="$$x < "+n[l[0]].write()+"\\mbox{ or }"+n[l[1]].write()+" < x < "+n[l[2]].write() + "$$";
 			}
 			else
 			{
-				aString=n[l[0]].write()+" < x < "+n[l[1]].write()+"\\mbox{ or }"+n[l[2]].write()+" < x";
+				aString="$$"+n[l[0]].write()+" < x < "+n[l[1]].write()+"\\mbox{ or }"+n[l[2]].write()+" < x$$";
 			}
 		}
 	}
@@ -1923,18 +1972,18 @@ function makeSubstInt() /* Has issues with polys which are never in the domain o
 	var pdt=["\\frac{y}{\\sqrt{F}}", "\\frac{y}{F}", "\\frac{y}{\\sqrt{F}}", "\\frac{y}{F}"];
 	var which=rand(0, 2);
 	var what=rand(0, 3);
-	if(what==0 && which==2)
+	if(what===0 && which===2)
 	{
 		which=rand(0, 1); // It's easier this way, no worrying about "when do solns exist"
 	}
 	var a=randnz(4);
-	var qString="\\mbox{Find }\\int";
+	var qString="Find $$\\int";
 	// special cases: polys and ln
-	if(which==0)
+	if(which===0)
 	{
 		qString+=ldt[what].replace(/y/g, 'x').replace(/F/g, fsq[which].replace(/A/g, ascoeff(a))).replace(/z/g, 'x').replace(/A/g, a)+"\\,dx";
 	}
-	else if(which==2)
+	else if(which===2)
 	{
 		var r=polyexpand(p, p);
 		r.xthru(pm[what]);
@@ -1945,7 +1994,8 @@ function makeSubstInt() /* Has issues with polys which are never in the domain o
 	{
 		qString+=dt[what].replace(/y/g, difs[which]).replace(/F/g, fsq[which]).replace(/z/g, 'x').replace("2A", ascoeff(2*a)).replace(/A/g, ascoeff(a))+"\\,dx";
 	}
-	var aString=t[what].replace(/f/g, fns[which]).replace(/z/g, 'x').replace(/A/g, ascoeff(a))+"+c";
+	qString += "$$";
+	var aString="$$"+t[what].replace(/f/g, fns[which]).replace(/z/g, 'x').replace(/A/g, ascoeff(a))+"+c$$";
 	var qa=[qString,aString];
 	return qa;
 }
@@ -1959,22 +2009,22 @@ function makeRevolution()
 		var iss=["\\tan(z)", "-\\cot(z)", 0];
 		var isf=[Math.tan, function(x){return -1/Math.tan(x);}, function(x){return Math.pow(x, 2)/2;}];
 		var which=rand(0, 2);
-		var x0=0;if(which==1) x0++;
-		var x=rand(x0+1, x0+((which==2)?4:1));
-		var qString="\\begin{array}{c}\\mbox{Find the volume of the solid formed when the area under}\\\\";
-		qString+="y = "+fns[which].replace(/z/g, 'x')+"\\\\";
-		qString+="\\mbox{from }x = "+x0+"\\mbox{ to }x = "+x+"\\mbox{ is rotated through }2\\pi\\mbox{ around the x-axis.}\\end{array}";
+		var x0=0;if(which===1){x0++;}
+		var x=rand(x0+1, x0+((which===2)?4:1));
+		var qString="Find the volume of the solid formed when the area under";
+		qString+="$$y = "+fns[which].replace(/z/g, 'x')+"$$";
+		qString+="from \\(x = "+x0+"\\mbox{ to }x = "+x+"\\) is rotated through \\(2\\pi\\) around the x-axis.";
 		var ans;
-		if(which==2)
+		if(which===2)
 		{
 			ans=guessExact(isf[which](x)-isf[which](x0));
 		}
 		else
 		{
-			ans="\\left("+iss[which].replace(/z/g, x)+(isf[which](x0)==0?"":"-"+iss[which].replace(/z/g, x0))+"\\right)";
+			ans="\\left("+iss[which].replace(/z/g, x)+(isf[which](x0)===0?"":"-"+iss[which].replace(/z/g, x0))+"\\right)";
 			ans=ans.replace(/--/g, "+");
 		}
-		var aString=ans+"\\pi";
+		var aString="$$"+ans+"\\pi$$";
 		var qa=[qString,aString];
 		return(qa);
 	}
@@ -1983,7 +2033,9 @@ function makeRevolution()
 		var a=new poly(rand(1, 3));
 		a.setrand(6);
 		for(var i=0;i<=a.rank;i++)
+		{
 			a[i]=Math.abs(a[i]);
+		}
 		var b=new fpoly(3);
 		b.setpoly(a);
 		var c=new fpoly(4);
@@ -1991,19 +2043,25 @@ function makeRevolution()
 		
 		var x=rand(1, 4);
 		
-		var qString="\\begin{array}{c}\\mbox{Find the area of the surface formed when the curve}\\\\";
-		qString+="y = "+a.write('x')+"\\\\";
-		qString+="\\mbox{from }x = 0\\mbox{ to }x = "+x+"\\mbox{ is rotated through }2\\pi\\mbox{ around the x-axis.}\\end{array}";
+		var qString="Find the area of the surface formed when the curve";
+		qString+="$$y = "+a.write('x')+"$$";
+		qString+="from \\(x = 0\\mbox{ to }x = "+x+"\\) is rotated through \\(2\\pi\\) around the x-axis.";
 		var hi=c.compute(x); // lo is going to be 0 since our lower limit on the integral is 0, and the antiderivs are polys with no (or arb) constant term
 		var ans=new frac(hi.top, hi.bot);
 		ans.prod(2);
-		var aString=fcoeff(ans, "\\pi");
+		var aString="$$" + fcoeff(ans, "\\pi") + "$$";
 		var qa=[qString,aString];
 		return(qa);
 	}
 	var qa;
-	if(rand()) qa=makeSolidRevolution();
-	else qa=makeSurfaceRevolution();
+	if(rand())
+	{
+		qa=makeSolidRevolution();
+	}
+	else
+	{
+		qa=makeSurfaceRevolution();
+	}
 	return qa;
 }
 
@@ -2011,18 +2069,18 @@ function makeMatXforms()
 {
 	var a=rand(1, 3);
 	var xfms=new Array(5);
-	for(var i=0;i<5;i++) xfms[i]=new matrix(2);
+	for(var i=0;i<5;i++) {xfms[i]=new matrix(2);}
 	xfms[0].set(Math.cos(a*Math.PI/2), -Math.sin(a*Math.PI/2), Math.sin(a*Math.PI/2), Math.cos(a*Math.PI/2));
 	xfms[1].set(Math.cos(a*Math.PI/2), Math.sin(a*Math.PI/2), Math.sin(a*Math.PI/2), -Math.cos(a*Math.PI/2));
 	xfms[2].set(1, a, 0, 1);
 	xfms[3].set(1, 0, a, 1);
 	xfms[4].set(a+1, 0, 0, a+1);
 	var f=new frac(a, 2);
-	var xft=["\\mbox{a rotation through }"+fcoeff(f, "\\pi")+"\\mbox{ anticlockwise about O}", (a==2?"\\mbox{a reflection in the line }x=0":"\\mbox{reflection in the line }y = "+ascoeff(guessExact(Math.tan(a*Math.PI/4)))+"x"), "\\mbox{a shear of element }"+a+"\\mbox{, }x\\mbox{ axis invariant}", "\\mbox{a shear of element }"+a+"\\mbox{, }y\\mbox{ axis invariant}", "\\mbox{an enlargement of scale factor }"+(a+1)];
+	var xft=["a rotation through \\("+fcoeff(f, "\\pi")+"\\) anticlockwise about O", (a===2?"a reflection in the line \\(x=0)":"reflection in the line \\(y = "+ascoeff(guessExact(Math.tan(a*Math.PI/4)))+"x\\)"), "a shear of element \\("+a+", x\\) axis invariant", "a shear of element \\("+a+", y\\) axis invariant", "an enlargement of scale factor \\("+(a+1)+"\\)"];
 	var which=distrand(2, 0, 4);
-	var qString="\\begin{array}{l}\\mbox{Compute the matrix representing, in 2D, }"+xft[which[0]]+"\\\\\\mbox{ followed by }"+xft[which[1]]+"\\end{array}";
+	var qString="Compute the matrix representing, in 2D, "+xft[which[0]]+" followed by "+xft[which[1]];
 	var ans=xfms[which[1]].times(xfms[which[0]]);
-	var aString=ans.write();
+	var aString="$$"+ans.write()+"$$";
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2033,7 +2091,7 @@ function makeMatXforms()
 
 function makeDiscreteDistn()
 {
-	var nparms=[2, 1, 1];
+	//var nparms=[2, 1, 1];
 	var massfn=[massBin, massPo, massGeo];
 	var pd=rand(2, 6);
 	var pn=rand(1, pd-1);
@@ -2050,13 +2108,15 @@ function makeDiscreteDistn()
 	{
 		ans=0;
 		for(var i=0;i<=x;i++)
+		{
 			ans+=massfn[which](i, parms[which][0], parms[which][1]);
+		}
 	}
 	else
 	{
 		ans=massfn[which](x, parms[which][0], parms[which][1]);
 	}
-	var aString=Math.round(ans*1e6)/1e6;
+	var aString=ans.toFixed(6);
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2066,26 +2126,27 @@ function makeContinDistn()
 	tableN.populate();
 	var mu=rand(0, 4);
 	var sigma=rand(1, 4);
-	var x=mu+Math.round((Math.random()-0.5)*6*sigma*10)/10;
+	var x=(mu+((Math.random()-0.5)*6*sigma)).toFixed(1);
 	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ is normally distributed with mean }"+mu+"\\mbox{ and variance }"+sigma*sigma+"\\\\";
 	qString+="\\mbox{Find }\\mathbb{P}(X\\le"+x+")\\end{array}";
 	var z=(x-mu)/sigma;
 	var p=tableN.values[Math.floor(1e3*Math.abs(z))];
-	if(z<0) p=1-p;
-	var aString=Math.round(p*1e3)/1e3;
+	if(z<0) {p=1-p;}
+	var aString=p.toFixed(3);
 	var qa=[qString,aString];
 	return(qa);
 }
 
 function makeHypTest()
 {
+	var mu, sigma, n, which, sl, Sx, xbar, p, critdev, acc, qString, aString, qa;
 	if(rand())
 	{
-		var mu=new Array(2); // 0 = H-null, 1 = actual
-		var sigma=new Array(2);
-		var which=0; // 0: =.  1: <.  2: >.
-		var n=rand(8, 12);
-		var sl=pickrand(1, 5, 10);
+		mu=new Array(2); // 0 = H-null, 1 = actual
+		sigma=new Array(2);
+		which=0; // 0: =.  1: <.  2: >.
+		n=rand(8, 12);
+		sl=pickrand(1, 5, 10);
 		if(rand())
 		{
 			mu[1]=mu[0]=rand(-1, 5);
@@ -2099,15 +2160,15 @@ function makeHypTest()
 			sigma[1]=rand(1, 4);
 			which=rand()?(mu[0]<mu[1]?2:1):0;
 		}
-		var Sx=genN(mu[1]*n, sigma[1]*Math.sqrt(n));
-		var qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\mbox{, }\\sigma^2 = "+sigma[0]*sigma[0]+"\\\\";
+		Sx=genN(mu[1]*n, sigma[1]*Math.sqrt(n));
+		qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\mbox{, }\\sigma^2 = "+sigma[0]*sigma[0]+"\\\\";
 		qString+="\\mbox{The alternative hypothesis }{\\rm H}_1\\mbox{ is that }\\mu"+['\\ne','<','>'][which]+mu[0]+"\\\\";
 		qString+="\\mbox{The significance level is }"+sl+"\\%\\\\";
-		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Math.round(Sx*1e3)/1e3+"\\\\";
+		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Sx.toFixed(3)+"\\\\";
 		qString+="\\mbox{(i) Compute }\\overline{x}\\\\\\mbox{(ii) Is }{\\rm H}_0\\mbox{ accepted?}\\end{array}";
-		var xbar=Sx/n;
-		var aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+Math.round(xbar*1e3)/1e3+"\\\\";
-		var p=0;
+		xbar=Sx/n;
+		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+xbar.toFixed(3)+"\\\\";
+		p=0;
 		if(which) // one tail
 		{
 			switch(sl)
@@ -2138,16 +2199,16 @@ function makeHypTest()
 				break;
 			}
 		}
-		var critdev=sigma[0]*tableT.values[tableT.values.length-1][p]/Math.sqrt(n);
+		critdev=sigma[0]*tableT.values[tableT.values.length-1][p]/Math.sqrt(n);
 		if(which)
 		{
-			aString+="\\mbox{(ii) The critical region is }\\overline{x}"+(which==1?"<"+Math.round((mu[0]-critdev)*1e3)/1e3:">"+Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
+			aString+="\\mbox{(ii) The critical region is }\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"\\mbox{; }";
 		}
 		else
 		{
-			aString+="\\mbox{(ii) The critical values are }"+(Math.round((mu[0]-critdev)*1e3)/1e3)+"\\mbox{ and }"+(Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
+			aString+="\\mbox{(ii) The critical values are }"+(mu[0]-critdev).toFixed(3)+"\\mbox{ and }"+(mu[0]+critdev).toFixed(3)+"\\mbox{; }";
 		}
-		var acc=false;
+		acc=false;
 		switch(which)
 		{
 			case 0:
@@ -2162,7 +2223,7 @@ function makeHypTest()
 		}
 		aString+=acc?"{\\rm H}_0\\mbox{ is accepted.}":"{\\rm H}_0\\mbox{ is rejected.}";
 		aString+="\\end{array}";
-		var qa=[qString,aString];
+		qa=[qString,aString];
 		return(qa);
 	}
 	else
@@ -2194,16 +2255,16 @@ function makeHypTest()
 		qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\\\";
 		qString+="\\mbox{The alternative hypothesis }{\\rm H}_1\\mbox{ is that }\\mu"+['\\ne','<','>'][which]+mu[0]+"\\\\";
 		qString+="\\mbox{The significance level is }"+sl+"\\%\\\\";
-		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Math.round(Sx*1e3)/1e3+"\\\\";
-		qString+="\\mbox{The sum of squares, }\\sum{x^2} = "+Math.round(Sxx*1e3)/1e3+"\\\\";
+		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Sx.toFixed(3)+"\\\\";
+		qString+="\\mbox{The sum of squares, }\\sum{x^2} = "+Sxx.toFixed(3)+"\\\\";
 		qString+="\\mbox{(i) Compute }\\overline{x}\\\\";
 		qString+="\\mbox{(ii) Compute an estimate, }S^2\\mbox{, of the variance of }X\\\\";
 		qString+="\\mbox{(iii) Is }{\\rm H}_0\\mbox{ accepted?}\\end{array}";
 		xbar=Sx/n;
-		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+Math.round(xbar*1e3)/1e3+"\\\\";
+		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+xbar.toFixed(3)+"\\\\";
 		var SS=(Sxx-Sx*Sx/n)/(n-1);
-		aString+="\\mbox{(ii) }S^2 = "+Math.round(SS*1e3)/1e3+"\\\\";
-		aString+="\\mbox{Under }{\\rm H}_0\\mbox{, }{\\frac{\\overline{X}"+(mu[0]?(mu[0]>0?"-":"+")+Math.abs(mu[0]):"")+"}{"+Math.round(Math.sqrt(SS/n)*1e3)/1e3+"}}\\sim t_{"+(n-1)+"}\\\\";
+		aString+="\\mbox{(ii) }S^2 = "+SS.toFixed(3)+"\\\\";
+		aString+="\\mbox{Under }{\\rm H}_0\\mbox{, }{\\frac{\\overline{X}"+(mu[0]?(mu[0]>0?"-":"+")+Math.abs(mu[0]):"")+"}{"+Math.sqrt(SS/n).toFixed(3)+"}}\\sim t_{"+(n-1)+"}\\\\";
 		p=0;
 		if(which) // one tail
 		{
@@ -2238,11 +2299,11 @@ function makeHypTest()
 		critdev=Math.sqrt(SS)*tableT.values[n-2][p]/Math.sqrt(n);
 		if(which)
 		{
-			aString+="\\mbox{(iii) The critical region is }\\overline{x}"+(which==1?"<"+Math.round((mu[0]-critdev)*1e3)/1e3:">"+Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
+			aString+="\\mbox{(iii) The critical region is }\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"\\mbox{; }";
 		}
 		else
 		{
-			aString+="\\mbox{(iii) The critical values are }"+(Math.round((mu[0]-critdev)*1e3)/1e3)+"\\mbox{ and }"+(Math.round((mu[0]+critdev)*1e3)/1e3)+"\\mbox{; }";
+			aString+="\\mbox{(iii) The critical values are }"+(mu[0]-critdev).toFixed(3)+"\\mbox{ and }"+(mu[0]+critdev).toFixed(3)+"\\mbox{; }";
 		}
 		acc=false;
 		switch(which)
@@ -2262,4 +2323,275 @@ function makeHypTest()
 		qa=[qString,aString];
 		return(qa);
 	}
+}
+
+function makeConfidInt()
+{
+	var mu=rand(4);
+	var sigma=rand(1, 4);
+	var n=2*rand(6, 10);
+	var sl=pickrand(99, 95, 90);
+	var Sx=0;
+	var Sxx=0;
+	for(var i=0;i<n;i++)
+	{
+		var xi=genN(mu, sigma);
+		Sx+=xi;
+		Sxx+=(xi*xi);
+	}
+	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ has a normal distribution, with unknown parameters.}\\\\";
+	qString+="\\mbox{A sample of size }"+n+"\\mbox{ is taken; }\\sum{x}="+Sx.toFixed(3)+"\\mbox{ and }\\sum{x^2}="+Sxx.toFixed(3)+".\\\\";
+	qString+="\\mbox{Compute, to 3 DP., a }"+sl+"\\mbox{% confidence interval for the mean of }X\\end{array}";
+	var xbar=Sx/n;
+	var SS=(Sxx-Sx*Sx/n)/(n-1);
+	var p;
+	switch(sl)
+	{
+		case 99:
+			p=5;
+		break;
+		case 95:
+			p=3;
+		break;
+		case 90:
+			p=2;
+		break;
+	}
+	var critdev=Math.sqrt(SS/n)*tableT.values[n-2][p];
+	var aString="["+(xbar-critdev).toFixed(3)+", "+(xbar+critdev).toFixed(3)+"]";
+	var qa=[qString,aString];
+	return(qa);
+}
+
+// TODO: Fix the occasional bug with nu<1 (but how?) and find out why that crow is sometimes undefined
+function makeChiSquare()
+{
+	tableN.populate();
+	var parms=[[rand(10,18)*2, rand(20, 80)/100], [rand(4, 12)], [rand(10, 30)/100], [rand(4, 10), rand(2, 4)]];
+	var distns=["binomial", "Poisson", "geometric", "normal"];
+	var parmnames=[["n", "p"], ["\\lambda"], ["p"], ["\\mu", "\\sigma"]];
+	var nparms=[2, 1, 1, 2];
+	var massfn=[massBin, massPo, massGeo, massN];
+	var genfn=[genBin, genPo, genGeo, genN];
+	var which=rand(0, 3);
+	var hyp=rand()?which:rand(0, 3);
+	var n=5*rand(10, 15)
+	var sl=pickrand(90, 95, 99);
+	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ is modelled by a }"+distns[hyp]+"\\mbox{ distribution.}\\\\";
+	qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{ and follows as grouped frequency data.}\\\\";
+	var sample=[],min=1e3,max=0;
+	var i;
+	for(i=0;i<n;i++)
+	{
+		sample[i]=genfn[which](parms[which][0], parms[which][1]); // excess parms get discarded, so it doesn't matter that they're undefined
+		min=Math.min(min, sample[i]);
+		max=Math.max(max, sample[i]);
+	}
+	min=Math.floor(min);
+	max=Math.ceil(max);
+	var freq=[];
+	for(i=0;i<Math.ceil((max+1-min)/2);i++)
+	{
+		freq[i]=0;
+	}
+	for(i=0;i<n;i++)
+	{
+		var y=Math.floor((sample[i]-min)/2);
+		freq[y]++;
+	}
+	qString+="\\begin{array}{c|r}x&\\mbox{Frequency}\\\\";
+	var x;
+	var Sx=0, Sxx=0;
+	for(i=0;i<Math.ceil((max+1-min)/2);i++)
+	{
+		x=min+(i*2);
+		Sx+=(x+1)*freq[i];
+		Sxx+=(x+1)*(x+1)*freq[i];
+		if(i==0)
+		{
+			qString+="x < "+(x+2);
+		}
+		else if(i==Math.ceil((max-1-min)/2))
+		{
+			qString+=x+"\\le x";
+		}
+		else
+		{
+			qString+=x+"\\le x <"+(x+2);
+		}
+		qString+="&"+freq[i]+"\\\\";
+	}
+	qString+="\\end{array}\\\\";
+	qString+="\\mbox{(i) Estimate the parameters of the distribution.}\\\\";
+	qString+="\\mbox{(ii) Use a }\\chi^2\\mbox{ test, with a significance level of }"+sl+"\\mbox{%, to test this hypothesis.}\\end{array}";
+	var p;
+	switch(sl)
+	{
+		case 90:
+			p=3;
+		break;
+		case 95:
+			p=4;
+		break;
+		case 99:
+			p=6;
+		break;
+	}
+	var xbar=Sx/n;
+	var SS=(Sxx-Sx*Sx/n)/(n-1);
+	var hypparms=[0,0];
+	switch(hyp)
+	{
+		case 0: // B(n, p) => E=np, Var=npq => p=1-(Var/E), n=E/p
+			hypparms[1]=1-(SS/xbar);
+			hypparms[0]=Math.round(xbar/hypparms[1]);
+		break;
+		case 1: // Po(l) => E=Var=l
+			hypparms[0]=xbar;
+		break;
+		case 2: // Geo(p) => E=1/p
+			hypparms[0]=1/xbar;
+		break;
+		case 3: // N(m, s^2)
+			hypparms[0]=xbar;
+			hypparms[1]=Math.sqrt(SS);
+		break;
+	}
+	var aString="\\begin{array}{l}\\mbox{(i) }"+parmnames[hyp][0]+"="+hypparms[0].toFixed(3);
+	if(nparms[hyp]===2)
+	{
+		aString+="\\mbox{, }"+parmnames[hyp][1]+"="+hypparms[1].toFixed(3);
+	}
+	if(hyp===0&&hypparms[0]<1)
+	{
+		aString+=".\\\\\\mbox{The binomial model cannot fit these data.}\\end{array}";
+		return([qString, aString]);
+	}
+	aString+=".\\\\\\mbox{(ii)}\\\\";
+	// The whole "combining rows" thing is going to be hard :S
+	var nrows=Math.ceil((max+1-min)/2);
+	var row=[]; // [Xl, Xh, O, E, ((O-E)^2)/E]
+	for(i=0;i<nrows;i++)
+	{
+		x=min+(i*2);
+		row[i]=[x, x+2, freq[i], 0, 0];
+		if(hyp===3) // N is continuous (and can't be integrated either), needs special handling (use tableN)
+		{
+			var zh=(x+2-hypparms[0])/hypparms[1];
+			var zl=(x-hypparms[0])/hypparms[1];
+			var ph=Math.abs(zh)<3?(zh>=0)?tableN.values[Math.floor(zh*1000)]:1-tableN.values[Math.floor(-zh*1000)]:(zh>0?1:0);
+			var pl=Math.abs(zl)<3?(zl>=0)?tableN.values[Math.floor(zl*1000)]:1-tableN.values[Math.floor(-zl*1000)]:(zl>0?1:0);
+			if(i===0) {pl=0;}
+			if(i===nrows-1) {ph=1;}
+			row[i][3]=(ph-pl)*n;
+		}
+		else
+		{
+			for(var j=(i===0?0:x);j<(i===nrows-1?x+100:x+2);j++) // not perfect, we're assuming the tail after 100 is essentially flat zero
+			{
+				row[i][3]+=massfn[hyp](j, hypparms[0], hypparms[1])*n;
+			}
+		}
+	}
+	var row2=[];
+	var chisq=0;
+	var currow=[0, 0, 0, 0, 0];
+	for(i=0;i<nrows;i++)
+	{
+		currow[1]=row[i][1];
+		currow[2]+=row[i][2];
+		currow[3]+=row[i][3];
+		if(currow[3]>=5)
+		{
+			currow[4]=Math.pow(currow[2]-currow[3], 2)/currow[3];
+			row2.push(currow);
+			chisq+=currow[4];
+			currow=[currow[1], currow[1], 0, 0, 0];
+		}
+	}
+	var crow=row2.length?row2.pop():[0, 0, 0, 0, 0];
+	crow[1]=currow[1];
+	crow[2]+=currow[2];
+	crow[3]+=currow[3];
+	chisq-=crow[4];
+	crow[4]=Math.pow(crow[2]-crow[3], 2)/crow[3];
+	row2.push(crow);
+	chisq+=crow[4];
+	aString+="\\begin{array}{c||r|r|r}";
+	aString+="x&O_i&E_i&\\frac{(O_i-E_i)^2}{E_i}\\\\";
+	for(i=0;i<row2.length;i++)
+	{
+		if(i===0)
+		{
+			aString+="x < "+row2[i][1];
+		}
+		else if(i===row2.length-1)
+		{
+			aString+=row2[i][0]+"\\le x";
+		}
+		else
+		{
+			aString+=row2[i][0]+"\\le x <"+row2[i][1];
+		}
+		aString+="&"+row2[i][2]+"&"+row2[i][3].toFixed(3)+"&"+row2[i][4].toFixed(3)+"\\\\";
+	}
+	aString+="\\end{array}\\\\";
+	aString+="\\chi^2 = "+chisq.toFixed(3)+"\\\\";
+	var nu=row2.length-1-nparms[hyp];
+	aString+="\\nu = "+nu+"\\\\";
+	if(nu<1)
+	{
+		aString+="\\mbox{Error! }\\nu<1\\mbox{ - that's not supposed to happen.}\\end{array}";
+		return([qString, aString]);
+	}
+	var critval=tableChi.values[nu-1][p];
+	aString+="\\mbox{Critical region: }\\chi^2 >"+critval+"\\\\";
+	if(chisq>critval)
+	{
+		aString+="\\mbox{The hypothesis is rejected.}";
+	}
+	else
+	{
+		aString+="\\mbox{The hypothesis is accepted.}";
+	}
+	aString+="\\end{array}";
+	var qa=[qString,aString];
+	return(qa);
+}
+
+function makeProductMoment()
+{
+	var n=rand(6, 12);
+	var mu=[rand(4), rand(4)];
+	var sigma=[rand(1, 6), rand(1, 6)];
+	var x=[];
+	var i;
+	for(i=0;i<n;i++)
+	{
+		x[i]=[];
+		x[i][0]=genN(mu[0], sigma[0]);
+		x[i][1]=genN(mu[1], sigma[1]);
+	}
+	var Ex=0,Exx=0,Exy=0,Eyy=0,Ey=0; // Here E represents sigma
+	var qString="\\begin{array}{l}\\mbox{For the following data, (i) compute the product moment correlation coefficient, }{\\bf r}\\\\";
+	qString+="\\mbox{(ii) find the regression line of }y\\mbox{ on }x\\\\\\begin{array}{c|c}x&y\\\\";
+	for(i=0;i<n;i++)
+	{
+		qString+=x[i][0].toFixed(3)+"&"+x[i][1].toFixed(3)+"\\\\";
+		Ex+=x[i][0];
+		Exx+=x[i][0]*x[i][0];
+		Exy+=x[i][0]*x[i][1];
+		Eyy+=x[i][1]*x[i][1];
+		Ey+=x[i][1];
+	}
+	qString+="\\end{array}\\end{array}";
+	var xbar=Ex/n, ybar=Ey/n;
+	var Sxx=Exx-Ex*xbar, Syy=Eyy-Ey*ybar;
+	var Sxy=Exy-(Ex*Ey/n);
+	var r=Sxy/Math.sqrt(Sxx*Syy);
+	var b=Sxy/Sxx;
+	var a=ybar-(b*xbar);
+	var aString="\\mbox{(i) }{\\bf r}="+r.toFixed(3)+"\\mbox{; (ii) }y="+b.toFixed(3)+"x"+(a>0?"+":"")+a.toFixed(3);
+	var qa=[qString,aString];
+	return(qa);
 }

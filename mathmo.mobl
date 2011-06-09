@@ -10,25 +10,13 @@ import nrichRPG::questionAnswer
 load nrichRPG/problems.js
 load nrichRPG/helpers.js
 load nrichRPG/fractions.js
-load nrichRPG/polys.js 
+load nrichRPG/polys.js
 load nrichRPG/fpolys.js
 load nrichRPG/complex.js
 load nrichRPG/guessExact.js
 load nrichRPG/stats.js
 
-
-/*
-load problems.js
-load helpers.js
-load fractions.js
-load polys.js 
-load fpolys.js
-load complex.js
-load guessExact.js
-load stats.js
-*/
-
-//load jquery.flot.js
+load jquery.flot.js
 
 
 resource mathmoIcon.png
@@ -73,7 +61,6 @@ control coreTab() {
 control furtherTab() {
 	header("+Q on *topic")
 	addQAPlus()
-	label("not implemented yet")
 }
 
 control aboutTab() {

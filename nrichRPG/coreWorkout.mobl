@@ -41,49 +41,6 @@ function updateCounts():void
 	log("qCount = " + qCount + " tickCount = " + tickCount);
 }
 
-
-/* 
-control coreWorkoutHome() {
-	
-	
-	script {
-		updateCounts();
-	}
-	//
- 	//header("Mathmo Core") {
-	//	image("icon.png", 35, 35, valign="middle", align="left", style=headerLogo)
-	//	button("Add", onclick={addQA(); updateCounts();})
-	//}
-	//
-	group {
-		when(qCount == 0) {
-			item(helpStyle) {
-				html("Your personal workout. Touch [Add] to create a question on one of your chosen topics. Your questions will be preserved until you delete them.")
-			}
-		}
-		list(qa in QA.all() order by number asc) {
-			item() { 
-				checkBox(qa.done, label = "" + qa.number + ". " + qa.topic)
-			}
-		}
-		
-		when(qCount > 0) {
-			button("Delete ticked", onclick = {
-				var ticked:Collection<QA> = QA.all().filter("done", "=", true);
-				foreach(t in ticked) {
-					remove(t);
-				}
-				updateCounts();
-			})
-			button("Delete all", onclick = {
-				QA.all().destroyAll();
-				updateCounts();
-			})
-		}
-	}
-}
-*/
-
 function clearAllQ():void
 {
 	QA.all().destroyAll();
@@ -100,91 +57,34 @@ resource icon.png
 
 control addQA() {
 	group {
-		/*
-		item(onclick = {makeQA(qa,1000); screen return;}) {
-			image("icon.png", 20, 20, align="left", valign="middle")
-			label("Random topic")
-		}
-		*/
-		item(onclick = {addAlgebra(); screen return;}) {
+
+		item(onclick = {addAlgebra();}) {
 			label("+Algebraic")
 		}
-		item(onclick = {addCurveSketch(); screen return;}) {
+		item(onclick = {addCurveSketch();}) {
 			label("+Curve sketching")
 		}
-		item(onclick = {addGeometry(); screen return;}) {
+		item(onclick = {addGeometry();}) {
 			label("+Geometry")
 		}
-		item(onclick = {addSequencesAndSeries(); screen return;}) {
+		item(onclick = {addSequencesAndSeries();}) {
 			label("+Sequences & series")
 		}
-		item(onclick = {addVectors(); screen return;}) {
+		item(onclick = {addVectors();}) {
 			label("+Vectors")
 		}
-		item(onclick = {addDifferentiation(); screen return;}) {
+		item(onclick = {addDifferentiation();}) {
 			label("+Differentiation")
 		}
-		item(onclick = {addIntegration(); screen return;}) {
+		item(onclick = {addIntegration();}) {
 			label("+Integration")
 		}
-		item(onclick = {addDifferentialEquations(); screen return;}) {
+		item(onclick = {addDifferentialEquations();}) {
 			label("+Differential equations")
 		}
 	}
 }
  
-control addQAPlus() {
-	group {
-		/*
-		item(onclick = {makeQA(qa,1000); screen return;}) {
-			image("icon.png", 20, 20, align="left", valign="middle")
-			label("Random topic")
-		}
-		*/
-		item(onclick = {addComplex(); screen return;}) {
-			label("+Complex arithmetic")
-		}
-		item(onclick = {addModulusArgument(); screen return;}) {
-			label("+Modulus argument")
-		}
-		item(onclick = {addFirstOrder(); screen return;}) {
-			label("+1st order DEs")
-		}
-		item(onclick = {addSecondOrder(); screen return;}) {
-			label("+2nd order DEs")
-		}
-		item(onclick = {addRank2Matrices(); screen return;}) {
-			label("+Rank 2 matrices")
-		}
-		item(onclick = {addTaylorSeries(); screen return;}) {
-			label("+TaylorSeries")
-		}
-		item(onclick = {addPolarCoords(); screen return;}) {
-			label("+Polar Coordinates")
-		}
-		item(onclick = {addRank3Matrices(); screen return;}) {
-			label("+Rank 3 matrices")
-		}
-		item(onclick = {addVectorsPlus(); screen return;}) {
-			label("+Further vectors")
-		}
-		item(onclick = {addNewtonRaphson(); screen return;}) {
-			label("+Newton-Raphson")
-		}
-		item(onclick = {addInequalitiesPlus(); screen return;}) {
-			label("+Further inequalities")
-		}
-		item(onclick = {addSubstitution(); screen return;}) {
-			label("+Integration by substitution")
-		}
-		item(onclick = {addFigsOfRev(); screen return;}) {
-			label("+Figures of revolution")
-		}
-		item(onclick = {addMatrixTransforms(); screen return;}) {
-			label("+Matrix transformations")
-		}
-	}
-}
  
 screen addAlgebra() {
 	var qa = QA()
@@ -192,28 +92,28 @@ screen addAlgebra() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(10); alert("Quadratic Q added"); screen return;}) {
+		item(onclick = {makeQA(10); alert("Quadratic Q added");}) {
          	label("+Quadratic equations")
         }
-		item(onclick = {makeQA(11); alert("Completing the Square Q added"); screen return;}) {
+		item(onclick = {makeQA(11); alert("Completing the Square Q added");}) {
          	label("+Completing the square")
         }
-		item(onclick = {makeQA(7); alert("Ineqalities Q added"); screen return;}) {
+		item(onclick = {makeQA(7); alert("Ineqalities Q added");}) {
          	label("+Inequalities")
         }
-		item(onclick = {makeQA(9); alert("Factor theorem Q added"); screen return;}) {
+		item(onclick = {makeQA(9); alert("Factor theorem Q added");}) {
          	label("+Factor theorem")
         }
-		item(onclick = {makeQA(1); alert("Partial fraction Q added"); screen return;}) {
+		item(onclick = {makeQA(1); alert("Partial fraction Q added");}) {
          	label("+Partial fractions")
         }
-		item(onclick = {makeQA(30); alert("Powers Q added"); screen return;}) {
+		item(onclick = {makeQA(30); alert("Powers Q added");}) {
          	label("+Powers")
         }
-		item(onclick = {makeQA(13);  alert("Logarithm Q added");screen return;}) {
+		item(onclick = {makeQA(13);  alert("Logarithm Q added");}) {
          	label("+Logarithms")
         }
-		item(onclick = {makeQA(17); alert("Trig equation Q added"); screen return;}) {
+		item(onclick = {makeQA(17); alert("Trig equation Q added");}) {
          	label("+Trig equations")
         }
 	}
@@ -224,19 +124,19 @@ screen addCurveSketch() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(24); alert("Modulus Q added"); screen return;}) {
+		item(onclick = {makeQA(24); alert("Modulus Q added");}) {
          	label("+Modulus function")
         }
-		item(onclick = {makeQA(25); alert("Transformations of functions Q added"); screen return;}) {
+		item(onclick = {makeQA(25); alert("Transformations of functions Q added");}) {
          	label("Transformations of functions")
         }
-		item(onclick = {makeQA(26); alert("Composition of functions Q added"); screen return;}) {
+		item(onclick = {makeQA(26); alert("Composition of functions Q added");}) {
          	label("Composition of functions")
         }
-		item(onclick = {makeQA(270); alert("Implicit functions Q added"); screen return;}) {
+		item(onclick = {makeQA(270); alert("Implicit functions Q added");}) {
          	label("Implicit functions")
         }
-		item(onclick = {makeQA(27); alert("Parametric functions Q added"); screen return;}) {
+		item(onclick = {makeQA(27); alert("Parametric functions Q added");}) {
          	label("Parametric functions")
         }
 	}
@@ -247,13 +147,13 @@ screen addGeometry() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(15); alert("Triangles Q added"); screen return;}) {
+		item(onclick = {makeQA(15); alert("Triangles Q added");}) {
          	label("+Triangles")
         }
-		item(onclick = {makeQA(16); alert("Circles Q added"); screen return;}) {
+		item(onclick = {makeQA(16); alert("Circles Q added");}) {
          	label("+Circles")
         }
-		item(onclick = {makeQA(6); alert("3D lines Q added");  screen return;}) {
+		item(onclick = {makeQA(6); alert("3D lines Q added"); }) {
          	label("+ 3D lines")
         }
 	}
@@ -264,16 +164,16 @@ screen addSequencesAndSeries() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(8);  alert("Arithmetic Progressions Q added"); screen return;}) {
+		item(onclick = {makeQA(8);  alert("Arithmetic Progressions Q added");}) {
          	label("+Arithmetic progressions")
         }
-		item(onclick = {makeQA(12); alert("Binomial Expansion Q added");  screen return;}) {
+		item(onclick = {makeQA(12); alert("Binomial Expansion Q added"); }) {
          	label("+Binomial expansion")
         }
-		item(onclick = {makeQA(23);  alert("Geometric Progression Q added"); screen return;}) {
+		item(onclick = {makeQA(23);  alert("Geometric Progression Q added");}) {
          	label("+Geometric progressions")
         }
-		item(onclick = {makeQA(2); alert("Binomial theorem Q added");  screen return;}) {
+		item(onclick = {makeQA(2); alert("Binomial theorem Q added"); }) {
          	label("+Binomial theorem")
         }
     }
@@ -284,10 +184,10 @@ screen addVectors() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(5);  alert("Scalar product Q added"); screen return;}) {
+		item(onclick = {makeQA(5);  alert("Scalar product Q added");}) {
          	label("+Scalar products")
         }
-		item(onclick = {makeQA(18);  alert("Vector equation of lines Q added"); screen return;}) {
+		item(onclick = {makeQA(18);  alert("Vector equation of lines Q added");}) {
          	label("+Vector equation of lines")
         }
     }
@@ -298,19 +198,19 @@ screen addDifferentiation() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(14);  alert("Stationary points Q added"); screen return;}) {
+		item(onclick = {makeQA(14);  alert("Stationary points Q added");}) {
          	label("+Stationary points")
         }
-		item(onclick = {makeQA(20);  alert("Chain rule Q added"); screen return;}) {
+		item(onclick = {makeQA(20);  alert("Chain rule Q added");}) {
          	label("+Chain rule")
         }
-		item(onclick = {makeQA(21);  alert("Product rule Q added"); screen return;}) {
+		item(onclick = {makeQA(21);  alert("Product rule Q added");}) {
          	label("+Product rule")
         }
-		item(onclick = {makeQA(22);  alert("Quotient rule Q added"); screen return;}) {
+		item(onclick = {makeQA(22);  alert("Quotient rule Q added");}) {
          	label("+Quotient rule")
         }
-		item(onclick = {makeQA(19); screen return;}) {
+		item(onclick = {makeQA(19);}) {
          	label("+Implicit differentiation")
         }
     }	
@@ -321,13 +221,13 @@ screen addIntegration() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(28);  alert("Integration Q added"); screen return;}) {
+		item(onclick = {makeQA(28);  alert("Integration Q added");}) {
          	label("+Integration")
         }
-		item(onclick = {makeQA(3);  alert("Polynomial integration Q added"); screen return;}) {
+		item(onclick = {makeQA(3);  alert("Polynomial integration Q added");}) {
          	label("+Polynomial integration")
         }
-		item(onclick = {makeQA(4);  alert("Trig integration Q added"); screen return;}) {
+		item(onclick = {makeQA(4);  alert("Trig integration Q added");}) {
          	label("+Trig integration")
         }
     }	
@@ -338,112 +238,61 @@ screen addDifferentialEquations() {
 		backButton()
 	}
 	group {
-		item(onclick = {makeQA(29);  alert("Differential equations Q added"); screen return;}) {
+		item(onclick = {makeQA(29);  alert("Differential equations Q added");}) {
          	label("+Diff equations")
         }
     }	
 }
 
 /* Start of Core+ */
-screen addComplex() {
-	header("+Complex arithmetic") {
-		backButton()
+control addQAPlus() {
+	group {
+		item(onclick = {makeQAStar("F1");  alert("Complex arithmetic Q added");}) {
+         	label("+Complex arithmetic")
+        }
+		item(onclick = {makeQAStar("F2");  alert("Modulus argument Q added");}) {
+         	label("+Modulus argument")
+        }
+        /*
+		item(onclick = {makeQAStar("F3"); alert("1st order DE Q added");}) {
+         	label("+1st order DEs")
+        }
+        */
+		item(onclick = {makeQAStar("F3a");  alert("2nd order DE Q added");}) {
+         	label("+2nd order DEs")
+        }
+		item(onclick = {makeQAStar("F4");  alert("Rank 2 matrices Q added");}) {
+         	label("+Rank 2 matrices")
+        }
+		item(onclick = {makeQAStar("F5");  alert("Taylor Series Q added");}) {
+         	label("+Taylor Series")
+        }
+		item(onclick = {makeQAStar("F6");  alert("Polar Coordinates Q added");}) {
+         	label("+Polar Coordinates")
+        }
+		item(onclick = {makeQAStar("F7");  alert("Rank 3 matrices Q added");}) {
+         	label("+Rank 3 matrices")
+        }
+		item(onclick = {makeQAStar("F8");  alert("Further vectors added");}) {
+         	label("+Further vectors")
+        }
+		item(onclick = {makeQAStar("F9");  alert("Newton-Raphson added");}) {
+         	label("+Newton-Raphson")
+        }
+		item(onclick = {makeQAStar("F10");  alert("Further inequalities Q added");}) {
+         	label("+Further inequalities")
+        }
+		item(onclick = {makeQAStar("F11");  alert("Integration by substitution Q added");}) {
+         	label("+Integration by substitution")
+        }
+		item(onclick = {makeQAStar("F12");  alert("Figures of revolution Q added");}) {
+         	label("+Figures of revolution")
+        }
+		item(onclick = {makeQAStar("F13");  alert("Matrix transformations Q added");}) {
+         	label("+Matrix transformations")
+        }
 	}
-	label("not yet")
 }
-
-screen addModulusArgument() {
-	header("+Modulus argument") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addFirstOrder() {
-	header("+1st order DEs") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addSecondOrder() {
-	header("+2nd order DEs") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addRank2Matrices() {
-	header("+Rank 2 matrices") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addTaylorSeries() {
-	header("+TaylorSeries") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addPolarCoords() {
-	header("+Polar Coordinates") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addRank3Matrices() {
-	header("+Rank 3 matrices") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addVectorsPlus() {
-	header("+Further vectors") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addNewtonRaphson() {
-	header("+Newton-Raphson") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addInequalitiesPlus() {
-	header("+Further inequalities") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addSubstitution() {
-	header("+Integration by substitution") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addFigsOfRev() {
-	header("+Figures of revolution") {
-		backButton()
-	}
-	label("not yet")
-}
-
-screen addMatrixTransforms() {
-	header("+Matrix transformations") {
-		backButton()
-	}
-	label("not yet")
-}
-
-
 
 style questionStyle {
 	background-color:#FFFFFF;
@@ -517,6 +366,7 @@ control panelHeader(text : String, onclick : Callback = null) {
 
 
 function renderQA(qa:QA):String {
+	sleep(100);
 	renderMaths();
 	if(qa.done && qa.answer == "%GRAPH%") {
 		var jsonData:JSON = JSON.parse(qa.plotData);
@@ -537,9 +387,11 @@ control answerBlock(qa:QA) {
 		}
 	}
 	block(answerStyle) {
+		/*
 		<span style="display:none">
 			html(renderQA(qa))
 		</span>
+		*/
 		label("Did you agree?")
 		sideButton("Yes", onclick={qa.correct=true;})
 		sideButton("No", onclick={qa.correct=false;})
@@ -547,15 +399,15 @@ control answerBlock(qa:QA) {
 }
 
 control showQA(qa:QA) {
-	panelHeader(qa.topic.toLowerCase()) {}
+	panelHeader(qa.topic.toLowerCase(), onclick={renderMaths();}) {}
 	group {
-		item(questionStyle) {
+		item(questionStyle, onclick={renderMaths();}, hideArrow=true) {
 			html("Q" + qa.number + ". " + qa.question)
 			<span style="display:none">
 				html(renderQA(qa))
 			</span>
 		}
-		item() {
+		item(onclick={renderMaths();}, hideArrow=true) {
 			block(answerStyle) {
 				checkBox(qa.done, "Check answer", onchange = {
 					renderQA(qa);
@@ -571,6 +423,7 @@ control showQA(qa:QA) {
 external sync function randomCoreQA(topic:String):Array<String>
 
 external sync function makeProblem(qid:Num):Array<String>
+external sync function makeFurther(qid:String):Array<String>
 
 
 var max:Num = 0;
@@ -584,6 +437,24 @@ function makeQA(n:Num):void {
 	}
 	qa.number = max + 1;
 	var q_and_A:Array<String> = makeProblem(n);
+	qa.question = q_and_A[0];
+	qa.answer = q_and_A[1];
+	qa.topic = q_and_A[2];
+	if(q_and_A.length > 3) {
+		qa.plotData = q_and_A[3];
+	}
+	qa.done = false;
+	add(qa);
+}
+
+function makeQAStar(s:String):void {
+	var qa = QA();
+	var qas:Collection<QA> = QA.all();
+	foreach(item in qas) {
+		max = Math.max(max, item.number);
+	}
+	qa.number = max + 1;
+	var q_and_A:Array<String> = makeFurther(s);
 	qa.question = q_and_A[0];
 	qa.answer = q_and_A[1];
 	qa.topic = q_and_A[2];
@@ -789,11 +660,119 @@ function makeQA(n:Num):void {
 	            var qa=makePowers();
 	   			qa.push("Powers");
 	        break;
-	        
 	        default:
 	            alert("invalid qid" + n);
 	        break;
 	    }
 	    return qa;
 	};
+	
+	__ns.makeFurther = function(n) {
+	    switch (n)
+	    {
+	        case 'F1':
+				var qa=makeCArithmetic();
+				qa.push("Complex Arithmetic");
+			break;
+		
+			case 'F2':
+				var qa=makeCPolar();
+				qa.push("Modulus Argument");
+			break;
+			
+			/*
+			case 'F3':
+				var qa=makeDESepHard();
+				qa.push("1st order DEs");
+			break;
+			*/
+			
+			case 'F3a':
+				var qa=makeDETwoHard();
+				qa.push("2nd order DEs");
+			break;
+			
+			case 'F4':
+				var qa=makeMatrix2();
+				qa.push("Rank 2 matrices");
+			break;
+			
+			case 'F5':
+				var qa=makeTaylor();
+				qa.push("Taylor Series");
+			break;
+			
+			case 'F6':
+				var qa=makePolarSketch();
+				qa.push("Polar Coordinates");
+			break;
+			
+			case 'F7':
+				var qa=makeMatrix3();
+				qa.push("Rank 3 matrices");
+			break;
+			
+			case 'F8':
+				var qa=makeFurtherVector();
+				qa.push("Further vectors");
+			break;
+			
+			case 'F9':
+				var qa=makeNewtonRaphson();
+				qa.push("Newton-Raphson");
+			break;
+			
+			case 'F10':
+				var qa=makeFurtherIneq();
+				qa.push("Further inequalities");
+			break;
+			
+			case 'F11':
+				var qa=makeSubstInt();
+				qa.push("Integration by substitution");
+			break;
+			
+			case 'F12':
+				var qa=makeRevolution();
+				qa.push("Figures of revolution");
+			break;
+			
+			case 'F13':
+				var qa=makeMatXforms();
+				qa.push("Matrix transformations");
+			break;
+/*			
+			case 'S1':
+				var qa=makeDiscreteDistn();
+			break;
+			
+			case 'S2':
+				var qa=makeContinDistn();
+			break;
+			
+			case 'S3':
+				var qa=makeHypTest();
+			break;
+			
+			case 'S4':
+				var qa=makeConfidInt();
+			break;
+			
+			case 'S5':
+				var qa=makeChiSquare();
+			break;
+			
+			case 'S6':
+				var qa=makeProductMoment();
+			break;
+*/
+
+	        default:
+	            alert("invalid qid" + n);
+	        break;
+	    }
+	    return qa;
+	};
+
+	
 </javascript>
