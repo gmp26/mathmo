@@ -147,16 +147,16 @@ screen addCurveSketch() {
          	label("+Modulus function")
         }
 		item(onclick = {makeQA(25); alert("Transformations of functions Q added");}) {
-         	label("Transformations of functions")
+         	label("+Transformations of functions")
         }
 		item(onclick = {makeQA(26); alert("Composition of functions Q added");}) {
-         	label("Composition of functions")
+         	label("+Composition of functions")
         }
 		item(onclick = {makeQA(270); alert("Implicit functions Q added");}) {
-         	label("Implicit functions")
+         	label("+Implicit functions")
         }
 		item(onclick = {makeQA(27); alert("Parametric functions Q added");}) {
-         	label("Parametric functions")
+         	label("+Parametric functions")
         }
 	}
 }

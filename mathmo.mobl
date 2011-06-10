@@ -40,7 +40,7 @@ control qaItem(qa:QA) {
 }
 
 control qTab() {
-	header("Qs") {
+	header("Mathmo") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
 		button("Clear", onclick={
@@ -51,7 +51,11 @@ control qTab() {
 }
 
 control coreTab() {
-	header("+Q on topic")
+	header("Q on topic") {
+		button("Clear", onclick={
+			clearAllQ();
+		})
+	}
 	group() {
 		item(onclick={randomQ(5,1000);}) {
 			label("Add 5 core Qs")
@@ -63,11 +67,11 @@ control coreTab() {
 			label("Add 5 stats Qs")
 		}
 	}
-	label("Add Q on core topic")
+	html("<section class=\"ui__section\">Core topics</section>")
 	addQA()
-	label("Add Q on further topic")
+	html("<section class=\"ui__section\">Further topics</section>")
 	addQAPlus()
-	label("Add Q on stats topic")
+	html("<section class=\"ui__section\">Stats topics</section>")
 	addQAStats()
 }
 
@@ -81,23 +85,22 @@ control aboutTab() {
 	var credits="""
 <div style="padding:20px">
 <h2>
+<img src="icon.png" style="width:50px;height:50px"/>
 Mathmo v0.3 by the <a href="http://nrich.maths.org">NRICH team</a>, University of Cambridge
 </h2>
 <h3>Help</h3>
-On the Mathmo tab you'll find your current set of Questions (abbr. Qs)<br>
-Touch [CA] to delete all your current Qs.<br>
-Touch [+5Q] to add 5 new random Qs<br>
+On the 'My Qs' tab you'll find your current set of Questions (abbr. Qs)<br>
+Touch [Clear] to delete all your current Qs.<br>
 <br>
-On the +Q tab you can select a subtopic to add a new core Q.<br>
-<br>
-On the +Q* tab you can select a subtopic to add a new further maths Q.<br>
+On the 'Add' tab you can add 5 random core, further or stats questions, or choose them singly.
+Further and Stats sections are at the bottom of the topic list.<br>
 <br>
 When a question is displayed, touch [Check Answer] to check working and then
 reply to 'Did you agree?' [Yes] [No]. You may need to do a little more work to see whether your answer is really the same or not.
 The questions will change colour (red == No/Not answered; green == Yes, black == not checked) so you can track how you are doing.
 
 <h3>Updates</h3>
-Mathmo is a web application, and should update itself when you reload the app after it has been updated at <a href="http://nrich.maths.org/mobl/mathmo/mathmo.html">http://nrich.maths.org/mobl/mathmo/mathmo.html</a>.
+Mathmo is a web application, and should update itself when you reload the app after it has been updated on the server. It's web address is <a href="http://nrich.maths.org/mobl/mathmo/mathmo.html">http://nrich.maths.org/mobl/mathmo/mathmo.html</a>.
 
 <h3>Credits</h3>
 <p>
@@ -142,7 +145,7 @@ screen root() {
 	}
 	tabSet(
 		[
-			("Mathmo", "", qTab),
+			("My Qs", "", qTab),
 			("Add", "", coreTab),
 			/*("+Q*", "", furtherTab),*/
 			("About", "", aboutTab)

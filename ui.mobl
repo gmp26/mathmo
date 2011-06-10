@@ -1,13 +1,24 @@
 module ui
 
 mixin mobl::ui::generic
-/*
-style headerStyle {
-  font-size: 1em;
-  line-height: 3em;
-  height: 3em;
+
+style tabbarStyle activeTabButtonStyle {
+	padding-top: 12px;
+	padding-bottom: 11px;
+}
+style tabbarStyle inActiveTabButtonStyle {
+	padding-top: 10px;
+	padding-bottom: 11px;
 }
 
+style section {
+	padding:5px;
+	font-size:1.2em;
+	width:100%;
+	color:#CC0000;
+}
+
+/*
 style headerStyle buttonStyle {
   float: right;
   font-size: 1em;
