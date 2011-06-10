@@ -6,7 +6,7 @@
 function factorial(n)
 {
 	if((n<0) || (n!=Math.round(n)))
-		return("Non-integer or negative number sent to factorial()!"); // will probably end up as 0
+		console.log("Non-integer or negative number sent to factorial()!");
 	if(n<2)
 		return(1); // 0! = 1! = 1
 	return(n*factorial(n-1)); // recursion may be inefficient in this case, but I don't care
@@ -20,63 +20,16 @@ function combi(n, r)
 	// if efficiency and speed mattered, we wouldn't be using JS, would we now?
 }
 
-// Probability mass functions (discrete distns) TODO: proper error checking
-function massBin(x, n, p) // Supported on {0, 1, ... n}
-{
-	if(x!==Math.round(x)||x<0||x>n) {return(0);}
-	return(combi(n, x)*Math.pow(p, x)*Math.pow(1-p, n-x));
-}
-function massPo(x, l) // Supported on N u {0}
-{
-	if(x!==Math.round(x)||x<0) {return(0);}
-	return(Math.exp(-l)*Math.pow(l, x)/factorial(x));
-}
-function massGeo(x, p) {return p*Math.pow(1-p, x-1);} // Supported on N
+// Probability mass functions (discrete distns)
+function massBin(x, n, p) {return combi(n, x)*Math.pow(p, x)*Math.pow(1-p, n-x);}
+function massPo(x, l) {return Math.exp(-l)*Math.pow(l, x)/factorial(x);}
+function massGeo(x, p) {return p*Math.pow(1-p, x-1);}
 
 // Probability density functions (continuous distns)
 function massN(x, m, s) {return Math.exp(-Math.pow((x-m)/s, 2)/2)/(s*Math.sqrt(2*Math.PI));} // Normal distribution, N(m, s^2)
 function massNZ(x) {return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);} // Standard normal, N(0, 1)
-function massExp(x, l) {return l*Math.exp(-l*x);} // Exp(l), supported on $\{x\in\mathbb{R}:x\ge{0}\}$
-
-// Random generation of samples from discrete distns
-function genBern(p)
-{
-	return(Math.random()>p?1:0);
-}
-function genBin(n, p)
-{
-	var x=0;
-	for(var i=0;i<n;i++)
-	{
-		x+=genBern(p);
-	}
-	return(x);
-}
-function genPo(l)
-{
-    var t=Math.exp(-l);
-    var k=-1;
-    var p=1;
-    do
-    {
-    	k++;
-    	p*=Math.random();
-    }
-    while(p>t);
-    return(k);
-}
-function genGeo(p)
-{
-	var l=-Math.log(1-p);
-	var x=genExp(l);
-	return(1+Math.floor(x));
-}
 
 // Random generation of samples from continuous distns
-function genExp(l)
-{
-	return(-Math.log(Math.random())/l);
-}
 function genN(m, s)
 {
 	return(m+s*genNZ()[0]);
@@ -98,10 +51,11 @@ function Phi_Taylor(x) {return 0.5+(x * 0.398942) + ((Math.pow(x, 3) / 6) * -0.3
 var tableT=new mktableT();
 function mktableT()
 {
-	this.p=[0.75,0.9,0.95,0.975,0.99,0.995,0.9975,0.999,0.9995];
-	this.v=["&nu;=1",2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,40,60,120,"&infin;"];
+	var that = this;
+	that.p=[0.75,0.9,0.95,0.975,0.99,0.995,0.9975,0.999,0.9995];
+	that.v=["&nu;=1",2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,40,60,120,"&infin;"];
 	// Entering all this data was tedious :(
-	this.values=[['1.000',3.078,6.314,12.71,31.82,63.66,127.3,318.3,636.6],
+	that.values=[['1.000',3.078,6.314,12.71,31.82,63.66,127.3,318.3,636.6],
 	[0.816,1.886,2.920,4.303,6.965,9.925,14.09,22.33,31.60],
 	[0.765,1.638,2.353,3.182,4.541,5.841,7.453,10.21,12.92],
 	[0.741,1.533,2.132,2.776,3.747,4.604,5.598,7.173,8.610],
@@ -135,12 +89,12 @@ function mktableT()
 	[0.679,1.296,1.671,'2.000',2.390,2.660,2.915,3.232,3.460],
 	[0.677,1.289,1.658,1.980,2.358,2.617,2.860,3.160,3.373],
 	[0.674,1.282,1.645,1.960,2.326,2.576,2.807,3.090,3.291]];
-	this.writehtml=function(open, close)
+	that.writehtml=function(open, close)
 	{
 		var a="<table border=1 cellpadding=0>";
 		a+="<tr><td>"+open+"p"+close+"</td>";
 		for(var i=0;i<9;i++)
-			a+="<td>"+open+(i%3==1?"<strong>":"")+this.p[i]+(i%3==1?"</strong>":"")+close+"</td>";
+			a+="<td>"+open+(i%3==1?"<strong>":"")+that.p[i]+(i%3==1?"</strong>":"")+close+"</td>";
 		a+="</tr><tr><td>"+open+"<font color=\"white\">0.0-</font>"+close+"</td>";
 		for(i=0;i<9;i++)
 			a+="<td>"+open+"<font color=\"white\">0.0000-</font>"+close+"</td>";
@@ -148,10 +102,10 @@ function mktableT()
 		for(i=1;i<35;i++)
 		{
 			if(i&&((i%5)==0)) a+="<tr><td></td></tr>";
-			a+="<tr><td>"+open+this.v[i-1]+close+"</td>";
-			for(j=0;j<9;j++)
+			a+="<tr><td>"+open+that.v[i-1]+close+"</td>";
+			for(var j=0;j<9;j++)
 			{
-				a+="<td>"+open+(j%3==1?"<strong>":"")+this.values[i-1][j].toString().rPad(5, '0')+(j%3==1?"</strong>":"")+close+"</td>";
+				a+="<td>"+open+(j%3==1?"<strong>":"")+that.values[i-1][j].toString().rPad(5, '0')+(j%3==1?"</strong>":"")+close+"</td>";
 			}
 			a+="</tr>";
 		}
@@ -163,10 +117,11 @@ function mktableT()
 var tableChi=new mktableChi();
 function mktableChi()
 {
-	this.p=[0.01,0.025,0.05,0.9,0.95,0.975,0.99,0.995,0.999];
-	this.v=["&nu;=1",2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,40,50,60,70,80,90,100];
+	var that = this;
+	that.p=[0.01,0.025,0.05,0.9,0.95,0.975,0.99,0.995,0.999];
+	that.v=["&nu;=1",2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,40,50,60,70,80,90,100];
 	// Entering all this data was tedious :(
-	this.values=[['0.0&sup3;1571', '0.0&sup3;9821', '0.0&sup2;3932', 2.706, 3.841, 5.024,6.635, 7.8794, 10.83],
+	that.values=[['0.0&sup3;1571', '0.0&sup3;9821', '0.0&sup2;3932', 2.706, 3.841, 5.024,6.635, 7.8794, 10.83],
 	[0.02010, 0.05064, 0.1026, 4.605, 5.991, 7.378, 9.210, 10.60, 13.82],
 	[0.1148, 0.2158, 0.3518, 6.251, 7.815, 9.348, 11.34, 12.84, 16.27],
 	[0.2971, 0.4844, 0.7107, 7.779, 9.488, 11.14, 13.28, 14.86, 18.47],
@@ -199,13 +154,13 @@ function mktableChi()
 	[53.54, 57.15, 60.39, 96.58, 101.9, 106.6, 112.3, 116.3, 124.8],
 	[61.75, 65.65, 69.13, 107.6, 113.1, 118.1, 124.1, 128.3, 137.2],
 	[70.06, 74.22, 77.93, 118.5, 124.3, 129.6, 135.8, 140.2, 149.4]];
-	this.writehtml=function(open, close)
+	that.writehtml=function(open, close)
 	{
 		var a="<table border=1 cellpadding=0>";
 		a+="<tr><td>"+open+"p"+close+"</td><td></td>";
 		for(var i=0;i<9;i++)
 		{
-			a+="<td>"+open+(i%3==1?"<strong>":"")+this.p[i]+(i%3==1?"</strong>":"")+close+"</td>";
+			a+="<td>"+open+(i%3==1?"<strong>":"")+that.p[i]+(i%3==1?"</strong>":"")+close+"</td>";
 			if(i==2)
 				a+="<td></td>";
 		}
@@ -220,10 +175,10 @@ function mktableChi()
 		for(i=1;i<34;i++)
 		{
 			if(i&&((i%5)==0)) a+="<tr><td></td></tr>";
-			a+="<tr><td>"+open+this.v[i-1]+close+"</td><td></td>";
+			a+="<tr><td>"+open+that.v[i-1]+close+"</td><td></td>";
 			for(var j=0;j<9;j++)
 			{
-				a+="<td>"+open+(j%3==1?"<strong>":"")+this.values[i-1][j].toString().rPad(5, '0')+(j%3==1?"</strong>":"")+close+"</td>";
+				a+="<td>"+open+(j%3==1?"<strong>":"")+that.values[i-1][j].toString().rPad(5, '0')+(j%3==1?"</strong>":"")+close+"</td>";
 				if(j==2)
 					a+="<td></td>";
 			}
@@ -237,32 +192,33 @@ function mktableChi()
 var tableN=new mktableN();
 function mktableN()
 {
-	this.values=new Array(3000);
-	this.table=new Array(300);
-	this.charac=new Array(300); // characteristics
-	this.ready=false;
-	this.populate=function()
+	var that = this;
+	that.values=new Array(3000);
+	that.table=new Array(300);
+	that.charac=new Array(300); // characteristics
+	that.ready=false;
+	that.populate=function()
 	{
-		if(!this.ready)
+		if(!that.ready)
 		{
 			var p=0.5;
 			for(var i=0;i<300;i++)
-				this.charac[i]=0;
+				that.charac[i]=0;
 			for(i=0;i<3000;i++)
 			{
-				this.values[i]=p;
+				that.values[i]=p;
 				if((i%10)==0)
-					this.table[i/10]=this.values[i];
+					that.table[i/10]=that.values[i];
 				else
-					this.charac[10*Math.floor(i/100)+(i%10)]+=this.values[i]-this.table[Math.floor(i/10)];
+					that.charac[10*Math.floor(i/100)+(i%10)]+=that.values[i]-that.table[Math.floor(i/10)];
 				p+=0.001*massNZ((i+0.5)*0.001);
 			}
-			this.ready=true;
-		};
+			that.ready=true;
+		}
 	};
-	this.write=function() // Horrific pile of painful LaTeX in a feeble attempt to make it look table-like.  TODO: re-do this using proper l|c||r\\hline
+	that.write=function() // Horrific pile of painful LaTeX in a feeble attempt to make it look table-like.  TODO: re-do that using proper l|c||r\\hline
 	{
-		if(!this.ready)
+		if(!that.ready)
 			return("\\mbox{Table not populated!}");
 		var a="\\begin{array}{c}|&-&|&-&-&-&-&-&-&-&-&-&-&-&-&-&|&-&-&-&&-&-&-&&-&-&-&|\\\\";
 		a+="|&z&|&0&&1&2&3&&4&5&6&&7&8&9&|&1&2&3&&4&5&6&&7&8&9&|\\\\";
@@ -274,12 +230,12 @@ function mktableN()
 			a+="|&"+(i/10)+"&|&";
 			for(var j=0;j<10;j++)
 			{
-				a+=(Math.round(this.table[(i*10)+j]*1e4)/1e4).toString().rPad(6, '0')+"&";
+				a+=(Math.round(that.table[(i*10)+j]*1e4)/1e4).toString().rPad(6, '0')+"&";
 				if(j%3==0) a+="|&";
 			}
 			for(j=1;j<10;j++)
 			{
-				a+=Math.round(this.charac[(i*10)+j]*1e3)+"&";
+				a+=Math.round(that.charac[(i*10)+j]*1e3)+"&";
 				if(j%3==0) a+="|&";
 			}
 			a+="\\\\";
@@ -288,9 +244,9 @@ function mktableN()
 		a+="\\end{array}";
 		return(a);
 	};
-	this.writehtml=function(open, close) // somewhat nicer HTML, but still quite a lot of it
+	that.writehtml=function(open, close) // somewhat nicer HTML, but still quite a lot of it
 	{
-		if(!this.ready)
+		if(!that.ready)
 			return("<strong>Table not populated!</strong>");
 		var a="<table border=1 cellpadding=0 cellspacing=0>";
 		a+="<tr><td>"+open+"z"+close+"</td><td width=3></td>";
@@ -312,12 +268,12 @@ function mktableN()
 			a+="<tr><td>"+open+Math.floor(i/10)+"."+(i%10)+close+"</td><td></td>";
 			for(var j=0;j<10;j++)
 			{
-				a+="<td>"+open+(j%3?"":"<strong>")+(Math.round(this.table[(i*10)+j]*1e4)/1e4).toString().rPad(6, '0')+(j%3?"":"</strong>")+close+"</td>";
+				a+="<td>"+open+(j%3?"":"<strong>")+(Math.round(that.table[(i*10)+j]*1e4)/1e4).toString().rPad(6, '0')+(j%3?"":"</strong>")+close+"</td>";
 			}
 			a+="<td></td>";
 			for(j=1;j<10;j++)
 			{
-				a+="<td>"+open+(j%2?"":"<strong>")+Math.round(this.charac[(i*10)+j]*1e3)+(j%2?"":"</strong>")+close+"</td>";
+				a+="<td>"+open+(j%2?"":"<strong>")+Math.round(that.charac[(i*10)+j]*1e3)+(j%2?"":"</strong>")+close+"</td>";
 			}
 			a+="</tr>";
 		}
@@ -328,3 +284,5 @@ function mktableN()
 
 String.prototype.lPad = function (n,c) {var i; var a = this.split(''); for (i = 0; i < n - this.length; i++) {a.unshift (c);}; return a.join('');};
 String.prototype.rPad = function (n,c) {var i; var a = this.split(''); for (i = 0; i < n - this.length; i++) {a.push (c);}; return a.join('');};
+
+closure="happy";

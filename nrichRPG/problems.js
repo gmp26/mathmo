@@ -88,8 +88,8 @@ function makeBinomial2()
 	q[2]=n*(n-1)*Math.pow(p[0],n-2)/2*Math.pow(p[1], 2);
 	q[3]=n*(n-1)*(n-2)*Math.pow(p[0],n-3)/6*Math.pow(p[1], 3);
 
-	qString="Evaluate$$("+p.rwrite()+")^"+n+"$$to the fourth term.";
-	aString="$$"+q.rwrite()+"$$";
+	var qString="Evaluate$$("+p.rwrite()+")^"+n+"$$to the fourth term.";
+	var aString="$$"+q.rwrite()+"$$";
 
 	var qa=[qString, aString];
 	return qa;
@@ -141,7 +141,7 @@ function makeTrigInt()
 	if(a)
 	{
 		soln1=cospi(a,U);
-		for(i=0;i<6;i+=2) soln1[i]*=-A;
+		for(var i=0;i<6;i+=2) soln1[i]*=-A;
 		for(i=1;i<6;i+=2) soln1[i]*=a;
 		if(soln1[0])
 		{
@@ -226,7 +226,7 @@ function makeVector()
 	var v=distrand(3, 0, 3);
 	
 	//qString="Consider the four vectors$$\\begin\{array\}\{l\} \\mathbf\{A\}="+A[0].write()+", \\mathbf\{B\}="+A[1].write()+", \\mathbf\{C\}="+A[2].write()+", \\mathbf\{D\}="+A[3].write()+".\\\\ \\\\ \\mbox\{	(i) Order the vectors by magnitude.\}\\\\ \\\\ \\mbox\{	(ii) Use the scalar product to find the angles between (a) \}\\mathbf\{"+ntol(v[0])+"\} \\mbox\{ and \}\\mathbf\{"+ntol(v[1])+"\}, \\mbox\{(b) \}\\mathbf\{"+ntol(v[1])+"\} \\mbox\{ and \} \\mathbf\{"+ntol(v[2])+"\}.\\end\{array\}";
-	qString = "Consider the four vectors";
+	var qString = "Consider the four vectors";
 	qString += "$$\\mathbf{A}=" + A[0].write() + ", \\mathbf{B}=" + A[1].write() + "$$";
 	qString += "$$\\mathbf{C}=" + A[2].write() + ", \\mathbf{D}=" + A[3].write() + "$$";
 	qString += "<ol style=\"list-style-type:lower-roman\"><li>Order the vectors by magnitude.</li>";
@@ -394,9 +394,9 @@ function makeLines()
 			else aString+="\\frac{"+costh.top+"}{"+cosbot.write()+"}";
 			aString+="\\right).$$";
 		}
-		mu=new frac();
-		lam1=new frac();
-		lam2=new frac();
+		var mu=new frac();
+		var lam1=new frac();
+		var lam2=new frac();
 		if(a1*b2-a2*b1)
 		{
 			mu.set(a2*b2*(e1-d1)-a2*b1*e2+a1*b2*d2,a1*b2-a2*b1);
@@ -411,9 +411,9 @@ function makeLines()
 		}
 		if(lam1.equals(lam2))
 		{
-			xm=new frac(lam1.top-d1*lam1.bot,a1*lam1.bot);
-			ym=new frac(lam1.top-e1*lam1.bot,b1*lam1.bot);
-			zm=new frac(lam1.top-f1*lam1.bot,c1*lam1.bot);
+			var xm=new frac(lam1.top-d1*lam1.bot,a1*lam1.bot);
+			var ym=new frac(lam1.top-e1*lam1.bot,b1*lam1.bot);
+			var zm=new frac(lam1.top-f1*lam1.bot,c1*lam1.bot);
 			aString+="The lines meet at the point$$\\left("+xm.write()+","+ym.write()+","+zm.write()+"\\right).$$";
 		}
 		else aString+="The lines do not meet.";
@@ -2102,7 +2102,7 @@ function makeDiscreteDistn()
 	var x=rand(1, 4);
 	var which=rand(0, 2);
 	var leq=rand();
-	var qString="\\mbox{The random variable }X\\mbox{ is distributed as }"+dists[which]+"\\mbox{.  Find }\\mathbb{P}(X"+(leq?"\\le":"=")+x+")";
+	var qString="The random variable \\(X\\) is distributed as$$"+dists[which]+".$$  Find \\(\\mathbb{P}(X"+(leq?"\\le":"=")+x+")\\)";
 	var ans;
 	if(leq)
 	{
@@ -2116,7 +2116,7 @@ function makeDiscreteDistn()
 	{
 		ans=massfn[which](x, parms[which][0], parms[which][1]);
 	}
-	var aString=ans.toFixed(6);
+	var aString="$$"+ans.toFixed(6)+"$$";
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2127,12 +2127,12 @@ function makeContinDistn()
 	var mu=rand(0, 4);
 	var sigma=rand(1, 4);
 	var x=(mu+((Math.random()-0.5)*6*sigma)).toFixed(1);
-	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ is normally distributed with mean }"+mu+"\\mbox{ and variance }"+sigma*sigma+"\\\\";
-	qString+="\\mbox{Find }\\mathbb{P}(X\\le"+x+")\\end{array}";
+	var qString="The random variable \\(X\\) is normally distributed with mean \\("+mu+"\\) and variance \\("+sigma*sigma+"\\)";
+	qString+="<br />Find \\(\\mathbb{P}(X\\le"+x+")\\)";
 	var z=(x-mu)/sigma;
 	var p=tableN.values[Math.floor(1e3*Math.abs(z))];
 	if(z<0) {p=1-p;}
-	var aString=p.toFixed(3);
+	var aString="$$"+p.toFixed(3)+"$$";
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2161,13 +2161,19 @@ function makeHypTest()
 			which=rand()?(mu[0]<mu[1]?2:1):0;
 		}
 		Sx=genN(mu[1]*n, sigma[1]*Math.sqrt(n));
-		qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\mbox{, }\\sigma^2 = "+sigma[0]*sigma[0]+"\\\\";
-		qString+="\\mbox{The alternative hypothesis }{\\rm H}_1\\mbox{ is that }\\mu"+['\\ne','<','>'][which]+mu[0]+"\\\\";
-		qString+="\\mbox{The significance level is }"+sl+"\\%\\\\";
-		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Sx.toFixed(3)+"\\\\";
-		qString+="\\mbox{(i) Compute }\\overline{x}\\\\\\mbox{(ii) Is }{\\rm H}_0\\mbox{ accepted?}\\end{array}";
+		qString="In a hypothesis test, the null hypothesis \\({\\rm H}_0\\) is that \\(X\\) is normally distributed, with \\(\\mu = "+mu[0]+"\\mbox{, }\\sigma^2 = "+sigma[0]*sigma[0]+"\\). ";
+		qString+="The alternative hypothesis \\({\\rm H}_1\\) is that \\(\\mu"+['\\ne','<','>'][which]+mu[0]+"\\). ";
+		qString+="The significance level is \\("+sl+"\\%\\). ";
+		qString+="A sample of size \\("+n+"\\) is drawn from \\(X\\), and its sum \\(\\sum{x} = "+Sx.toFixed(3)+"\\).<br />";
+
+		qString+="<br />Compute: <ul style=\"list-style-type: lower-roman;\">";
+		qString += "<li>\\(\\overline{x}\\)</li>";
+		qString += "<li> Is \\({\\rm H}_0\\) accepted?}</li>";
+		qString += "</ul>";
+
 		xbar=Sx/n;
-		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+xbar.toFixed(3)+"\\\\";
+		aString = "<ul style=\"list-style-type: lower-roman;\">";
+		aString += "<li>\\(\\overline{x} = "+xbar.toFixed(3) +"\\)</li>";
 		p=0;
 		if(which) // one tail
 		{
@@ -2202,11 +2208,11 @@ function makeHypTest()
 		critdev=sigma[0]*tableT.values[tableT.values.length-1][p]/Math.sqrt(n);
 		if(which)
 		{
-			aString+="\\mbox{(ii) The critical region is }\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"\\mbox{; }";
+			aString+="<li>The critical region is $$\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"$$<br />";
 		}
 		else
 		{
-			aString+="\\mbox{(ii) The critical values are }"+(mu[0]-critdev).toFixed(3)+"\\mbox{ and }"+(mu[0]+critdev).toFixed(3)+"\\mbox{; }";
+			aString+="<li>The critical values are $$"+(mu[0]-critdev).toFixed(3)+"\\) and \\("+(mu[0]+critdev).toFixed(3)+"$$<br />";
 		}
 		acc=false;
 		switch(which)
@@ -2221,8 +2227,8 @@ function makeHypTest()
 				acc=(xbar<=mu[0]+critdev);
 			break;
 		}
-		aString+=acc?"{\\rm H}_0\\mbox{ is accepted.}":"{\\rm H}_0\\mbox{ is rejected.}";
-		aString+="\\end{array}";
+		aString+=acc?"\\(\\rm H}_0\\) is accepted.</li>":"\\(\\rm H}_0\\) is rejected.</li>";
+		aString += "</ul>";
 		qa=[qString,aString];
 		return(qa);
 	}
@@ -2252,19 +2258,23 @@ function makeHypTest()
 			Sx+=xi;
 			Sxx+=(xi*xi);
 		}
-		qString="\\begin{array}{l}\\mbox{In a hypothesis test, the null hypothesis }{\\rm H}_0\\mbox{ is that }X\\\\\\mbox{ is normally distributed, with }\\mu = "+mu[0]+"\\\\";
-		qString+="\\mbox{The alternative hypothesis }{\\rm H}_1\\mbox{ is that }\\mu"+['\\ne','<','>'][which]+mu[0]+"\\\\";
-		qString+="\\mbox{The significance level is }"+sl+"\\%\\\\";
-		qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{, and its sum }\\sum{x} = "+Sx.toFixed(3)+"\\\\";
-		qString+="\\mbox{The sum of squares, }\\sum{x^2} = "+Sxx.toFixed(3)+"\\\\";
-		qString+="\\mbox{(i) Compute }\\overline{x}\\\\";
-		qString+="\\mbox{(ii) Compute an estimate, }S^2\\mbox{, of the variance of }X\\\\";
-		qString+="\\mbox{(iii) Is }{\\rm H}_0\\mbox{ accepted?}\\end{array}";
+		qString = "In a hypothesis test, the null hypothesis \\({\\rm H}_0\\) is that \\(X\\) is normally distributed, with \\(\\mu = "+mu[0]+"\\). ";
+		qString += "The alternative hypothesis \\({\\rm H}_1\\) is that \\(\\mu"+['\\ne','<','>'][which]+mu[0]+"\\). ";
+		qString += "The significance level is \\("+sl+"\\%\\). ";
+		qString += "A sample of size \\("+n+"\\) is drawn from \\(X\\), and its sum \\(\\sum{x} = "+Sx.toFixed(3)+"\\). ";
+		qString += "The sum of squares, \\(\\sum{x^2} = "+Sxx.toFixed(3)+"\\). ";
+		
+		qString += "Compute: <ul style=\"list-style-type: lower-roman;\">";
+		qString += "<li>\\(\\overline{x}\\)</li>";
+		qString += "<li>Compute an estimate, \\(S^2\\), of the variance of \\(X\\)</li>";
+		qString += "<li>Is \\({\\rm H}_0\\) accepted?</li>";
+		qString += "</ul>";
 		xbar=Sx/n;
-		aString="\\begin{array}{l}\\mbox{(i) }\\overline{x} = "+xbar.toFixed(3)+"\\\\";
+		aString = "<ul style=\"list-style-type: lower-roman;\">";
+		aString="<li>\\(\\overline{x} = "+xbar.toFixed(3)+"\\)</li>";
 		var SS=(Sxx-Sx*Sx/n)/(n-1);
-		aString+="\\mbox{(ii) }S^2 = "+SS.toFixed(3)+"\\\\";
-		aString+="\\mbox{Under }{\\rm H}_0\\mbox{, }{\\frac{\\overline{X}"+(mu[0]?(mu[0]>0?"-":"+")+Math.abs(mu[0]):"")+"}{"+Math.sqrt(SS/n).toFixed(3)+"}}\\sim t_{"+(n-1)+"}\\\\";
+		aString+="<li>\\(S^2 = "+SS.toFixed(3)+"\\). ";
+		aString+="Under \\({\\rm H}_0\\), \\({\\frac{\\overline{X}"+(mu[0]?(mu[0]>0?"-":"+")+Math.abs(mu[0]):"")+"}{"+Math.sqrt(SS/n).toFixed(3)+"}}\\sim t_{"+(n-1)+"}\\)</li>";
 		p=0;
 		if(which) // one tail
 		{
@@ -2299,11 +2309,11 @@ function makeHypTest()
 		critdev=Math.sqrt(SS)*tableT.values[n-2][p]/Math.sqrt(n);
 		if(which)
 		{
-			aString+="\\mbox{(iii) The critical region is }\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"\\mbox{; }";
+			aString+="<li>The critical region is \\(\\overline{x}"+(which===1?"<"+(mu[0]-critdev).toFixed(3):">"+(mu[0]+critdev).toFixed(3))+"\\); </br />";
 		}
 		else
 		{
-			aString+="\\mbox{(iii) The critical values are }"+(mu[0]-critdev).toFixed(3)+"\\mbox{ and }"+(mu[0]+critdev).toFixed(3)+"\\mbox{; }";
+			aString+="<li>The critical values are \\("+(mu[0]-critdev).toFixed(3)+"\\) and \\("+(mu[0]+critdev).toFixed(3)+"\\); <br />";
 		}
 		acc=false;
 		switch(which)
@@ -2318,8 +2328,8 @@ function makeHypTest()
 				acc=(xbar<=mu[0]+critdev);
 			break;
 		}
-		aString+=acc?"{\\rm H}_0\\mbox{ is accepted.}":"{\\rm H}_0\\mbox{ is rejected.}";
-		aString+="\\end{array}";
+		aString+=acc?"\\({\\rm H}_0\\) is accepted.</li>":"\\({\\rm H}_0\\) is rejected.</li>";
+		aString+="</ul>";
 		qa=[qString,aString];
 		return(qa);
 	}
@@ -2339,9 +2349,9 @@ function makeConfidInt()
 		Sx+=xi;
 		Sxx+=(xi*xi);
 	}
-	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ has a normal distribution, with unknown parameters.}\\\\";
-	qString+="\\mbox{A sample of size }"+n+"\\mbox{ is taken; }\\sum{x}="+Sx.toFixed(3)+"\\mbox{ and }\\sum{x^2}="+Sxx.toFixed(3)+".\\\\";
-	qString+="\\mbox{Compute, to 3 DP., a }"+sl+"\\mbox{% confidence interval for the mean of }X\\end{array}";
+	var qString="The random variable \\(X\\) has a normal distribution with unknown parameters. ";
+	qString+="A sample of size \\("+n+"\\) is taken for which $$\\sum{x}="+Sx.toFixed(3)+"$$$$\\mbox{and}\\sum{x^2}="+Sxx.toFixed(3)+".$$";
+	qString+="Compute, to 3 DP., a \\("+sl+"\\)% confidence interval for the mean of \\(X\\).<br />";
 	var xbar=Sx/n;
 	var SS=(Sxx-Sx*Sx/n)/(n-1);
 	var p;
@@ -2358,7 +2368,7 @@ function makeConfidInt()
 		break;
 	}
 	var critdev=Math.sqrt(SS/n)*tableT.values[n-2][p];
-	var aString="["+(xbar-critdev).toFixed(3)+", "+(xbar+critdev).toFixed(3)+"]";
+	var aString="$$["+(xbar-critdev).toFixed(3)+", "+(xbar+critdev).toFixed(3)+"]$$";
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2375,10 +2385,10 @@ function makeChiSquare()
 	var genfn=[genBin, genPo, genGeo, genN];
 	var which=rand(0, 3);
 	var hyp=rand()?which:rand(0, 3);
-	var n=5*rand(10, 15)
+	var n=5*rand(10, 15);
 	var sl=pickrand(90, 95, 99);
-	var qString="\\begin{array}{l}\\mbox{The random variable }X\\mbox{ is modelled by a }"+distns[hyp]+"\\mbox{ distribution.}\\\\";
-	qString+="\\mbox{A sample of size }"+n+"\\mbox{ is drawn from }X\\mbox{ and follows as grouped frequency data.}\\\\";
+	var qString="The random variable \\(X\\) is modelled by a <i>"+distns[hyp]+"</i> distribution. ";
+	qString+="A sample of size \\("+n+"\\) is drawn from \\(X\\) with the following grouped frequency data. ";
 	var sample=[],min=1e3,max=0;
 	var i;
 	for(i=0;i<n;i++)
@@ -2399,7 +2409,7 @@ function makeChiSquare()
 		var y=Math.floor((sample[i]-min)/2);
 		freq[y]++;
 	}
-	qString+="\\begin{array}{c|r}x&\\mbox{Frequency}\\\\";
+	qString += "<div style=\"font-size: 80%;\">$$\\begin{array}{c|r}x&\\mbox{Frequency}\\\\";
 	var x;
 	var Sx=0, Sxx=0;
 	for(i=0;i<Math.ceil((max+1-min)/2);i++)
@@ -2421,9 +2431,11 @@ function makeChiSquare()
 		}
 		qString+="&"+freq[i]+"\\\\";
 	}
-	qString+="\\end{array}\\\\";
-	qString+="\\mbox{(i) Estimate the parameters of the distribution.}\\\\";
-	qString+="\\mbox{(ii) Use a }\\chi^2\\mbox{ test, with a significance level of }"+sl+"\\mbox{%, to test this hypothesis.}\\end{array}";
+	qString += "\\end{array}$$</div>";
+	qString += "<ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>Estimate the parameters of the distribution.</li>";
+	qString += "<li>Use a \\(\\chi^2\\) test, with a significance level of \\("+sl+"\\)%, to test this hypothesis.</li>";
+	qString += "</ul>";
 	var p;
 	switch(sl)
 	{
@@ -2457,17 +2469,18 @@ function makeChiSquare()
 			hypparms[1]=Math.sqrt(SS);
 		break;
 	}
-	var aString="\\begin{array}{l}\\mbox{(i) }"+parmnames[hyp][0]+"="+hypparms[0].toFixed(3);
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>$$"+parmnames[hyp][0]+"="+hypparms[0].toFixed(3);
 	if(nparms[hyp]===2)
 	{
-		aString+="\\mbox{, }"+parmnames[hyp][1]+"="+hypparms[1].toFixed(3);
+		aString+=", "+parmnames[hyp][1]+"="+hypparms[1].toFixed(3) + ".";
 	}
 	if(hyp===0&&hypparms[0]<1)
 	{
-		aString+=".\\\\\\mbox{The binomial model cannot fit these data.}\\end{array}";
+		aString+="The binomial model cannot fit these data</li></ul>";
 		return([qString, aString]);
 	}
-	aString+=".\\\\\\mbox{(ii)}\\\\";
+	aString += "$$</li><li></li></ul>";
 	// The whole "combining rows" thing is going to be hard :S
 	var nrows=Math.ceil((max+1-min)/2);
 	var row=[]; // [Xl, Xh, O, E, ((O-E)^2)/E]
@@ -2517,7 +2530,7 @@ function makeChiSquare()
 	crow[4]=Math.pow(crow[2]-crow[3], 2)/crow[3];
 	row2.push(crow);
 	chisq+=crow[4];
-	aString+="\\begin{array}{c||r|r|r}";
+	aString+="<div style=\"font-size: 80%;\">$$\\begin{array}{c||r|r|r}";
 	aString+="x&O_i&E_i&\\frac{(O_i-E_i)^2}{E_i}\\\\";
 	for(i=0;i<row2.length;i++)
 	{
@@ -2535,26 +2548,25 @@ function makeChiSquare()
 		}
 		aString+="&"+row2[i][2]+"&"+row2[i][3].toFixed(3)+"&"+row2[i][4].toFixed(3)+"\\\\";
 	}
-	aString+="\\end{array}\\\\";
-	aString+="\\chi^2 = "+chisq.toFixed(3)+"\\\\";
+	aString+="\\end{array}$$</div>";
+	aString+="$$\\chi^2 = "+chisq.toFixed(3)+"$$";
 	var nu=row2.length-1-nparms[hyp];
-	aString+="\\nu = "+nu+"\\\\";
+	aString+="$$\\nu = "+nu+"$$";
 	if(nu<1)
 	{
-		aString+="\\mbox{Error! }\\nu<1\\mbox{ - that's not supposed to happen.}\\end{array}";
+		aString+="Error! \(\\nu<1\\) - that's not supposed to happen.";
 		return([qString, aString]);
 	}
 	var critval=tableChi.values[nu-1][p];
-	aString+="\\mbox{Critical region: }\\chi^2 >"+critval+"\\\\";
+	aString+="Critical region: \\(\\chi^2 >"+critval+"\\)<br />";
 	if(chisq>critval)
 	{
-		aString+="\\mbox{The hypothesis is rejected.}";
+		aString+="The hypothesis is rejected.";
 	}
 	else
 	{
-		aString+="\\mbox{The hypothesis is accepted.}";
+		aString+="The hypothesis is accepted.";
 	}
-	aString+="\\end{array}";
 	var qa=[qString,aString];
 	return(qa);
 }
@@ -2573,8 +2585,10 @@ function makeProductMoment()
 		x[i][1]=genN(mu[1], sigma[1]);
 	}
 	var Ex=0,Exx=0,Exy=0,Eyy=0,Ey=0; // Here E represents sigma
-	var qString="\\begin{array}{l}\\mbox{For the following data, (i) compute the product moment correlation coefficient, }{\\bf r}\\\\";
-	qString+="\\mbox{(ii) find the regression line of }y\\mbox{ on }x\\\\\\begin{array}{c|c}x&y\\\\";
+	var qString="For the following data,";
+	qString += "<ul style=\"list-style-type: lower-roman;\">";
+	qString += "<li>compute the product moment correlation coefficient, \\({\\bf r}\\)</li>";
+	qString+="<li>find the regression line of \\(y\\) on \\(x\\)$$\\begin{array}{c|c}x&y\\\\";
 	for(i=0;i<n;i++)
 	{
 		qString+=x[i][0].toFixed(3)+"&"+x[i][1].toFixed(3)+"\\\\";
@@ -2584,14 +2598,15 @@ function makeProductMoment()
 		Eyy+=x[i][1]*x[i][1];
 		Ey+=x[i][1];
 	}
-	qString+="\\end{array}\\end{array}";
+	qString+="\\end{array}$$</li></ul>";
 	var xbar=Ex/n, ybar=Ey/n;
 	var Sxx=Exx-Ex*xbar, Syy=Eyy-Ey*ybar;
 	var Sxy=Exy-(Ex*Ey/n);
 	var r=Sxy/Math.sqrt(Sxx*Syy);
 	var b=Sxy/Sxx;
 	var a=ybar-(b*xbar);
-	var aString="\\mbox{(i) }{\\bf r}="+r.toFixed(3)+"\\mbox{; (ii) }y="+b.toFixed(3)+"x"+(a>0?"+":"")+a.toFixed(3);
+	var aString = "<ul style=\"list-style-type: lower-roman;\">";
+	aString += "<li>\\({\\bf r}="+r.toFixed(3)+"\\)</li><li>\\(y="+b.toFixed(3)+"x"+(a>0?"+":"")+a.toFixed(3)+"\\).";
 	var qa=[qString,aString];
 	return(qa);
 }

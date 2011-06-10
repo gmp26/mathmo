@@ -4,45 +4,46 @@ var Complex = new complex; // prototypical Complex object that lets us get the m
 // complex number object: set or get it in Re/Im or r/theta, write it in LaTeX
 function complex(Re, Im)
 {
-	this.Re=Re;
-	this.Im=Im;
-	this.set=function(Re, Im)
+	var that = this;
+	that.Re=Re;
+	that.Im=Im;
+	that.set=function(Re, Im)
 	{
-		this.Re=Re;
-		this.Im=Im;
-		return(this);
-	}
-	this.ptoc=function(Mod, Arg)
+		that.Re=Re;
+		that.Im=Im;
+		return(that);
+	};
+	that.ptoc=function(Mod, Arg)
 	{
 		var z=new complex;
 		z.Re=Mod*Math.cos(Arg);
 		z.Im=Mod*Math.sin(Arg);
 		return(z);
-	}
-	this.random=function(maxentry, rad)
+	};
+	that.random=function(maxentry, rad)
 	{
 		var z=new complex;
 		z=Complex.ptoc(rand(0, maxentry), Math.PI*rand(0, rad*2)/rad);
 		return(z);
-	}
-	this.randnz=function(maxentry, rad)
+	};
+	that.randnz=function(maxentry, rad)
 	{
 		var z=new complex;
 		z=Complex.ptoc(rand(1, maxentry), Math.PI*rand(0, rad*2)/rad);
 		return(z);
-	}
-	this.ctop=function(z)
+	};
+	that.ctop=function(z)
 	{
 		if(typeof(z)=='undefined')
-			z=this;
+			z=that;
 		var Mod=Math.sqrt(Math.pow(z.Re, 2)+Math.pow(z.Im, 2));
 		var Arg=Math.atan2(z.Im, z.Re);
 		return([Mod, Arg]);
-	}
-	this.isnull=function() {return !(this.Re||this.Im);};
-	this.write=function()
+	};
+	that.isnull=function() {return !(that.Re||that.Im);};
+	that.write=function()
 	{
-		var u=[guessExact(this.Re), guessExact(this.Im)];
+		var u=[guessExact(that.Re), guessExact(that.Im)];
 		if(u[1]==0)
 			return(u[0]);
 		else if(u[0]==0)
@@ -53,95 +54,100 @@ function complex(Re, Im)
 		{
 			return((u[0]+" + "+ascoeff(u[1])+"i").replace(/\+ \-/g, '-'));
 		}
-	}
-	this.add=function(u, v)
+	};
+	that.add=function(u, v)
 	{
-		var w=new complex(this.Re+u, this.Im+v);
+		var w=new complex(that.Re+u, that.Im+v);
 		return(w);
-	}
-	this.times=function(u, v)
+	};
+	that.times=function(u, v)
 	{
-		var w=new complex(this.Re*u - this.Im*v, this.Re*v + this.Im*u);
+		var w=new complex(that.Re*u - that.Im*v, that.Re*v + that.Im*u);
 		return(w);
-	}
-	this.divide=function(u, v)
+	};
+	that.divide=function(u, v)
 	{
 		var d=Math.pow(u, 2)+Math.pow(v, 2);
-		var w=new complex((u*this.Re+v*this.Im)/d, (u*this.Im-v*this.Re)/d);
+		var w=new complex((u*that.Re+v*that.Im)/d, (u*that.Im-v*that.Re)/d);
 		return(w);
-	}
-	this.equals=function(u, v)
+	};
+	that.equals=function(u, v)
 	{
-		return(this.Re==u&&this.Im==v);
-	}
+		return(that.Re==u&&that.Im==v);
+	};
 }
 
 // polynomial (over C) object: can be set manually or randomly, nonzero terms counted, computed at a z value, multiplied by a constant, differentiated, write it in latex
 // REMEMBER: it's stored backwards (x^0 term first)
 function c_poly(rank)
 {
-	this.rank=rank;
-	this.terms=function()
+	var that = this;
+	that.rank=rank;
+	that.terms=function()
 	{
 		var n=0;
-		for(var i=0;i<=this.rank;i++) if(!this[i].isnull) n++;
-		return n;
-	}
-	this.set=function()
-	{
-		this.rank=this.set.arguments.length-1;
-		for(var i=0;i<=this.rank;i++) this[i]=this.set.arguments[i];
-	}
-	this.setrand=function(maxentry, rad)
-	{
-		for(var i=0;i<=this.rank;i++)
-		{
-			this[i]=Complex.random(maxentry, rad);
+		for(var i=0;i<=that.rank;i++) {
+			if(!that[i].isnull) {
+				n++;
+			}
 		}
-		if(this[this.rank].isnull()) this[this.rank].set(1, 0);
-	}
-	this.compute=function(z)
+		return n;
+	};
+	that.set=function()
+	{
+		that.rank=that.set.arguments.length-1;
+		for(var i=0;i<=that.rank;i++) that[i]=that.set.arguments[i];
+	};
+	that.setrand=function(maxentry, rad)
+	{
+		for(var i=0;i<=that.rank;i++)
+		{
+			that[i]=Complex.random(maxentry, rad);
+		}
+		if(that[that.rank].isnull()) that[that.rank].set(1, 0);
+	};
+	that.compute=function(z)
 	{
 		var y=new complex(0, 0);
 		var zp=z.ctop();
-		for(var i=0;i<=this.rank;i++) 
+		for(var i=0;i<=that.rank;i++) 
 		{
 			var zi=Complex.ptoc(Math.pow(zp[0], i), zp[1]*i);
 			y=y.add(zi[0], zi[1]);
 		}
 		return y;
-	}
-	/*this.gcd=function() // TODO complex gcd() using Gaussian integers stuff
+	};
+	/*that.gcd=function() // TODO complex gcd() using Gaussian integers stuff
 	{
-		var a=this[this.rank];
-		for(var i=0;i<this.rank;i++) a=gcd(a, this[i]);
+		var a=that[that.rank];
+		for(var i=0;i<that.rank;i++) a=gcd(a, that[i]);
 		return a;
 	}*/
-	this.xthru=function(z)
+	that.xthru=function(z)
 	{
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			this[i]=(this[i].times(z.Re, z.Im));
+			that[i]=(that[i].times(z.Re, z.Im));
 		}
-	}
-	this.addp=function(x)
+	};
+	that.addp=function(x)
 	{
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			this[i]=this[i].add(x[i].Re, x[i].Im);
+			that[i]=that[i].add(x[i].Re, x[i].Im);
 		}
-	}
-	this.diff=function(d)
+	};
+	that.diff=function(d)
 	{
 		d.rank=rank-1;
-		for(var i=0;i<this.rank;i++) d[i]=this[i+1].times(i+1, 0);
-	}
-	this.integ=function(d)
+		for(var i=0;i<that.rank;i++) d[i]=that[i+1].times(i+1, 0);
+	};
+	that.integ=function(d)
 	{
 		d.rank=rank+1;
-		for(var i=0;i<this.rank;i++) d[i+1]=this[i].divide(i+1, 0);
-	}
-	this.write=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to z
+		for(var i=0;i<that.rank;i++) d[i+1]=that[i].divide(i+1, 0);
+	};
+	that.write=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to z
 	{
 		if(typeof(l)=='undefined')
 		{
@@ -149,14 +155,14 @@ function c_poly(rank)
 		}
 		var q="";
 		var j=false;
-		for(var i=this.rank;i>=0;i--)
+		for(var i=that.rank;i>=0;i--)
 		{
-			if(!this[i].isnull())
+			if(!that[i].isnull())
 			{
 				if(j)
 				{
-					if((this[i].Im==0 && this[i].Re<0) || (this[i].Re==0 && this[i].Im<0))
-						q+=' - '
+					if((that[i].Im==0 && that[i].Re<0) || (that[i].Re==0 && that[i].Im<0))
+						q+=' - ';
 					else
 						q+=' + ';
 					j=false;
@@ -164,40 +170,40 @@ function c_poly(rank)
 				switch(i)
 				{
 					case 0:
-						q+=this[i].write(); j=true;
+						q+=that[i].write(); j=true;
 					break;
 					case 1:
-						if(this[i].equals(1, 0) || this[i].equals(-1, 0))
+						if(that[i].equals(1, 0) || that[i].equals(-1, 0))
 							q+=l;
-						else if(this[i].equals(0, 1) || this[i].equals(0, -1))
+						else if(that[i].equals(0, 1) || that[i].equals(0, -1))
 							q+="i"+l;
-						else if(this[i].Im==0 && this[i].Re<0)
-							q+=Math.abs(this[i].Re)+l;
-						else if(this[i].Re==0 && this[i].Im<0)
-							q+=Math.abs(this[i].Im)+"i"+l;
+						else if(that[i].Im==0 && that[i].Re<0)
+							q+=Math.abs(that[i].Re)+l;
+						else if(that[i].Re==0 && that[i].Im<0)
+							q+=Math.abs(that[i].Im)+"i"+l;
 						else
-							q+="("+this[i].write()+")"+l;
+							q+="("+that[i].write()+")"+l;
 						j=true;
 					break;
 					default:
-						if(this[i].equals(1, 0) || this[i].equals(-1, 0))
+						if(that[i].equals(1, 0) || that[i].equals(-1, 0))
 							q+=l+"^"+i;
-						else if(this[i].equals(0, 1) || this[i].equals(0, -1))
+						else if(that[i].equals(0, 1) || that[i].equals(0, -1))
 							q+="i"+l+"^"+i;
-						else if(this[i].Im==0 && this[i].Re<0)
-							q+=Math.abs(this[i].Re)+l+"^"+i;
-						else if(this[i].Re==0 && this[i].Im<0)
-							q+=Math.abs(this[i].Im)+"i"+l+"^"+i;
+						else if(that[i].Im==0 && that[i].Re<0)
+							q+=Math.abs(that[i].Re)+l+"^"+i;
+						else if(that[i].Re==0 && that[i].Im<0)
+							q+=Math.abs(that[i].Im)+"i"+l+"^"+i;
 						else
-							q+="("+this[i].write()+")"+l+"^"+i;
+							q+="("+that[i].write()+")"+l+"^"+i;
 						j=true;
 					break;
 				}
 			}
 		}
 		return q;
-	}
-	this.rwrite=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to z
+	};
+	that.rwrite=function(l) // l is the letter (or string) for the independent variable.  If not given, defaults to z
 	{
 		if(typeof(l)=='undefined')
 		{
@@ -205,14 +211,14 @@ function c_poly(rank)
 		}
 		var q="";
 		var j=false;
-		for(var i=0;i<=this.rank;i++)
+		for(var i=0;i<=that.rank;i++)
 		{
-			if(!this[i].isnull())
+			if(!that[i].isnull())
 			{
 				if(j)
 				{
-					if((this[i].Im==0 && this[i].Re<0) || (this[i].Re==0 && this[i].Im<0))
-						q+=' - '
+					if((that[i].Im==0 && that[i].Re<0) || (that[i].Re==0 && that[i].Im<0))
+						q+=' - ';
 					else
 						q+=' + ';
 					j=false;
@@ -220,37 +226,37 @@ function c_poly(rank)
 				switch(i)
 				{
 					case 0:
-						q+=this[i].write(); j=true;
+						q+=that[i].write(); j=true;
 					break;
 					case 1:
-						if(this[i].equals(1, 0) || this[i].equals(-1, 0))
+						if(that[i].equals(1, 0) || that[i].equals(-1, 0))
 							q+=l;
-						else if(this[i].equals(0, 1) || this[i].equals(0, -1))
+						else if(that[i].equals(0, 1) || that[i].equals(0, -1))
 							q+="i"+l;
-						else if(this[i].Im==0 && this[i].Re<0)
-							q+=Math.abs(this[i].Re)+l;
-						else if(this[i].Re==0 && this[i].Im<0)
-							q+=Math.abs(this[i].Im)+"i"+l;
+						else if(that[i].Im==0 && that[i].Re<0)
+							q+=Math.abs(that[i].Re)+l;
+						else if(that[i].Re==0 && that[i].Im<0)
+							q+=Math.abs(that[i].Im)+"i"+l;
 						else
-							q+="("+this[i].write()+")"+l;
+							q+="("+that[i].write()+")"+l;
 						j=true;
 					break;
 					default:
-						if(this[i].equals(1, 0) || this[i].equals(-1, 0))
+						if(that[i].equals(1, 0) || that[i].equals(-1, 0))
 							q+=l+"^"+i;
-						else if(this[i].equals(0, 1) || this[i].equals(0, -1))
+						else if(that[i].equals(0, 1) || that[i].equals(0, -1))
 							q+="i"+l+"^"+i;
-						else if(this[i].Im==0 && this[i].Re<0)
-							q+=Math.abs(this[i].Re)+l+"^"+i;
-						else if(this[i].Re==0 && this[i].Im<0)
-							q+=Math.abs(this[i].Im)+"i"+l+"^"+i;
+						else if(that[i].Im==0 && that[i].Re<0)
+							q+=Math.abs(that[i].Re)+l+"^"+i;
+						else if(that[i].Re==0 && that[i].Im<0)
+							q+=Math.abs(that[i].Im)+"i"+l+"^"+i;
 						else
-							q+="("+this[i].write()+")"+l+"^"+i;
+							q+="("+that[i].write()+")"+l+"^"+i;
 						j=true;
 					break;
 				}
 			}
 		}
 		return q;
-	}
+	};
 }

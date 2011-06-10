@@ -4,7 +4,7 @@ title "mathmo"
 version "0.3"
 database "mathmo-0.3"
 icon icon.png
-stdlib "/Users/gmp26/mobiles/mobl/mobl-lib"
+stdlib "../mobl-lib"
 
 style $baseColor = rgb(100,100,100)
 

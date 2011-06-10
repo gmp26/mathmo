@@ -63,6 +63,15 @@ function randomQStar(n:Num):void
 	}
 }
 
+function randomQStats(n:Num):void
+{
+	foreach(i in range(0,n)) {
+		var r:Num = Math.floor(6*Math.random());
+		var tid:String = "S" + (1+r);
+		makeQAStar(tid);
+	}
+}
+
 resource icon.png
 
 control addQA() {
@@ -304,6 +313,30 @@ control addQAPlus() {
 	}
 }
 
+/* Start of Core+ */
+control addQAStats() {
+	group {
+		item(onclick = {makeQAStats("S1");  alert("Discrete Distributions Q added");}) {
+         	label("+Discrete Distributions")
+        }
+		item(onclick = {makeQAStats("S2");  alert("Continuous Distributions Q added");}) {
+         	label("+Continuous Distributions")
+        }
+		item(onclick = {makeQAStats("S3");  alert("Hypothesis Testing Q added");}) {
+         	label("+Hypothesis Testing")
+        }
+		item(onclick = {makeQAStats("S4");  alert("Confidence Intervals Q added");}) {
+         	label("+Confidence Intervals")
+        }
+		item(onclick = {makeQAStats("S5");  alert("Chi Squared Q added");}) {
+         	label("+Chi Squared")
+        }
+		item(onclick = {makeQAStats("S6");  alert("Product Moment Q added");}) {
+         	label("+Product Moments")
+        }
+	}
+}
+
 style questionStyle {
 	background-color:#FFFFFF;
 	border: 1px solid #CCCCCC;
@@ -316,11 +349,35 @@ style questionStyle {
 }
 
 style answerStyle {
-	background-color:#FFF8F8;
-	border: 0px none #CCCCCC;
+	background-color:#F0F0F0;
+	border: 1px solid #CCCCCC;
 	border-left-width:0px;
 	border-right-width:0px;
 	border-bottom-width:0px;
+	font-size: 17px;
+	color: #666666;
+	padding:10px;
+	word-break: normal;
+}
+
+style agreeStyle {
+	background-color:#F0FFF0;
+	border: 2px solid #CCFFCC;
+/*	border-left-width:0px;
+	border-right-width:0px;
+	border-bottom-width:0px;*/
+	font-size: 17px;
+	color: #666666;
+	padding:10px;
+	word-break: normal;
+}
+
+style disagreeStyle {
+	background-color:#FFF0F0;
+	border: 2px solid #FFCCCC;
+/*	border-left-width:0px;
+	border-right-width:0px;
+	border-bottom-width:0px;*/
 	font-size: 17px;
 	color: #666666;
 	padding:10px;
@@ -386,14 +443,28 @@ function renderQA(qa:QA):String {
 }
 
 control answerBlock(qa:QA) {
-	block(answerStyle) {
-		when(qa.answer != "%GRAPH%") {
-			label("A" + qa.number + ". ")
-			html(qa.answer)
+	when(qa.correct) {
+		block(agreeStyle) {
+			when(qa.answer != "%GRAPH%") {
+				label("A" + qa.number + ". ")
+				html(qa.answer)
+			}
+			else {
+				label("A" + qa.number + ". ")
+				plot("corePlotArea", plotStyle)
+			}
 		}
-		else {
-			label("A" + qa.number + ". ")
-			plot("corePlotArea", plotStyle)
+	}
+	else {
+		block(disagreeStyle) {
+			when(qa.answer != "%GRAPH%") {
+				label("A" + qa.number + ". ")
+				html(qa.answer)
+			}
+			else {
+				label("A" + qa.number + ". ")
+				plot("corePlotArea", plotStyle)
+			}
 		}
 	}
 	block(answerStyle) {
@@ -458,6 +529,24 @@ function makeQA(n:Num):void {
 }
 
 function makeQAStar(s:String):void {
+	var qa = QA();
+	var qas:Collection<QA> = QA.all();
+	foreach(item in qas) {
+		max = Math.max(max, item.number);
+	}
+	qa.number = max + 1;
+	var q_and_A:Array<String> = makeFurther(s);
+	qa.question = q_and_A[0];
+	qa.answer = q_and_A[1];
+	qa.topic = q_and_A[2];
+	if(q_and_A.length > 3) {
+		qa.plotData = q_and_A[3];
+	}
+	qa.done = false;
+	add(qa);
+}
+
+function makeQAStats(s:String):void {
 	var qa = QA();
 	var qas:Collection<QA> = QA.all();
 	foreach(item in qas) {
@@ -751,31 +840,37 @@ function makeQAStar(s:String):void {
 				var qa=makeMatXforms();
 				qa.push("Matrix transformations");
 			break;
-/*			
+	
 			case 'S1':
 				var qa=makeDiscreteDistn();
+				qa.push("Discrete Distributions");
 			break;
 			
 			case 'S2':
 				var qa=makeContinDistn();
+				qa.push("Continuous Distributions");
 			break;
 			
 			case 'S3':
 				var qa=makeHypTest();
+				qa.push("Hypothesis Testing");
 			break;
 			
 			case 'S4':
 				var qa=makeConfidInt();
+				qa.push("Confidence Intervals");
 			break;
 			
 			case 'S5':
 				var qa=makeChiSquare();
+				qa.push("Chi Squared");
 			break;
 			
 			case 'S6':
 				var qa=makeProductMoment();
+				qa.push("Product Moments");
 			break;
-*/
+
 
 	        default:
 	            alert("invalid qid" + n);

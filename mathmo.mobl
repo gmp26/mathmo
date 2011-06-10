@@ -59,11 +59,16 @@ control coreTab() {
 		item(onclick={randomQStar(5);}) {
 			label("Add 5 further Qs")
 		}
+		item(onclick={randomQStats(5);}) {
+			label("Add 5 stats Qs")
+		}
 	}
-	label("  Add Q on core topic")
+	label("Add Q on core topic")
 	addQA()
-	label("  Add Q on further topic")
+	label("Add Q on further topic")
 	addQAPlus()
+	label("Add Q on stats topic")
+	addQAStats()
 }
 
 control furtherTab() {
