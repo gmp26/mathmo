@@ -526,7 +526,7 @@ function makeFactor()
 		u[0]=a;v[0]=b;w[0]=c;
 		var x=polyexpand(polyexpand(u, v), w);
 		var qString="Divide $$"+x.write()+"$$ by $$("+u.write()+")$$ and hence factorise it completely.";
-		var aString=$$+express([a, b, c])+$$;
+		var aString="$$"+express([a, b, c])+"$$";
 		var qa=[qString,aString];
 		return qa;
 	}

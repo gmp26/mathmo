@@ -53,6 +53,16 @@ function randomQ(n:Num, topicId:Num):void
 	}
 }
 
+function randomQStar(n:Num):void
+{
+	foreach(i in range(0,n)) {
+		var r:Num = Math.floor(13*Math.random());
+		var tid:String = "F" + (1+r);
+		if(tid=="F3") tid="F3a";
+		makeQAStar(tid);
+	}
+}
+
 resource icon.png
 
 control addQA() {

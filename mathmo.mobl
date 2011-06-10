@@ -43,10 +43,7 @@ control qTab() {
 	header("Qs") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
-		button("+5Q", onclick={
-			randomQ(5,1000);
-		})
-		button("CA", onclick={
+		button("Clear", onclick={
 			clearAllQ();
 		})
 	}
@@ -55,7 +52,18 @@ control qTab() {
 
 control coreTab() {
 	header("+Q on topic")
+	group() {
+		item(onclick={randomQ(5,1000);}) {
+			label("Add 5 core Qs")
+		}
+		item(onclick={randomQStar(5);}) {
+			label("Add 5 further Qs")
+		}
+	}
+	label("  Add Q on core topic")
 	addQA()
+	label("  Add Q on further topic")
+	addQAPlus()
 }
 
 control furtherTab() {
@@ -64,6 +72,7 @@ control furtherTab() {
 }
 
 control aboutTab() {
+	header("About Mathmo")
 	var credits="""
 <div style="padding:20px">
 <h2>
@@ -129,8 +138,8 @@ screen root() {
 	tabSet(
 		[
 			("Mathmo", "", qTab),
-			("+Q", "", coreTab),
-			("+Q*", "", furtherTab),
+			("Add", "", coreTab),
+			/*("+Q*", "", furtherTab),*/
 			("About", "", aboutTab)
 		]
 	)
