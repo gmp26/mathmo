@@ -385,8 +385,8 @@ style disagreeStyle {
 }
 
 style plotStyle {
-	width : 300px;
-	height : 300px;
+	width : 270px;
+	height : 270px;
 }
 
 
