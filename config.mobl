@@ -1,11 +1,11 @@
 configuration
 
 title "mathmo" 
-version "0.3"
+version "0.3.1"
 database "mathmo-0.3"
 icon icon.png
 stdlib "../mobl-lib"
 
-style $baseColor = rgb(100,100,100)
+style $baseColor = rgb(100,90,110)
 
 

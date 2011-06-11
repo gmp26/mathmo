@@ -483,8 +483,24 @@ control answerBlock(qa:QA) {
 	}	
 }
 
+function nextQA(qa:QA):QA
+{
+	var n:Num = qa.number;
+	var qa2:QA = (QA.all() where number > qa.number).one();
+	if(qa2 == null)
+		return QA.all().one();
+	return qa2;
+}
+
 control showQA(qa:QA) {
-	panelHeader(qa.topic.toLowerCase(), onclick={renderMaths();}) {}
+	panelHeader(qa.topic.toLowerCase(), onclick={renderMaths();}) {
+		sideButton("Del", onclick={
+			var qa2:QA = nextQA(qa);
+			remove(qa);
+			qa = qa2;
+			renderQA(qa);
+		})
+	}
 	group {
 		item(questionStyle, onclick={renderMaths();}, hideArrow=true) {
 			html("Q" + qa.number + ". " + qa.question)
