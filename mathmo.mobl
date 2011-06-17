@@ -1,11 +1,9 @@
 application mathmo
 
 import ui
-import mobl::ui::stylemixin
 
 import nrichRPG::coreWorkout
 import nrichRPG::questionAnswer
-
 
 load nrichRPG/problems.js
 load nrichRPG/helpers.js
@@ -18,17 +16,9 @@ load nrichRPG/stats.js
 
 load jquery.flot.js
 
-
 resource mathmoIcon.png
 resource nrichIcon.png
 resource english.json
-
-style logoStyle {
-	border: #888 1px solid;
-	margin: 5px;
-	margin-right:0px;
-	float:left;
-}
 
 var homeUrl:String = "http://nrich.maths.org";
 var resourceUrl:String = "http://nrich.maths.org/7088";
