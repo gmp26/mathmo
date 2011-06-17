@@ -37,7 +37,7 @@ control qTab() {
 			clearAllQ();
 		})
 	}
-	masterDetail(QA.all() order by number asc, qaItem, showQA)
+	mMasterDetail(QA.all() order by number asc, qaItem, showQA)
 }
 
 control coreTab() {

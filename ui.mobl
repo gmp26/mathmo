@@ -2,6 +2,36 @@ module ui
 
 mixin mobl::ui::generic
 
+control mMasterDetail(items : Collection<?>, masterItem : Control1<Dynamic>, detail : Control1<Dynamic>) {
+  var current : Dynamic = items.one()
+  <div width="100%">
+    <div style="float:left; width:33%; position:relative; border-right: solid 1px #cccccc;">
+      group {
+        list(it in items) {
+          when(it == current) {
+            item(style=selectedItemStyle) {
+              masterItem(it)
+            }
+          } else {
+            item(hideArrow=true, onclick={ current = it; scrollUp();}) {
+              masterItem(it)
+            }
+          }
+        }
+      }
+    </div>
+    <div style="float:left; width:66.5%; position:relative; margin-left: 0.5%;">
+      when(current) {
+        detail(current)
+      } else {
+        <div style="padding:20px">
+        <h2>"Add more questions."</h2>
+        </div>
+      }
+    </div>
+  </div>
+}
+
 style tabbarStyle activeTabButtonStyle {
 	padding-top: 12px;
 	padding-bottom: 11px;
