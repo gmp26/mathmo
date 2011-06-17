@@ -2,7 +2,18 @@ module ui
 
 mixin mobl::ui::generic
 
-control mMasterDetail(items : Collection<?>, masterItem : Control1<Dynamic>, detail : Control1<Dynamic>) {
+function indexOf(it : Dynamic, items : Collection<Dynamic>) : Num {
+	var counter : Num = 1;
+	foreach (item in items) {
+		if (item == it) {
+			return counter;
+		}
+		counter = counter + 1;
+	}
+	return -1;
+}
+
+control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
   var current : Dynamic = items.one()
   <div width="100%">
     <div style="float:left; width:33%; position:relative; border-right: solid 1px #cccccc;">
@@ -10,11 +21,11 @@ control mMasterDetail(items : Collection<?>, masterItem : Control1<Dynamic>, det
         list(it in items) {
           when(it == current) {
             item(style=selectedItemStyle) {
-              masterItem(it)
+              masterItem(it, indexOf(it, items))
             }
           } else {
             item(hideArrow=true, onclick={ current = it; scrollUp();}) {
-              masterItem(it)
+              masterItem(it, indexOf(it, items))
             }
           }
         }

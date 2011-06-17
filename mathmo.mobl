@@ -23,9 +23,9 @@ resource english.json
 var homeUrl:String = "http://nrich.maths.org";
 var resourceUrl:String = "http://nrich.maths.org/7088";
 
-control qaItem(qa:QA) {
+control qaItem(qa:QA, number:Num) {
 	<span style="color:" + (qa.done ? (qa.correct ? "#480" : "#C00") : "#000") + "\"" >
-	html("Q" + qa.number + ". " + qa.topic)
+	html("Q" + number + ". " + qa.topic)
 	</span>
 }
 
