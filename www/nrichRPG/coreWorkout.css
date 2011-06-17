@@ -1,0 +1,88 @@
+.nrichRPG__coreWorkout__helpStyle {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  font-size: 20px;
+  color: #666666;
+  padding: 10px;
+  word-break: normal;
+}
+.nrichRPG__coreWorkout__deleteStyle {
+  padding: 10px;
+  padding-right: 2px;
+  float: right;
+}
+.nrichRPG__coreWorkout__headerLogo {
+  padding: 0px;
+  margin: 4px;
+  border: #888888 1px solid;
+}
+.nrichRPG__coreWorkout__questionStyle {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  font-size: 17px;
+  color: #000000;
+  padding: 10px;
+  word-break: normal;
+}
+.nrichRPG__coreWorkout__answerStyle {
+  background-color: #F0F0F0;
+  border: 1px solid #CCCCCC;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 0px;
+  font-size: 17px;
+  color: #666666;
+  padding: 10px;
+  word-break: normal;
+}
+.nrichRPG__coreWorkout__agreeStyle {
+  background-color: #F0FFF0;
+  border: 2px solid #CCFFCC;
+  font-size: 17px;
+  color: #666666;
+  padding: 10px;
+  word-break: normal;
+}
+.nrichRPG__coreWorkout__disagreeStyle {
+  background-color: #FFF0F0;
+  border: 2px solid #FFCCCC;
+  font-size: 17px;
+  color: #666666;
+  padding: 10px;
+  word-break: normal;
+}
+.nrichRPG__coreWorkout__plotStyle {
+  width: 270px;
+  height: 270px;
+}
+.nrichRPG__coreWorkout__topicLabelStyle {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  color: #666;
+}
+.nrichRPG__coreWorkout__panelHeaderStyle {
+  padding: 12px;
+  height: 2.3em;
+  font-size: 1em;
+  line-height: 2.3em;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  margin: 0;
+  z-index: 2;
+}
+.nrichRPG__coreWorkout__panelHeaderContainerStyle {
+  width: 250px;
+  margin-left: -125px;
+  position: absolute;
+  left: 50%;
+}
+.nrichRPG__coreWorkout__panelHeaderTextStyle {
+  width: 250px;
+}
