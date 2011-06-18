@@ -35,6 +35,7 @@ control qTab() {
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
 		button("Clear", onclick={
 			clearAllQ();
+      hideCurrent();
 		})
 	}
 	mMasterDetail(QA.all() order by number asc, qaItem, showQA)
@@ -44,6 +45,7 @@ control coreTab() {
 	header("Q on topic") {
 		button("Clear", onclick={
 			clearAllQ();
+			hideCurrent();
 		})
 	}
 	group() {
