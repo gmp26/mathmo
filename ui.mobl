@@ -2,6 +2,8 @@ module ui
 
 mixin mobl::ui::generic
 
+import mathJAX
+
 function indexOf(it : Dynamic, items : Collection<Dynamic>) : Num {
 	var counter : Num = 1;
 	foreach (item in items) {
@@ -20,23 +22,27 @@ function hideCurrent() {
 }
 
 control mMasterDetail(items : Collection<Dynamic>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
-  group {
-    list(it in items) {
-      item(onclick={ detailScreen(it, detail); }) {
-        masterItem(it, indexOf(it, items))
-      }
-    }
-  }
+	group {
+	    list(it in items) {
+		    item(onclick={ detailScreen(it, detail); }) {
+		        masterItem(it, indexOf(it, items))
+		    }
+	    }
+	}
 }
 
-/*
+
 screen detailScreen(it : Dynamic, detail : Control1<Dynamic>) {
   header(_("Detail")) {
+  	script {
+  		sleep(500);
+  		renderMaths();
+  	}
     backButton(_("Back"), onclick={ screen return; })
   }
   detail(it)
 }
-*/
+
 
 @when window.innerWidth > 500
 control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
@@ -50,7 +56,7 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
               masterItem(it, indexOf(it, items))
             }
           } else {
-            item(hideArrow=true, onclick={ current = it; visible = true; scrollUp();}) {
+            item(hideArrow=true, onclick={ current = it; visible = true;}) {
               masterItem(it, indexOf(it, items))
             }
           }

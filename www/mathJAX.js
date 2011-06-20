@@ -3,8 +3,8 @@ mobl.provides('mathJAX');
 mobl.provides('mobl');
 mathJAX.renderMaths = function(callback) {
   var __this = this;
-  mobl.sleep(500, function(result__) {
-    var tmp3483 = result__;
+  mobl.sleep(0, function(result__) {
+    var tmp7143 = result__;
     var result__ = mathJAX.render();
     if(callback && callback.apply) callback(); return;
   });
@@ -12,8 +12,8 @@ mathJAX.renderMaths = function(callback) {
 
 mathJAX.renderMathsIn = function(event, callback) {
   var __this = this;
-  mobl.sleep(500, function(result__) {
-    var tmp3484 = result__;
+  mobl.sleep(0, function(result__) {
+    var tmp7144 = result__;
     var result__ = mathJAX.renderIn(event);
     if(callback && callback.apply) callback(); return;
   });

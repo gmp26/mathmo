@@ -4,13 +4,13 @@ import mobl
 
 function renderMaths() : void
 {
-	sleep(500);
+	sleep(0);
 	render();
 }
 
 function renderMathsIn(event:Object) : void
 {
-	sleep(500);
+	sleep(0);
 	renderIn(event);
 }
 

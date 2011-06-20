@@ -437,7 +437,6 @@ control panelHeader(text : String, onclick : Callback = null) {
 
 
 function renderQA(qa:QA):String {
-	sleep(500);
 	renderMaths();
 	if(qa.done && qa.answer == "%GRAPH%") {
 		var jsonData:JSON = JSON.parse(qa.plotData);

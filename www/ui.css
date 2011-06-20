@@ -29,6 +29,7 @@
   font-weight: bold;
   margin: 0;
   z-index: 2;
+  width: 100%;
 }
 .ui__headerContainerStyle {
   width: 150px;
@@ -287,8 +288,9 @@
   z-index: 3;
   width: 100%;
   border-bottom: 1px solid #444;
-  margin-top: 0.3em;
+  margin-top: 3px;
   margin-bottom: 0;
+  background-color: #f0f0f0;
 }
 .ui__tabbarStyle .ui__inActiveTabButtonStyle {
   padding-right: 15px;

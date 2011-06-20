@@ -2076,7 +2076,7 @@ function makeMatXforms()
 	xfms[3].set(1, 0, a, 1);
 	xfms[4].set(a+1, 0, 0, a+1);
 	var f=new frac(a, 2);
-	var xft=["a rotation through \\("+fcoeff(f, "\\pi")+"\\) anticlockwise about O", (a===2?"a reflection in the line \\(x=0)":"reflection in the line \\(y = "+ascoeff(guessExact(Math.tan(a*Math.PI/4)))+"x\\)"), "a shear of element \\("+a+", x\\) axis invariant", "a shear of element \\("+a+", y\\) axis invariant", "an enlargement of scale factor \\("+(a+1)+"\\)"];
+	var xft=["a rotation through \\("+fcoeff(f, "\\pi")+"\\) anticlockwise about O", (a===2?"a reflection in the line \\(x=0\\)":"reflection in the line \\(y = "+ascoeff(guessExact(Math.tan(a*Math.PI/4)))+"x\\)"), "a shear of element \\("+a+", x\\) axis invariant", "a shear of element \\("+a+", y\\) axis invariant", "an enlargement of scale factor \\("+(a+1)+"\\)"];
 	var which=distrand(2, 0, 4);
 	var qString="Compute the matrix representing, in 2D, "+xft[which[0]]+" followed by "+xft[which[1]];
 	var ans=xfms[which[1]].times(xfms[which[0]]);
