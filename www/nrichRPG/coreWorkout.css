@@ -71,7 +71,7 @@
   font-size: 1em;
   line-height: 2.3em;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   color: black;
   font-weight: bold;
   margin: 0;
@@ -79,10 +79,13 @@
 }
 .nrichRPG__coreWorkout__panelHeaderContainerStyle {
   width: 250px;
-  margin-left: -125px;
   position: absolute;
-  left: 50%;
 }
 .nrichRPG__coreWorkout__panelHeaderTextStyle {
-  width: 250px;
+  width: 180px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.nrichRPG__coreWorkout__panelHeaderStyle .nrichRPG__coreWorkout__sideButtonStyle {
+  z-index: 3;
 }

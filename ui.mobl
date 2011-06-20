@@ -19,6 +19,26 @@ function hideCurrent() {
   visible = false;
 }
 
+control mMasterDetail(items : Collection<Dynamic>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
+  group {
+    list(it in items) {
+      item(onclick={ detailScreen(it, detail); }) {
+        masterItem(it, indexOf(it, items))
+      }
+    }
+  }
+}
+
+/*
+screen detailScreen(it : Dynamic, detail : Control1<Dynamic>) {
+  header(_("Detail")) {
+    backButton(_("Back"), onclick={ screen return; })
+  }
+  detail(it)
+}
+*/
+
+@when window.innerWidth > 500
 control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
   var current : Dynamic = items.one()
   <div width="100%">
@@ -42,7 +62,7 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
         detail(current)
       } else {
         <div style="padding:20px">
-        <h2>"Add more questions."</h2>
+        <h2>"Add your questions here!"</h2>
         </div>
       }
     </div>

@@ -405,7 +405,7 @@ style panelHeaderStyle {
   font-size: 1em;
   line-height: 2.3em;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   //text-shadow: #477 0px 1px 1px;
   color: black;
   font-weight: bold;
@@ -415,13 +415,17 @@ style panelHeaderStyle {
 
 style panelHeaderContainerStyle {
   width: 250px;
-  margin-left: -125px;
   position: absolute;
-  left: 50%;
 }
 
 style panelHeaderTextStyle {
-	width:250px;
+	width:180px;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+style panelHeaderStyle sideButtonStyle {
+	z-index: 3;
 }
 
 control panelHeader(text : String, onclick : Callback = null) {
@@ -433,7 +437,7 @@ control panelHeader(text : String, onclick : Callback = null) {
 
 
 function renderQA(qa:QA):String {
-	sleep(100);
+	sleep(500);
 	renderMaths();
 	if(qa.done && qa.answer == "%GRAPH%") {
 		var jsonData:JSON = JSON.parse(qa.plotData);
@@ -493,7 +497,7 @@ function nextQA(qa:QA):QA
 }
 
 control showQA(qa:QA) {
-	panelHeader(qa.topic.toLowerCase(), onclick={renderMaths();}) {
+	panelHeader(qa.topic, onclick={renderMaths();}) {
 		sideButton("Del", onclick={
 			var qa2:QA = nextQA(qa);
 			remove(qa);
