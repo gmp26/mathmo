@@ -36,7 +36,7 @@ control qTab() {
 		button("Clear", onclick={
 			clearAllQ();
       		hideCurrent();
-		})
+		}, style=delStyle, pushedStyle=delPushedStyle)
 	}
 	mMasterDetail(QA.all() order by number asc, qaItem, showQA)
 }
@@ -46,7 +46,7 @@ control coreTab() {
 		button("Clear", onclick={
 			clearAllQ();
 			hideCurrent();
-		})
+		}, style=delStyle, pushedStyle=delPushedStyle)
 	}
 	group() {
 		item(onclick={randomQ(5,1000);}) {

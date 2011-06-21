@@ -495,6 +495,8 @@ function nextQA(qa:QA):QA
 	return qa2;
 }
 
+
+
 control showQA(qa:QA) {
 	panelHeader(qa.topic, onclick={renderMaths();}) {
 		sideButton("Del", onclick={
@@ -502,7 +504,7 @@ control showQA(qa:QA) {
 			remove(qa);
 			qa = qa2;
 			renderQA(qa);
-		})
+		}, style=delStyle, pushedStyle=delPushedStyle)
 	}
 	group {
 		item(questionStyle, onclick={renderMaths();}, hideArrow=true) {
