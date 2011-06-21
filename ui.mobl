@@ -35,7 +35,7 @@ control mMasterDetail(items : Collection<Dynamic>, masterItem : Control2<Dynamic
 screen detailScreen(it : Dynamic, detail : Control1<Dynamic>) {
   header(_("Detail")) {
   	script {
-  		sleep(500);
+  		sleep(0);
   		renderMaths();
   	}
     backButton(_("Back"), onclick={ screen return; })

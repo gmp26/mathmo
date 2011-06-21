@@ -750,8 +750,8 @@ function makeStationary()
 		var qString="Find the stationary points of $$y="+p.write()+",$$ and state their nature.";
 		var aString;
 		if(a==b) aString="\\(x="+a+",\\) point of inflexion.";
-		else if(c>0) aString="\\(x="+Math.min(a,b)+",\\) maximum, and \\(x="+Math.max(a,b)+",\\) minimum";
-		else aString="\\(x="+Math.min(a,b)+",\\) minimum, and \\(x="+Math.max(a,b)+",\\) maximum";
+		else if(c>0) aString="\\(x="+Math.min(a,b)+"\\), maximum,<br />and \\(x="+Math.max(a,b)+"\\), minimum";
+		else aString="\\(x="+Math.min(a,b)+"\\), minimum, <br />and \\(x="+Math.max(a,b)+"\\), maximum";
 		var qa=[qString,aString];
 		return qa;
 	}	
