@@ -631,7 +631,7 @@
   background: -moz-linear-gradient(top, #fff, #eee);
 }
 .ui__itemStyle:hover {
-  background-color: #f00;
+  background-color: #eee;
   border: 1px solid #cccccc;
   border-left: 0;
   border-right: 0;

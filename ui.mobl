@@ -48,7 +48,7 @@ screen detailScreen(it : Dynamic, detail : Control1<Dynamic>) {
 control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
   var current : Dynamic = items.one()
   <div width="100%">
-    <div style="float:left; width:45%; position:relative; border-right: solid 1px #cccccc;">
+    <div style="float:left; margin:0; padding:0; width:45%; position:relative; border-right: solid 1px #cccccc;">
       group {
         list(it in items) {
           when(it == current) {
@@ -63,7 +63,7 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
         }
       }
     </div>
-    <div style="float:left; width:54%; position:relative; margin-left: 1%;">
+    <div style="float:left; margin:0; padding:0; width:53%; position:relative; margin-left: 1%;">
       when(current && visible) {
         detail(current)
       } 
@@ -160,7 +160,7 @@ style itemStyle {
 }
 
 style itemStyle:hover {
-  background-color: #f00;
+  background-color: #eee;
   border: 1px solid #cccccc;
   border-left: 0;
   border-right: 0;
