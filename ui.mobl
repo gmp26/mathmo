@@ -66,11 +66,12 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
     <div style="float:left; width:54%; position:relative; margin-left: 1%;">
       when(current && visible) {
         detail(current)
-      } else {
+      } 
+      /* else {
         <div style="padding:20px">
         <h2>"Add your questions here!"</h2>
         </div>
-      }
+      }*/
     </div>
   </div>
 }
@@ -138,4 +139,58 @@ style delPushedStyle {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(500, 190, 210)), to(rgb(500, 140, 160)));
   background: -moz-linear-gradient(top, rgb(500, 190, 210), rgb(500, 140, 160));
   z-index: 5;
+}
+
+style itemStyle {
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  border-left: 0;
+  border-right: 0;
+  color: #000;
+  display: block;
+  font-size: 17px;
+  margin-bottom: -1px;
+  padding: 12px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#eee));
+  background: -moz-linear-gradient(top, #fff, #eee);
+}
+
+style itemStyle:hover {
+  background-color: #f00;
+  border: 1px solid #cccccc;
+  border-left: 0;
+  border-right: 0;
+  color: #000;
+  display: block;
+  font-size: 17px;
+  margin-bottom: -1px;
+  padding: 12px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ede), to(#dcd));
+  background: -moz-linear-gradient(top, #eee, #ddd);
+}
+
+style itemPushedStyle {
+  background-color: rgb(100, 90, 110);
+  border: 1px solid #cccccc;
+  border-left: 0;
+  border-right: 0;
+  color: #eee;
+  display: block;
+  font-size: 17px;
+  margin-bottom: -1px;
+  padding: 12px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ddd));
+  background: -moz-linear-gradient(top, #eee, #ddd);
 }

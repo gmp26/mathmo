@@ -1,7 +1,7 @@
 configuration
 
 title "mathmo" 
-version "0.3.2"
+version "0.3.3"
 database "mathmo-0.3"
 icon icon.png
 stdlib "../mobl-lib"

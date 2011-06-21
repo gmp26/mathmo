@@ -46,7 +46,7 @@ control coreTab() {
 		button("Clear", onclick={
 			clearAllQ();
 			hideCurrent();
-		}, style=delStyle, pushedStyle=delPushedStyle)
+		}, style=delStyle, pushedStyle=delPushedStyle) 
 	}
 	group() {
 		item(onclick={randomQ(5,1000);}) {
@@ -78,7 +78,7 @@ control aboutTab() {
 <div style="padding:20px">
 <h2>
 <img src="icon.png" style="width:50px;height:50px"/>
-Mathmo v0.3.2 by the <a href="http://nrich.maths.org">NRICH team</a>, University of Cambridge
+Mathmo v0.3.3 by the <a href="http://nrich.maths.org">NRICH team</a>, University of Cambridge
 </h2>
 <h3>Help</h3>
 On the 'My Qs' tab you'll find your current set of Questions (abbr. Qs)<br>
