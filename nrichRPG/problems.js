@@ -2127,7 +2127,7 @@ function makeContinDistn()
 	var mu=rand(0, 4);
 	var sigma=rand(1, 4);
 	var x=(mu+((Math.random()-0.5)*6*sigma)).toFixed(1);
-	var qString="The random variable \\(X\\) is normally distributed with mean \\("+mu+"\\) and variance \\("+sigma*sigma+"\\)";
+	var qString="The random variable \\(X\\) is normally distributed with mean \\("+mu+"\\) and variance \\("+sigma*sigma+"\\).";
 	qString+="<br />Find \\(\\mathbb{P}(X\\le"+x+")\\)";
 	var z=(x-mu)/sigma;
 	var p=tableN.values[Math.floor(1e3*Math.abs(z))];

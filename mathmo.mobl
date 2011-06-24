@@ -27,7 +27,7 @@ control qaItem(qa:QA, number:Num) {
 	<span style="color:" + (qa.done ? (qa.correct ? "#480" : "#C00") : "#000") + "\"" >
 	html("Q" + number + ". " + qa.topic)
 	</span>
-}
+}	
 
 control qTab() {
 	header("Mathmo") {
