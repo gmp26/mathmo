@@ -76,6 +76,68 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
   </div>
 }
 
+control introduction() {
+	header("Mathmo") {
+		image("mathmoIcon.png", 35, 35, style=logoStyle)
+	}
+	var intro="""
+<div style="padding:20px">
+<img src="icon.png" style="width:30px;height:30px; float:left; padding:5px 5px 5px 0px"/> Mathmo is designed to give you extra practice.
+<br />
+<br />
+On the <b>My Qs</b> tab you'll find your current set of questions under a list of topics. 
+These stay with you till you clear them or delete them individually. They'll be the same questions even if you close Mathmo and return to it later.
+Tap one of the question topics to see the question itself.
+<br /><br />
+When you have completed a question, touch <b>Check Answer</b> to check your work and
+reply to <b>Did you agree?</b>. You may need to do a little more work to see whether your answer really is the same or not.
+The questions will change colour according to your answer. Red means 'I didn't agree'. Green means 'I agreed'. Black means 'Answer not checked'. 
+<br /><br />
+On the <b>Add</b> tab you can generate 5 more random core, further or stats questions, or generate them singly on selected topics.
+
+<h3>Updates</h3>
+Mathmo is a web application, and should update itself when you reload the app after it has been updated on the server. 
+<a href="http://nrich.maths.org/7088" target="_blank">Further info here</a>.
+
+<h3>Credits</h3>
+<p>
+Syllabus hugging ideas: Stephen Hewson
+</p>
+<p>
+Question and Answer generators:
+ Tom White, Edward Cree
+</p>
+<p>
+<a href="http://github.com/gmp26/mathmo">Mobile Implementation:</a> Mike Pearson with contributions from
+<a href="http://github.com/naush/mathmo">Li Hsuan</a>.</p>
+
+<p>
+The following have also been important in developing mathmo
+<ul>
+<li>
+<a href="http://www.mobl-lang.org">Mobl-lang</a> by Zef Hemel, University of Delft.
+</li>
+<li>
+The <a href="http://code.google.com/p/flot/">flot plotting library</a>
+</li>
+
+</ul>
+<a href="http://www.mathjax.org/">
+  <img title="Powered by MathJax"
+       src="http://www.mathjax.org/badge.gif"
+       border="0" alt="Powered by MathJax" />
+</a>
+
+<h3>License</h3>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Mathmo</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://nrich.maths.org" property="cc:attributionName" rel="cc:attributionURL">NRICH Project, University of Cambridge</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://github.com/gmp26/mathmo" rel="dct:source">github.com</a>.
+
+
+</div>
+"""
+	html(intro)
+}
+
+
 style tabbarStyle activeTabButtonStyle {
 	padding-top: 12px;
 	padding-bottom: 11px;

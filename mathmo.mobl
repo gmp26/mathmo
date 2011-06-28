@@ -31,8 +31,10 @@ control qaItem(qa:QA, number:Num) {
 
 control qTab() {
 	header("Mathmo") {
-		image("mathmoIcon.png", 35, 35, style=logoStyle, onclick={openUrl(resourceUrl);})
+		image("mathmoIcon.png", 35, 35, style=logoStyle)
+		/*
 		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
+		*/
 		button("Clear", onclick={
 			clearAllQ();
       		hideCurrent();
@@ -43,6 +45,7 @@ control qTab() {
 
 control coreTab() {
 	header("Q on topic") {
+		image("mathmoIcon.png", 35, 35, style=logoStyle)
 		button("Clear", onclick={
 			clearAllQ();
 			hideCurrent();
@@ -72,6 +75,7 @@ control furtherTab() {
 	addQAPlus()
 }
 
+/*
 control aboutTab() {
 	header("About Mathmo")
 	var credits="""
@@ -84,52 +88,17 @@ Mathmo v0.3.3 by the <a href="http://nrich.maths.org">NRICH team</a>, University
 On the 'My Qs' tab you'll find your current set of Questions (abbr. Qs)<br>
 Touch [Clear] to delete all your current Qs.<br>
 <br>
-On the 'Add' tab you can add 5 random core, further or stats questions, or choose them singly.
-Further and Stats sections are at the bottom of the topic list.<br>
+On the 'Add' tab you can add 5 more random core, further or stats questions, or add single questions on specific topics.
 <br>
 When a question is displayed, touch [Check Answer] to check working and then
 reply to 'Did you agree?' [Yes] [No]. You may need to do a little more work to see whether your answer is really the same or not.
 The questions will change colour (red == No/Not answered; green == Yes, black == not checked) so you can track how you are doing.
 
-<h3>Updates</h3>
-Mathmo is a web application, and should update itself when you reload the app after it has been updated on the server. It's web address is <a href="http://nrich.maths.org/mobl/mathmo/mathmo.html">http://nrich.maths.org/mobl/mathmo/mathmo.html</a>.
-
-<h3>Credits</h3>
-<p>
-Syllabus hugging ideas: Stephen Hewson
-</p>
-<p>
-Question and Answer generators:
- Tom White, Edward Cree
-</p>
-<p>
-<a href="http://github.com/gmp26/mathmo">Mobile Implementation:</a> Mike Pearson with contributions from
-<a href="http://github.com/naush/mathmo">Li Hsuan</a>.</p>
-
-<p>
-The following have also been important in developing mathmo
-<ul>
-<li>
-<a href="http://www.mobl-lang.org">Mobl-lang</a> by Zef Hemel, University of Delft.
-</li>
-<li>
-The <a href="http://code.google.com/p/flot/">flot plotting library</a>
-</li>
-
-</ul>
-<a href="http://www.mathjax.org/">
-  <img title="Powered by MathJax"
-       src="http://www.mathjax.org/badge.gif"
-       border="0" alt="Powered by MathJax" />
-</a>
-
-<h3>License</h3>
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/InteractiveResource" property="dct:title" rel="dct:type">Mathmo</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://nrich.maths.org" property="cc:attributionName" rel="cc:attributionURL">NRICH Project, University of Cambridge</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://github.com/gmp26/mathmo" rel="dct:source">github.com</a>.
-
 </div>
 """
 	html(credits)
 }
+*/
 
 screen root() {
 	script {
@@ -140,9 +109,9 @@ screen root() {
 	}
 	tabSet(
 		[
+			("Intro","",introduction),
 			("My Qs", "", qTab),
-			("Add", "", coreTab),
-			("About", "", aboutTab)
+			("Add", "", coreTab)
 		]
 	)
 }
