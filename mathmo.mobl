@@ -134,6 +134,9 @@ The <a href="http://code.google.com/p/flot/">flot plotting library</a>
 screen root() {
 	script {
 		fetchLanguageBundle("english.json");
+		if(QA.all().count() == 0) {
+			randomQ(5,1000);
+		}
 	}
 	tabSet(
 		[
