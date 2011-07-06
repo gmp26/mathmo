@@ -25,16 +25,13 @@ var resourceUrl:String = "http://nrich.maths.org/7088";
 
 control qaItem(qa:QA, number:Num) {
 	<span style="color:" + (qa.done ? (qa.correct ? "#480" : "#C00") : "#000") + "\"" >
-	html("Q" + number + ". " + qa.topic)
+	html("Q" + number + ". " + topicName(qa.topic))
 	</span>
 }	
 
 control qTab() {
 	header("Mathmo") {
 		image("mathmoIcon.png", 35, 35, style=logoStyle)
-		/*
-		image("nrichIcon.png", 35, 35, style=logoStyle, onclick={openUrl(homeUrl);})
-		*/
 		button("Clear", onclick={
 			clearAllQ();
       		hideCurrent();
@@ -52,13 +49,13 @@ control coreTab() {
 		}, style=delStyle, pushedStyle=delPushedStyle) 
 	}
 	group() {
-		item(onclick={randomQ(5,1000);}) {
+		item(onclick={randomQ(5, "Core");}) {
 			label("Add 5 core Qs")
 		}
-		item(onclick={randomQStar(5);}) {
+		item(onclick={randomQ(5, "Further");}) {
 			label("Add 5 further Qs")
 		}
-		item(onclick={randomQStats(5);}) {
+		item(onclick={randomQ(5, "Stats");}) {
 			label("Add 5 stats Qs")
 		}
 	}
@@ -70,41 +67,11 @@ control coreTab() {
 	addQAStats()
 }
 
-control furtherTab() {
-	header("+Q on *topic")
-	addQAPlus()
-}
-
-/*
-control aboutTab() {
-	header("About Mathmo")
-	var credits="""
-<div style="padding:20px">
-<h2>
-<img src="icon.png" style="width:50px;height:50px"/>
-Mathmo v0.3.3 by the <a href="http://nrich.maths.org">NRICH team</a>, University of Cambridge
-</h2>
-<h3>Help</h3>
-On the 'My Qs' tab you'll find your current set of Questions (abbr. Qs)<br>
-Touch [Clear] to delete all your current Qs.<br>
-<br>
-On the 'Add' tab you can add 5 more random core, further or stats questions, or add single questions on specific topics.
-<br>
-When a question is displayed, touch [Check Answer] to check working and then
-reply to 'Did you agree?' [Yes] [No]. You may need to do a little more work to see whether your answer is really the same or not.
-The questions will change colour (red == No/Not answered; green == Yes, black == not checked) so you can track how you are doing.
-
-</div>
-"""
-	html(credits)
-}
-*/
-
 screen root() {
 	script {
 		fetchLanguageBundle("english.json");
 		if(QA.all().count() == 0) {
-			randomQ(5,1000);
+			randomQ(5, "Core");
 		}
 	}
 	tabSet(

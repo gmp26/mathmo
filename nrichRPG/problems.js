@@ -1190,7 +1190,7 @@ function makeModulus()
 		parms=[a,s,l,r];
 		data = JSON.stringify(fn(parms));
 	}
-	var qa=[qString,aString,"Modulus function",data];
+	var qa=[qString,aString,data];
 	return qa;
 }
 
@@ -1243,7 +1243,7 @@ function makeTransformation()
 	};
 	parms=[p,q,fnf[which],l,r];
 	data = JSON.stringify(fn(parms));
-	var qa=[qString,aString,"Transformations of functions",data];
+	var qa=[qString,aString,data];
 	return qa;
 }
 
@@ -1286,7 +1286,7 @@ function makeComposition()
 	};
 	parms=[fnf[which[0]], fnf[which[1]], p, l, r];
 	data = JSON.stringify(fn(parms));
-	var qa=[qString,aString,"Composition of functions",data];
+	var qa=[qString,aString,data];
 	return qa;
 }
 
@@ -1327,7 +1327,7 @@ function makeParametric()
 	};
 	parms=[fnf[which[0]], fnf[which[1]], p, (which[0]&&which[1]?-10:0)];
 	data = JSON.stringify(fn(parms));
-	var qa=[qString,aString,"Parametric functions",data];
+	var qa=[qString,aString,data];
 	return qa;
 }
 
@@ -1364,7 +1364,7 @@ function makeImplicitFunction()
 		};
 		var parms=[f, n];
 		data = JSON.stringify(fn(parms));
-		var qa=[qString,aString,"Implicit functions",data];
+		var qa=[qString,aString,data];
 		return qa;
 	}
 	function mIF2()
@@ -1390,7 +1390,7 @@ function makeImplicitFunction()
 		};
 		var parms=[f, n];
 		data = JSON.stringify(fn(parms));
-		var qa=[qString,aString,"Implicit functions",data];
+		var qa=[qString,aString,data];
 		return qa;
 	}
 	function mIF3()
@@ -1413,7 +1413,7 @@ function makeImplicitFunction()
 		};
 		var parms=a;
 		data = JSON.stringify(fn(parms));
-		var qa=[qString,aString,"Implicit functions",data];
+		var qa=[qString,aString,data];
 		return qa;
 	}
 	return(pickrand(mIF1, mIF2, mIF3)());
@@ -1785,7 +1785,7 @@ function makePolarSketch()
 	parms=[fnf[which], a, b];
 
 	data = JSON.stringify(fn(parms));
-	var qa=[qString,aString,"Polar coordinates",data];
+	var qa=[qString,aString,data];
 	return qa;
 }
 

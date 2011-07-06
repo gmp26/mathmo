@@ -67,11 +67,6 @@ control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>
       when(current && visible) {
         detail(current)
       } 
-      /* else {
-        <div style="padding:20px">
-        <h2>"Add your questions here!"</h2>
-        </div>
-      }*/
     </div>
   </div>
 }
