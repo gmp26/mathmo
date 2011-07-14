@@ -479,7 +479,10 @@ function makeIneq()
 		var m=[a,b,c];
 		var r=ranking(m);
 		var aString="$$y < "+m[r[0]];
-		if(m[r[1]]!=m[r[2]]) aString+="$$and$$"+m[r[1]]+" < y < "+m[r[2]] + "$$";
+		if(m[r[1]]!=m[r[2]]) 
+			aString+="$$and$$"+m[r[1]]+" < y < "+m[r[2]] + "$$";
+		else 
+			aString+= "$$";
 		var qa=[qString,aString];
 		return qa;
 	}

@@ -44,7 +44,7 @@ screen detailScreen(it : Dynamic, detail : Control1<Dynamic>) {
 }
 
 
-@when window.innerWidth > 500
+@when window.innerWidth > 600
 control mMasterDetail(items : Collection<?>, masterItem : Control2<Dynamic, Num>, detail : Control1<Dynamic>) {
   var current : Dynamic = items.one()
   <div width="100%">

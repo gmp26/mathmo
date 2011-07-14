@@ -327,12 +327,12 @@ style panelHeaderStyle {
 }
 
 style panelHeaderContainerStyle {
-  width: 250px;
+  width: 200px;
   position: absolute;
 }
 
 style panelHeaderTextStyle {
-	width:180px;
+	width:160px;
 	white-space:nowrap;
 	text-overflow:ellipsis;
 }
@@ -403,8 +403,8 @@ function nextQA(qa:QA):QA
 {
 	var n:Num = qa.number;
 	var qa2:QA = (QA.all() where number > qa.number).one();
-	if(qa2 == null)
-		return QA.all().one();
+//	if(qa2 == null)
+//		return QA.all().one();
 	return qa2;
 }
 
@@ -414,15 +414,27 @@ control showQA(qa:QA) {
 	panelHeader(topicName(qa.topic), onclick={renderMaths();}) {
 		sideButton("Del", onclick={
 			var qa2:QA = nextQA(qa);
+     		 remove(qa);
+			if (qa2 == null) {
+			  hideCurrent();
+			} else {
+		      	qa = qa2;
+		      	renderQA(qa);
+	      	}
+/*	      
+			var qa2:QA = nextQA(qa);
 			remove(qa);
 			qa = qa2;
 			renderQA(qa);
+*/
 		}, style=delStyle, pushedStyle=delPushedStyle)
 		
 		sideButton("New", onclick={
 			var qa2:QA = makeQA(qa.topic);
+			var qnum:Num = qa.number;
 			remove(qa);
 			qa = qa2;
+			qa.number = qnum;
 			renderQA(qa);	
 		},
 		style=delStyle, pushedStyle=delPushedStyle)
@@ -506,7 +518,7 @@ function makeQA(tid:String):QA {
 		"C22":"The quotient rule",
 		"C23":"Geometric progressions",
 		"C24":"Modulus function",
-		"C25":"Transformations of functions",
+		"C25":"Transforms of functions",
 		"C26":"Composition of functions",
 		"C27":"Parametric functions",
 		"C270":"Implicit functions",

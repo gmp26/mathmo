@@ -78,11 +78,11 @@
   z-index: 2;
 }
 .nrichRPG__coreWorkout__panelHeaderContainerStyle {
-  width: 250px;
+  width: 200px;
   position: absolute;
 }
 .nrichRPG__coreWorkout__panelHeaderTextStyle {
-  width: 180px;
+  width: 160px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
