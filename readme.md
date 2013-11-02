@@ -4,8 +4,8 @@ Mathmo
 Warning 
 -------
 This version is no longer maintained. 
-Current stable version is in https://github.com/gmp26/Apps, 
-but this is soon to move to https://github.com/gmp26/mathmoApp.
+Current stable version is in https://github.com/gmp26/Apps.
+An unstable version is under development at https://github.com/gmp26/mathmoApp.
 
 Mathmo is a mathematical exercise generator developed as a revision aid for A-level mathematics students. 
 In this incarnation it is a <a href="http://www.mobl-lang.org">mobl-lang</a> project. 
